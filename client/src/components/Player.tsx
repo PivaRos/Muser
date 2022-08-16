@@ -1,11 +1,13 @@
 import React from "react";
+import ReactAudioPlayer from 'react-audio-player';
+
+
+
 
 const Player = () => {
 
     return (
-        <div id='Player'>
-            <h1>hello with Player  </h1>
-        </div>
+        <ReactAudioPlayer  src="http://localhost:5000/"  volume={0.1} autoPlay controls controlsList={"nodownload noplaybackrate"}  />
     )
 }
 

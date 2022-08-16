@@ -5,7 +5,7 @@ const request = require('request');
 const port = 5000;
 
 app.get('/', (req, res) => {
-    res.send("its test");
+    res.sendFile(__dirname + '/music/1.mp3');
 })
 
 app.listen(port, () => {

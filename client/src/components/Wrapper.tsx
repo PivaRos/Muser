@@ -5,7 +5,7 @@ import Discover from "../pages/Discover/Discover";
 import Home from "../pages/Home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
-import Player from './Player';
+import Player from './player/Player';
 
 
 
@@ -15,10 +15,10 @@ export const Wrapper = () => {
             <Router>
                 <Navbar />
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/discover" element={<Discover />} />
                 </Routes>
                 <Routes>
-                    <Route path="/discover" element={<Discover />} />
+                    <Route  path="/" element={<Home />} />
                 </Routes>
                 <Player/>
             </Router>

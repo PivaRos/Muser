@@ -33,3 +33,8 @@
 #navbar ul li a:hover{
   background-color:lightblue;
 }
+.page{
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}

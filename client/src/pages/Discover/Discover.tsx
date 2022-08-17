@@ -7,7 +7,7 @@ import s from "./Discover.module.css"
 const Discover = () => {
 
     return (
-        <div id={s.content}>
+        <div className="page" id={s.content}>
             <h1>hello with Discover </h1>
         </div>
     )

@@ -6,6 +6,7 @@ import Home from "../pages/Home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import Player from './player/Player';
+import Sidebar from "./Sidebar";
 
 
 
@@ -14,6 +15,7 @@ export const Wrapper = () => {
         <div id="wrapper">
             <Router>
                 <Navbar />
+                <Sidebar/>
                 <Routes>
                     <Route path="/discover" element={<Discover />} />
                 </Routes>

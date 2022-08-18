@@ -5,11 +5,25 @@
   color: black;
 }
 
+#wrapper{
+
+}
+
+#sidebar{
+  position: fixed;
+  height:calc(100vh - 80px) ;
+  width: 250px;
+  background-color: rgb(61, 144, 171);
+  top:0;
+}
+
 
 #navbar ul{
   list-style: none;
   display: flex;
   justify-content: center;
+  position: fixed;
+  left: 20%;
 
 }
 

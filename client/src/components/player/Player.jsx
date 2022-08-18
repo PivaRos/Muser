@@ -38,7 +38,7 @@ const Player = () => {
   }, [playing])
 
   useEffect(() => {
-    audioPlayer.current.volume =volume/100;
+    audioPlayer.current.volume =volume;
   }, [volume])
 
   useEffect(() => {

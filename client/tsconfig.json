@@ -9,6 +9,7 @@
       "allowJs": true,
       "skipLibCheck": true,
       "esModuleInterop": true,
+      "typeRoots": ["./src/@types", "./node_modules/@types"],
       "allowSyntheticDefaultImports": true,
       "strict": true,
       "forceConsistentCasingInFileNames": true,
@@ -22,5 +23,5 @@
     },
     "include": [
       "src"
-  , "jest.config.js", "src/__tests__", "src/components", "custom.d.ts", "globals.d.ts" ]
+  , "jest.config.js", "src/__tests__", "src/components", "custom.d.ts", "globals.d.ts", "custom.d.ts" ]
   }

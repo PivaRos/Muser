@@ -16,12 +16,14 @@ export const Wrapper = () => {
             <Router>
                 <Navbar />
                 <Sidebar/>
+                <div id="content">
                 <Routes>
                     <Route path="/discover" element={<Discover />} />
                 </Routes>
                 <Routes>
                     <Route  path="/" element={<Home />} />
                 </Routes>
+                </div>
                 <Player/>
             </Router>
         </div>

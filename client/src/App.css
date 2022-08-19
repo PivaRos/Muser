@@ -5,15 +5,27 @@
   color: black;
 }
 
-#wrapper{
 
+#wrapper{
+height: 100%;
+width: 100%;
+}
+
+#content{
+  width: calc(100vw - 250px);
+  background-color: red;
+  position:absolute;
+  right: 0;
+  height: calc(100vh - 80px - 53px);
+  top:53px;
+  
 }
 
 #sidebar{
   position: fixed;
   height:calc(100vh - 80px) ;
   width: 250px;
-  background-color: rgb(61, 144, 171);
+  background-color: #3d90ab;
   top:0;
 }
 
@@ -24,7 +36,14 @@
   justify-content: center;
   position: fixed;
   left: 20%;
-
+  height: 53px;
+  width: calc(100vw - 250px);
+}
+#navbar {
+  height: 53px;
+  width: calc(100vw - 250px);
+  right: 0;
+  position: absolute;
 }
 
 #navbar ul li{

@@ -1,47 +1,46 @@
 
 
-import React, { useRef } from 'react'
+import React, {  useState, useEffect } from 'react'
 import Discover from "../pages/Discover/Discover";
 import Home from "../pages/Home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import Player from './player/Player';
 import Sidebar from "./Sidebar";
+import Notfound from '../pages/Notfound/Notfound';
 
 
 
 
-export const Wrapper = () => {
-
-
-    const track = useRef({
+export const Wrapper =  () => {
+    
+    const [track, setTrack] = useState({
         src:"",
         name:"",
         author:"",
-        logo:""
+        icon:"",
+        likes:0,
     });
 
+    useEffect(()=> {
+        fetch('http://localhost:5000').then((res) => {
+            if (res)
+            {
+                res.json().then(data => {
+                    if(data){
+                    setTrack(data);
+                
+                    }
+                }).catch((err) => console.error(err));
+            }
+            else
+            {
+            console.log({message : "no res object"});
+            }
+        }).catch((err) => {
 
-    fetch('http://localhost:5000').then((res) => {
-        if (res)
-        {
-            res.json().then(data => {
-                if(data){
-                track.current = data;
-                }
-            }).catch((err) => console.error(err));
-        }
-        else
-        {
-        console.log({message : "no res object"});
-        }
-    }).catch((err) => {
-        console.log(err);
-        
-    });
-
-
-    console.log( "wrapper "+track.current.src);
+        });
+    }, [])
     return (
         <div id="wrapper">
             <Router>
@@ -50,14 +49,14 @@ export const Wrapper = () => {
                 <div id="content">
                 <Routes>
                     <Route path="/discover" element={<Discover />} />
-                </Routes>
-                <Routes>
                     <Route  path="/" element={<Home />} />
+                    <Route path='*' element={<Notfound/>}/>
                 </Routes>
+            
                 </div>
 
                 
-                <Player track={track.current}/>
+                <Player track={track}/>
             </Router>
         </div>
     );

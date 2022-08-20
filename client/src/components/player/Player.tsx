@@ -3,14 +3,21 @@ import '../../css/player.css';
 import '../../css/player-mobile.css';
 const Playsvg = require("../../svgs/play.svg");
 const Pausesvg = require("../../svgs/pause.svg");
+const Forwardsvg = require("../../svgs/forward.svg");
+const Backwardsvg = require("../../svgs/backward.svg");
 
 
+  
 interface props {
   track: {
     src : string;
     name : string;
     author: string;
-    logo:string;
+    icon:string;
+    likes:number;
+
+  } 
+  tracks?: {
 
   }
 }
@@ -18,26 +25,24 @@ interface props {
 const Player = (props: props) => {
   const [Loading, setLoading] = useState(true);
   const audioPlayer = useRef(new Audio());
-  const [ended, setEnded] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(+audioPlayer.current.duration);
   const [volume, setVolume] = useState(1);
   const [playicon, setPlayicon] = useState(Playsvg);
-  const url = 'http://localhost:5000/music/1.mp3';
+  const urlsrc = "http://localhost:5000/music/";
+  const urlicon = "http://localhost:5000/music-images/";
 
-if (audioPlayer.current.src !== props.track.src)
-{
-  console.log("1"+props.track.src );
-  console.log("2"+audioPlayer.current.src);
-    audioPlayer.current.src = `http://localhost:5000/music/${props.track.src}`;
-}
 
-if (!isEmpty(audioPlayer.current.src) && audioPlayer.current.src != "http://localhost:5000/music/")
-{
-  setLoading(false);
 
-}
+//global main stuff here 
+  useEffect (() => {
+    if(!isEmpty(props.track.src))
+    {
+      props.track.src = urlsrc + props.track.src;
+    }
+
+  }, [props.track])
 
 
   const Toggleplay = () => {
@@ -45,6 +50,22 @@ if (!isEmpty(audioPlayer.current.src) && audioPlayer.current.src != "http://loca
     {
       setPlaying(!playing);
     }
+    else
+    {
+     if (!isEmpty(audioPlayer.current.src) && audioPlayer.current.src !== "http://localhost:5000/music" && audioPlayer.current.src !== "http://localhost:3000/")
+     {
+      setLoading(false);
+      setPlaying(!playing);
+     }
+    }
+  };
+
+  const Next = () => {
+
+  };
+
+  const Previous = () => {
+
   };
 
 
@@ -63,14 +84,6 @@ if (!isEmpty(audioPlayer.current.src) && audioPlayer.current.src != "http://loca
     audioPlayer.current.volume = volume;
   }, [volume])
 
-  useEffect(() => {
-    audioPlayer.current.src = url;
-  }, [ended])
-
-  const Ended = () => {
-    setPlaying(false);
-    setEnded(true);
-  };
 
 
 
@@ -86,11 +99,20 @@ if (!isEmpty(audioPlayer.current.src) && audioPlayer.current.src != "http://loca
 
   return (
     <div id="player">
+      
+      <div id="track-data">
+      <img className="icon" id="track-icon" src={urlicon+ props.track.icon} alt=""/>
+      <div id="track-text">
+        <label id="track-name">{props.track.name}</label><br/>
+        <label id="track-author">{props.track.author}</label>
+        </div>
+      </div>
+
       <audio
-        src={url}
+        src={props.track.src}
         ref={audioPlayer}
         onTimeUpdate={onPlaying}
-        onEnded={Ended}
+        onEnded={Toggleplay}
       ></audio>
       <input
         className="slider"
@@ -102,8 +124,9 @@ if (!isEmpty(audioPlayer.current.src) && audioPlayer.current.src != "http://loca
         value={currentTime}
         readOnly
       />
-      
-      <img src={playicon} alt="" onClick={Toggleplay} />
+      <img className="player-button" id="backwardsvg" src={Backwardsvg.default} alt="" onClick={Previous}/>
+      <img className="player-button" id="playimg" src={playicon} alt="" onClick={Toggleplay} />
+      <img className="player-button" id="forwardsvg" src={Forwardsvg.default} alt="" onClick={Next}/>
       <input
         className="slider"
         id="volumeSlider"

@@ -10,8 +10,15 @@ const database = new Data('database.mdb');
 const request = require('request');
 const port = 5000;
 
+const upload  = require('express-fileupload');
+
+
+app.set("view engine", "jade");
+app.engine("jade", require("jade").__express);
+
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(cors());
+app.use(upload());
 app.use(express.static('public'));
 app.use(session({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
@@ -20,6 +27,9 @@ app.use(session({
     resave: false 
 }));
 
+
+const backdoor = require('./routes/backdoor');
+app.use("/backdoor", backdoor)
 
 
 
@@ -41,8 +51,11 @@ app.get('/', async (req, res) => {
 
     
     res.sendFile(__dirname + `/music/${randomMusic()}`, {acceptRanges: false});
-    req.session.cookie
 });
+
+
+
+
 
 app.listen(port, () => {
     console.log("Running !");

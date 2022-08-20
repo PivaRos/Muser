@@ -1,3 +1,6 @@
+
+@media only screen and (max-width: 600px) {
+
 #player{
     background: lightblue;
     position: absolute;
@@ -8,7 +11,7 @@
     display: flex;
 }
 
-#player img{
+#playimg{
     top:18px;
     justify-content: center;
     display: flex;
@@ -71,3 +74,18 @@
     background-color: green;
     height: 40px;
   }
+
+
+  #backwardsvg{
+    height: 32px;
+    cursor: pointer;
+    background: red;
+  }
+
+  #forwardsvg{
+    height: 32px;
+    cursor: pointer;
+    background: red;
+  }
+
+}

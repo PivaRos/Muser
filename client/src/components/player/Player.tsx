@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import styles from '../../css/player.module.css';
+import '../../css/player.css';
+import '../../css/player-mobile.css';
 const Playsvg = require("../../svgs/play.svg");
 const Pausesvg = require("../../svgs/pause.svg");
 
 
 interface props {
-  track?: {
+  track: {
     src : string;
     name : string;
     author: string;
@@ -14,20 +15,36 @@ interface props {
   }
 }
 
-const Player = (props?: props) => {
+const Player = (props: props) => {
+  const [Loading, setLoading] = useState(true);
   const audioPlayer = useRef(new Audio());
   const [ended, setEnded] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(+audioPlayer.current.duration);
-  const [seekValue, setSeekValue] = useState(0);
   const [volume, setVolume] = useState(1);
   const [playicon, setPlayicon] = useState(Playsvg);
-  const url = 'http://localhost:5000/';
+  const url = 'http://localhost:5000/music/1.mp3';
+
+if (audioPlayer.current.src !== props.track.src)
+{
+  console.log("1"+props.track.src );
+  console.log("2"+audioPlayer.current.src);
+    audioPlayer.current.src = `http://localhost:5000/music/${props.track.src}`;
+}
+
+if (!isEmpty(audioPlayer.current.src) && audioPlayer.current.src != "http://localhost:5000/music/")
+{
+  setLoading(false);
+
+}
 
 
   const Toggleplay = () => {
-    setPlaying(!playing);
+    if(!Loading)
+    {
+      setPlaying(!playing);
+    }
   };
 
 
@@ -61,9 +78,6 @@ const Player = (props?: props) => {
   const onPlaying = () => {
     setDuration(audioPlayer.current.duration)
     setCurrentTime(audioPlayer.current.currentTime);
-    setSeekValue(
-      (audioPlayer.current.currentTime / audioPlayer.current.duration) * 100
-    );
   };
 
   const volumeChange = (e: any) => {
@@ -71,7 +85,7 @@ const Player = (props?: props) => {
   }
 
   return (
-    <div id={styles.player}>
+    <div id="player">
       <audio
         src={url}
         ref={audioPlayer}
@@ -79,8 +93,8 @@ const Player = (props?: props) => {
         onEnded={Ended}
       ></audio>
       <input
-        className={styles.slider}
-        id={styles.timeSlider}
+        className="slider"
+        id="timeSlider"
         type="range"
         min="1"
         max={duration}
@@ -89,10 +103,10 @@ const Player = (props?: props) => {
         readOnly
       />
       
-      <img src={playicon} onClick={Toggleplay} />
+      <img src={playicon} alt="" onClick={Toggleplay} />
       <input
-        className={`${styles.slider}`}
-        id={styles.volumeSlider}
+        className="slider"
+        id="volumeSlider"
         type="range"
         min="0"
         max="100"
@@ -107,3 +121,7 @@ const Player = (props?: props) => {
 }
 
 export default Player;
+
+function isEmpty(value:any) {
+  return value === undefined || value === null || value === '';
+}

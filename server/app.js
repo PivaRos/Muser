@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const session = require('express-session')
 const fs = require('fs');
+var cors = require('cors');
 
 const Data = require('./modules/data');
 const database = new Data('database.mdb');
@@ -10,6 +11,8 @@ const request = require('request');
 const port = 5000;
 
 const oneDay = 1000 * 60 * 60 * 24;
+app.use(cors());
+app.use(express.static('public'));
 app.use(session({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
     saveUninitialized:true,
@@ -26,7 +29,7 @@ app.get('/', async (req, res) => {
      if(tracks)
      {
        const track = tracks[0]
-       return res.json({track});
+       return res.json(track);
      }  
      else
      {

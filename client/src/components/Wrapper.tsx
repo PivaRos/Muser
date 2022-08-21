@@ -20,10 +20,11 @@ export const Wrapper =  () => {
         author:"",
         icon:"",
         likes:0,
+        ID:0
     });
 
     useEffect(()=> {
-        fetch('http://localhost:5000').then((res) => {
+        fetch('http://localhost:5000/song').then((res) => {
             if (res)
             {
                 res.json().then(data => {

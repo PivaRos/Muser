@@ -32,8 +32,29 @@ const backdoor = require('./routes/backdoor');
 app.use("/backdoor", backdoor)
 
 
-
 app.get('/', async (req, res) => {
+    try{
+     const tracks = await database.Query(`SELECT * FROM tracks ORDER BY Rnd(INT(NOW*id)-NOW*id)`); 
+     if(tracks)
+     {
+       const track = tracks;
+       return res.json(track);
+     }  
+     else
+     {
+        return res.send("not doubd");
+     }
+    }catch (err){
+        return res.status(500).send(err);
+    }
+
+    
+    res.sendFile(__dirname + `/music/${randomMusic()}`, {acceptRanges: false});
+});
+
+
+
+app.get('/song', async (req, res) => {
     try{
      const tracks = await database.Query(`SELECT * FROM tracks ORDER BY Rnd(INT(NOW*id)-NOW*id)`); 
      if(tracks)

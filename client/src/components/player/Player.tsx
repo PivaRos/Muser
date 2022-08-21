@@ -11,9 +11,10 @@ const Backwardsvg = require("../../svgs/backward.svg");
 interface props {
   track: {
     src : string;
-    name : string;
-    author: string;
     icon:string;
+    name:string;
+    author:string;
+    ID:number;
     likes:number;
 
   } 

@@ -33,7 +33,7 @@ const Discover = () => {
                     if(data){
                         setTrackList(data);
                         setLoading(false);
-                        console.log(Tracklist);     
+                        
                 
                     }
                 }).catch((err) => console.error(err));
@@ -50,8 +50,7 @@ const Discover = () => {
 
     return (
         <div className="page" id={s.content}>
-            <h1>hello with Discover </h1>
-            {Loading && <h2 className="loading">loading...</h2>}
+            {Loading && <h2 className={s.loading}>loading...</h2>}
             {!Loading && <TracklistComp tracks={Tracklist}/>}
         </div>
     )

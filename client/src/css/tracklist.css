@@ -1,0 +1,53 @@
+.track-ul{
+    list-style: none;
+}
+
+.track-li{
+    background-color:  rgb(118, 201, 231);
+    justify-content: center;
+    margin-top: 5px;
+    height: 32px;
+    border-radius:4px;
+    position: relative;
+}
+
+.li-div{
+    margin-left: 5px;
+    position: absolute;
+    margin-top: 4px;
+
+}
+
+.track-name{
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.track-author{
+    position: absolute;
+    width: 200px;
+    margin-left: 15px;
+    font-size: 12px;
+    margin-top: 4px;
+
+}
+
+.track-author:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+.track-li:hover{
+    background-color: lightblue;
+    justify-content: center;
+    margin-top: 5px;
+    height: 32px;
+}
+
+.tracklist{
+    position: absolute;
+    left: 10px;
+    height: 100%;
+    width: 80%;
+}

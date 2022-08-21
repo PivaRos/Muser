@@ -1,5 +1,7 @@
-import { type } from "@testing-library/user-event/dist/type";
 import React from "react";
+import '../css/tracklist.css';
+import TrackRow from "./track-row";
+
 
 interface track  {
     src : string;
@@ -19,11 +21,11 @@ interface props {
 
 const TracklistComp = (props : props) => {
     return (
-        <div>
-            <h2>tracklist</h2>
-            <ul>
+        <div className="tracklist">
+            <h2>Discover </h2>
+            <ul className="track-ul">
                     {props.tracks.map((track) => {
-                    return <li>{track.name}</li>
+                    return <TrackRow track={track}/>
                 })}
                 </ul>
         </div>

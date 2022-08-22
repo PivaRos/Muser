@@ -33,6 +33,7 @@ const Player = (props: props) => {
   const [playicon, setPlayicon] = useState(Playsvg);
   const urlsrc = "http://localhost:5000/music/";
   const urlicon = "http://localhost:5000/music-images/";
+  const [wasPlaying, setWasPlaying] = useState(false);
 
 
 
@@ -50,6 +51,7 @@ const Player = (props: props) => {
     if(!Loading)
     {
       setPlaying(!playing);
+      setWasPlaying(!wasPlaying);
     }
     else
     {
@@ -98,19 +100,28 @@ const Player = (props: props) => {
     setVolume(+e.target.value / 100);
   }
 
+  
+  const LoadedData = () => {
+    if (wasPlaying)
+    {
+      Toggleplay();
+    }
+    else
+    {
+
+    }
+  }
 
   useEffect(() => {
     if(playing)
     {
+      setWasPlaying(true);
       Toggleplay(); 
       audioPlayer.current.load();
-      if (audioPlayer.current.readyState === 2){
-        Toggleplay();
-      }
-      
     }
     else
     {
+      setWasPlaying(false);
       audioPlayer.current.load();
     }
   }, [props.track])
@@ -131,6 +142,7 @@ const Player = (props: props) => {
         ref={audioPlayer}
         onTimeUpdate={onPlaying}
         onEnded={Toggleplay}
+        onLoadedData={LoadedData}
       ></audio>
       <input
         className="slider"

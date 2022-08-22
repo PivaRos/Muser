@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import Emptyheart from "../svgs/emptyheart";
+import Filledheart from "../svgs/filledheart";
+
 
 interface props {
     track:{
@@ -21,8 +24,14 @@ interface props {
 
 const TrackRow = (props : props) => {
 
+const [Loved, setLoved] = useState(false);
 const changeTrack = () => {
     props.setTrack(props.track)
+
+}
+
+const toggleLoved = () => {
+    setLoved(!Loved);
 }
 
     return (
@@ -31,6 +40,8 @@ const changeTrack = () => {
             <label className="track-name">{props.track.name}</label>
             <label className="track-author">{props.track.author}</label>
         </div>
+        
+        <div onClick={toggleLoved} className="heart-icon">{Loved &&<Filledheart/> || <Emptyheart/> }</div>
     </li>);
 };
 

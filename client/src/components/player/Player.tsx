@@ -45,7 +45,6 @@ const Player = (props: props) => {
     if(!Loading)
     {
       setPlaying(!playing);
-      setWasPlaying(!wasPlaying);
     }
     else
     {
@@ -72,7 +71,7 @@ const Player = (props: props) => {
       setPlayicon(Pausesvg.default);
     }
     else {
-      audioPlayer.current.pause();
+      audioPlayer.current.pause();      
       setPlayicon(Playsvg.default);
     }
   }, [playing])
@@ -96,21 +95,22 @@ const Player = (props: props) => {
 
   
   const LoadedData = () => {
-    if (wasPlaying)
-    {
-      Toggleplay();
-    }
-    else
-    {
-
-    }
+ 
+   if (wasPlaying)
+   {
+    setPlaying(true);
+   }
+   else
+   {
+    setPlaying(false);
+   }
   }
 
   useEffect(() => {
     if(playing)
     {
+      setPlaying(false);
       setWasPlaying(true);
-      Toggleplay(); 
       audioPlayer.current.load();
     }
     else
@@ -136,7 +136,7 @@ const Player = (props: props) => {
         ref={audioPlayer}
         onTimeUpdate={onPlaying}
         onEnded={Toggleplay}
-        onLoadedData={LoadedData}
+        onCanPlay={LoadedData}
       ></audio>
       <input
         className="slider"

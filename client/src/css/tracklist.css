@@ -1,23 +1,52 @@
 .track-ul{
     list-style: none;
+
 }
 
 .track-li{
     background-color:  rgb(118, 201, 231);
     justify-content: center;
     margin-top: 5px;
-    height: 32px;
+    height: 56px;
     border-radius:4px;
     position: relative;
     cursor: pointer;
+    width: calc(100vw - 290px);
+    user-select: none;
+
+
 }
 
 
 .li-div{
     position: absolute;
     left: 6px;
-    top:5px;
+    top:15px;
     width: auto;
+    
+}
+
+
+.heart-icon svg{
+    position:absolute;
+    height: 18px;
+    right: 18px;
+    top: 18px;
+}
+
+.heart-icon svg{
+    height: 18px;
+    width: 18px;
+
+}
+
+
+.heart-icon svg:hover{
+    transform: scale(108%);
+}
+
+.filledheart{
+    opacity: 70%;
 }
 
 .track-name{
@@ -42,14 +71,12 @@
 
 .track-li:hover{
     background-color: lightblue;
-    justify-content: center;
-    margin-top: 5px;
-    height: 32px;
+
 }
 
 .tracklist{
     position: absolute;
-    left: 10px;
+    left: 22px;
     height: 100%;
     width: 80%;
 }

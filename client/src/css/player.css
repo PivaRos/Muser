@@ -119,6 +119,10 @@
     font-size: smaller;
   }
 
+  .player-button{
+    user-select: none;
+  }
+
   .player-button:hover{
     transform: scale(108%);
   }

@@ -23,6 +23,8 @@ export const Wrapper =  () => {
         ID:0
     });
 
+
+
     useEffect(()=> {
         fetch('http://localhost:5000/song').then((res) => {
             if (res)
@@ -49,7 +51,7 @@ export const Wrapper =  () => {
                 <Sidebar/>
                 <div id="content">
                 <Routes>
-                    <Route path="/discover" element={<Discover />} />
+                    <Route path="/discover" element={<Discover setTrack={setTrack} />} />
                     <Route  path="/" element={<Home />} />
                     <Route path='*' element={<Notfound/>}/>
                 </Routes>

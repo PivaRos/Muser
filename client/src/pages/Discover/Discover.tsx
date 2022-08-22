@@ -13,7 +13,18 @@ interface track  {
     likes:number;
 }
 
-const Discover = () => {
+interface props {
+    setTrack: React.Dispatch<React.SetStateAction<{
+        src: string;
+        name: string;
+        author: string;
+        icon: string;
+        likes: number;
+        ID: number;
+    }>>
+}
+
+const Discover = (props: props) => {
     const [Tracklist, setTrackList] = useState<track[]>([{
         src:"",
         author:"",
@@ -23,6 +34,7 @@ const Discover = () => {
         ID:0
     }]);
     const [Loading, setLoading] = useState(true);
+
 
     
     useEffect(()=> {
@@ -51,7 +63,7 @@ const Discover = () => {
     return (
         <div className="page" id={s.content}>
             {Loading && <h2 className={s.loading}>loading...</h2>}
-            {!Loading && <TracklistComp tracks={Tracklist}/>}
+            {!Loading && <TracklistComp setTrack={props.setTrack} tracks={Tracklist}/>}
         </div>
     )
 }

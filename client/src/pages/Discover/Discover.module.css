@@ -4,5 +4,10 @@
 
 .loading{
     position:absolute;
-    top:50%
+    top:50%;
+    pointer-events: none;
+    cursor: none;
+    user-select: none;
 }
+
+

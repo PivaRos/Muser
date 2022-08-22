@@ -98,14 +98,31 @@ const Player = (props: props) => {
     setVolume(+e.target.value / 100);
   }
 
+
+  useEffect(() => {
+    if(playing)
+    {
+      Toggleplay(); 
+      audioPlayer.current.load();
+      if (audioPlayer.current.readyState === 2){
+        Toggleplay();
+      }
+      
+    }
+    else
+    {
+      audioPlayer.current.load();
+    }
+  }, [props.track])
+
   return (
     <div id="player">
       
       <div id="track-data">
-      <img className="icon" id="track-icon" src={urlicon+ props.track.icon} alt=""/>
+      {props.track.icon && <img className="icon" id="track-icon" src={urlicon+ props.track.icon} alt=""/>}
       <div id="track-text">
-        <label id="track-name">{props.track.name}</label><br/>
-        <label id="track-author">{props.track.author}</label>
+        <span id="track-name">{props.track.name}</span><br/>
+        <span id="track-author">{props.track.author}</span>
         </div>
       </div>
 

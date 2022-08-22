@@ -9,13 +9,15 @@
     height: 32px;
     border-radius:4px;
     position: relative;
+    cursor: pointer;
 }
 
-.li-div{
-    margin-left: 5px;
-    position: absolute;
-    margin-top: 4px;
 
+.li-div{
+    position: absolute;
+    left: 6px;
+    top:5px;
+    width: auto;
 }
 
 .track-name{
@@ -25,11 +27,11 @@
 
 .track-author{
     position: absolute;
-    width: 200px;
+    overflow: hidden;
     margin-left: 15px;
     font-size: 12px;
     margin-top: 4px;
-
+    white-space: nowrap; 
 }
 
 .track-author:hover{

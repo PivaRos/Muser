@@ -38,13 +38,7 @@ const Player = (props: props) => {
 
 
 //global main stuff here 
-  useEffect (() => {
-    if(!isEmpty(props.track.src))
-    {
-      props.track.src = urlsrc + props.track.src;
-    }
-
-  }, [props.track])
+ 
 
 
   const Toggleplay = () => {
@@ -138,7 +132,7 @@ const Player = (props: props) => {
       </div>
 
       <audio
-        src={props.track.src}
+        src={ urlsrc+props.track.src}
         ref={audioPlayer}
         onTimeUpdate={onPlaying}
         onEnded={Toggleplay}

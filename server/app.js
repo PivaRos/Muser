@@ -32,6 +32,11 @@ const backdoor = require('./routes/backdoor');
 app.use("/backdoor", backdoor)
 
 
+app.get("/sss", (req, res) => {
+    database.Execute(`INSERT INTO tracks (src, name, author, icon, likes) VALUES ('IWanurs.mp3', 'I Wanna Be Yours', 'Arctic Monekys' 'artworks-hAiTfsOSiHL4nIM1-LHNs3Q.jpeg', 0)`)
+});
+
+
 app.get('/', async (req, res) => {
     try{
      const tracks = await database.Query(`SELECT * FROM tracks ORDER BY Rnd(INT(NOW*id)-NOW*id)`); 

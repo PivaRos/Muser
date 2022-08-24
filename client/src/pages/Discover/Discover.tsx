@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TracklistComp from '../../components/Tracklist';
 import s from "./Discover.module.css"
 

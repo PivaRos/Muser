@@ -33,7 +33,8 @@ app.use("/backdoor", backdoor)
 
 
 app.get("/sss", (req, res) => {
-    database.Execute(`INSERT INTO tracks (src, name, author, icon, likes) VALUES ('IWanurs.mp3', 'I Wanna Be Yours', 'Arctic Monekys' 'artworks-hAiTfsOSiHL4nIM1-LHNs3Q.jpeg', 0)`)
+   //database.Execute(`INSERT INTO tracks (src, name, author, icon, likes) VALUES ('thdlplaoekrt.mp3', 'ילדה ירושלמית', 'עדי אגאי', 'ppnmaeoi24.jpg', 0)`)
+    res.sendStatus(200);
 });
 
 

@@ -51,7 +51,7 @@ export const Wrapper =  () => {
                 <Sidebar/>
                 <div id="content">
                 <Routes>
-                    <Route path="/discover" element={<Discover setTrack={setTrack} />} />
+                    <Route path="/discover" element={<Discover activeTrack={track} setTrack={setTrack} />} />
                     <Route  path="/" element={<Home />} />
                     <Route path='*' element={<Notfound/>}/>
                 </Routes>

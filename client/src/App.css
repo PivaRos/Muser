@@ -6,6 +6,10 @@
   color: black;
 }
 
+body{
+  overflow-x: hidden;
+  overflow-y: hidden ;
+}
 
 #wrapper{
 height: 100%;

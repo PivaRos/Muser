@@ -25,15 +25,16 @@ interface props {
         likes: number;
         ID: number;
     }>>;
+    activeTrack :track;
 }
 
 const TracklistComp = (props : props) => {
     return (
         <div className="tracklist">
-            <h2>Discover </h2>
             <ul className="track-ul">
                     {props.tracks.map((track) => {
-                    return <TrackRow setTrack={props.setTrack} track={track}/>
+                        
+                    return <TrackRow activeTrack={props.activeTrack} setTrack={props.setTrack} track={track}/>
                 })}
                 </ul>
         </div>

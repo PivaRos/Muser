@@ -21,7 +21,8 @@ interface props {
         icon: string;
         likes: number;
         ID: number;
-    }>>
+    }>>, 
+    activeTrack:track;
 }
 
 const Discover = (props: props) => {
@@ -62,8 +63,9 @@ const Discover = (props: props) => {
 
     return (
         <div className="page" id={s.content}>
+            <h2 id={s.label}>Discover</h2>
             {Loading && <h2 className={s.loading}>loading...</h2>}
-            {!Loading && <TracklistComp setTrack={props.setTrack} tracks={Tracklist}/>}
+            {!Loading && <TracklistComp activeTrack={props.activeTrack} setTrack={props.setTrack} tracks={Tracklist}/>}
         </div>
     )
 }

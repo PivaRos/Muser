@@ -1,5 +1,6 @@
 #content{
     width: 100%;
+
 }
 
 .loading{
@@ -11,3 +12,8 @@
 }
 
 
+#label
+{
+    left: 14px;
+    position: absolute;
+}

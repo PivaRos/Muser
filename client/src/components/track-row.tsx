@@ -42,7 +42,8 @@ else
     setLiClasses("track-li");
 }
 
-}, [props.activeTrack])
+}, [props.activeTrack, props.track])
+
 const toggleLoved = () => {
     setLoved(!Loved);
 }

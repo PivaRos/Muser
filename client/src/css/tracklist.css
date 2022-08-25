@@ -131,6 +131,7 @@
 }
 
 .active-track{
+    background: lightblue;
 }
 
 .active-track .track-name{

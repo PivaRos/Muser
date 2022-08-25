@@ -1,9 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+interface Author{
+    name:string;
+}
+
+interface track  {
+    src : string;
+    icon:string;
+    name:string;
+    author:string;
+    ID:number;
+    likes:number;
+}
+
+interface QueryResults {
+    Authors:Author[];
+    Tracks:track[];
+}
 
 const Sidebar = () => {
+
+    const [activeQuery, setActiveQuery] = useState("");
+    const [queryResults, setQueryResults] = useState()
+    useEffect(() => {
+
+    }, [activeQuery])
+
+    const SearchChange = (value:string) => {
+       setActiveQuery(value);
+    }
+
     return (
         <div id="sidebar">'
-        <h2>this is side bar</h2>
+        <form>
+            <input id="input-search" type="text" onChange={e => {SearchChange(e.target.value)}}/>
+        </form>
         </div>
     );
 };

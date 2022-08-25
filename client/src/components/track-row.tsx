@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Emptyheart from "../svgs/emptyheart";
 import Filledheart from "../svgs/filledheart";
+import {track} from '../interfaces';
 
-
-interface track {
-    src:string;
-    name:string;
-    author:string;
-    likes:number;
-    icon:string;
-    ID:number;
-}
 
 interface props {
     track:track;

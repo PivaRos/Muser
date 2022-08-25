@@ -1,16 +1,7 @@
 import React from "react";
 import '../css/tracklist.css';
 import TrackRow from "./track-row";
-
-
-interface track  {
-    src : string;
-    icon:string;
-    name:string;
-    author:string;
-    ID:number;
-    likes:number;
-}
+import {track} from '../interfaces';
 
 
 
@@ -25,18 +16,17 @@ interface props {
         likes: number;
         ID: number;
     }>>;
-    activeTrack :track;
+    activeTrack: track;
 }
 
-const TracklistComp = (props : props) => {
+const TracklistComp = (props: props) => {
     return (
         <div className="tracklist">
             <ul className="track-ul">
-                    {props.tracks.map((track) => {
-                        
-                    return <TrackRow activeTrack={props.activeTrack} setTrack={props.setTrack} track={track}/>
-                })}
-                </ul>
+                {props.tracks.map((track) => (
+                    <TrackRow activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
+                ))}
+            </ul>
         </div>
     );
 }

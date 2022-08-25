@@ -29,8 +29,9 @@ app.use(session({
 
 
 const backdoor = require('./routes/backdoor');
-app.use("/backdoor", backdoor)
-
+const search = require('./routes/search');
+app.use("/backdoor", backdoor);
+app.use("/search", search);
 
 app.get("/sss", (req, res) => {
    //database.Execute(`INSERT INTO tracks (src, name, author, icon, likes) VALUES ('thdlplaoekrt.mp3', 'ילדה ירושלמית', 'עדי אגאי', 'ppnmaeoi24.jpg', 0)`)

@@ -48,7 +48,7 @@ export const Wrapper =  () => {
         <div id="wrapper">
             <Router>
                 <Navbar />
-                <Sidebar/>
+                <Sidebar setTrack={setTrack} activeTrack={track}/>
                 <div id="content">
                 <Routes>
                     <Route path="/discover" element={<Discover activeTrack={track} setTrack={setTrack} />} />

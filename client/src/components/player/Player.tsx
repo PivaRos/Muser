@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import {track} from '../../interfaces';
 import '../../css/player.css';
 import '../../css/player-mobile.css';
 const Playsvg = require("../../svgs/play.svg");
@@ -9,15 +10,7 @@ const Backwardsvg = require("../../svgs/backward.svg");
 
   
 interface props {
-  track: {
-    src : string;
-    icon:string;
-    name:string;
-    author:string;
-    ID:number;
-    likes:number;
-
-  } 
+  track:track;
   tracks?: {
 
   }

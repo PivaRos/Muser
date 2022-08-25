@@ -1,17 +1,10 @@
 
 import React, { useEffect, useState } from "react";
 import TracklistComp from '../../components/Tracklist';
+import {track} from '../../interfaces';
 import s from "./Discover.module.css"
 
 
-interface track  {
-    src : string;
-    icon:string;
-    name:string;
-    author:string;
-    ID:number;
-    likes:number;
-}
 
 interface props {
     setTrack: React.Dispatch<React.SetStateAction<{

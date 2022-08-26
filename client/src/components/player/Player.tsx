@@ -11,9 +11,7 @@ const Backwardsvg = require("../../svgs/backward.svg");
   
 interface props {
   track:track;
-  tracks?: {
-
-  }
+  setChangeTrack:React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Player = (props: props) => {
@@ -50,11 +48,11 @@ const Player = (props: props) => {
   };
 
   const Next = () => {
-
+    props.setChangeTrack(1);
   };
 
   const Previous = () => {
-
+    props.setChangeTrack(-1);
   };
 
 

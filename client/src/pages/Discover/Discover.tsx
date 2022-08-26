@@ -51,10 +51,7 @@ const Discover = (props: props) => {
         }).catch((err) => {
 
         });
-        console.log("first render");
     }, [])
-
-    console.count("Discover");
 
 
     return (

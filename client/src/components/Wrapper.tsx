@@ -31,13 +31,19 @@ export const Wrapper =  () => {
         likes:0,
         ID:0
     });
+    const [currentTrackChange, setCurrentTrackChange] = useState<track>({
+        src:"",
+        name:"",
+        author:"",
+        icon:"",
+        likes:0,
+        ID:0
+    });
     const [trackIndex, setTrackIndex] = useState(0);
 
     useEffect(() => {
         if (changeTrack === 1)
         {
-            console.log(trackList.length);
-            console.log(trackIndex);
             if(trackList.length-1 > trackIndex)
             {
             //forward one track
@@ -58,6 +64,25 @@ export const Wrapper =  () => {
         setChangeTrack(0);
     },[changeTrack])
 
+    useEffect(() => {
+        //logic to fix bug
+        if (trackList.includes(currentTrackChange))
+        {
+            let tempTracklist = trackList;
+            tempTracklist.splice(trackList.indexOf(currentTrackChange), 1);
+            tempTracklist.splice(trackIndex, 0, currentTrackChange);
+            setTrackList(tempTracklist);
+            
+        }
+        else
+        {
+            
+            let tempTracklist = trackList;
+            tempTracklist.splice(trackIndex, 0, currentTrackChange);
+            setTrackList(tempTracklist);
+        }
+        setCurrentTrack(currentTrackChange);
+    }, [currentTrackChange])
 
     useEffect(()=> {
         fetch('http://localhost:5000/').then((res) => {
@@ -82,10 +107,10 @@ export const Wrapper =  () => {
         <div id="wrapper">
             <Router>
                 <Navbar />
-                <Sidebar setTrack={setCurrentTrack} activeTrack={currentTrack}/>
+                <Sidebar setTrack={setCurrentTrackChange} activeTrack={currentTrack}/>
                 <div id="content">
                 <Routes>
-                    <Route path="/discover" element={<Discover activeTrack={currentTrack} setTrack={setCurrentTrack} />} />
+                    <Route path="/discover" element={<Discover activeTrack={currentTrack} setTrack={setCurrentTrackChange} />} />
                     <Route  path="/" element={<Home />} />
                     <Route path='*' element={<Notfound/>}/>
                 </Routes>

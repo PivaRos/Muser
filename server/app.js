@@ -83,6 +83,28 @@ app.get('/song', async (req, res) => {
 
 
 
+app.get('/song/:exc', async (req, res) => {
+    try{
+     const tracks = await database.Query(`SELECT * FROM tracks ORDER BY Rnd(INT(NOW*id)-NOW*id WHERE name != '${req.params.exc}'`); 
+     if(tracks)
+     {
+       const track = tracks[0]
+       return res.json(track);
+     }  
+     else
+     {
+        return res.send("not doubd");
+     }
+    }catch (err){
+        return res.status(500).send(err);
+    }
+
+    
+    res.sendFile(__dirname + `/music/${randomMusic()}`, {acceptRanges: false});
+});
+
+
+
 
 
 app.listen(port, () => {

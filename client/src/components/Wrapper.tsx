@@ -31,7 +31,7 @@ export const Wrapper =  () => {
         likes:0,
         ID:0
     });
-    const [currentTrackChange, setCurrentTrackChange] = useState<track>({
+    const [addTrackToList, setAddTrackToList] = useState<track>({
         src:"",
         name:"",
         author:"",
@@ -66,23 +66,27 @@ export const Wrapper =  () => {
 
     useEffect(() => {
         //logic to fix bug
-        if (trackList.includes(currentTrackChange))
+        let found =false;
+        for (let i = 0; i < trackList.length;i ++)
+        {
+            if (trackList[i].name === addTrackToList.name)
+            {
+            let tempTracklist = trackList;
+            tempTracklist.splice(i, 1);
+            tempTracklist.splice(trackIndex, 0, addTrackToList);
+            setTrackList(tempTracklist);
+            found =true;
+            }
+        }
+        if (!found)
         {
             let tempTracklist = trackList;
-            tempTracklist.splice(trackList.indexOf(currentTrackChange), 1);
-            tempTracklist.splice(trackIndex, 0, currentTrackChange);
-            setTrackList(tempTracklist);
-            
-        }
-        else
-        {
-            
-            let tempTracklist = trackList;
-            tempTracklist.splice(trackIndex, 0, currentTrackChange);
+            tempTracklist.splice(trackIndex, 0, addTrackToList);
             setTrackList(tempTracklist);
         }
-        setCurrentTrack(currentTrackChange);
-    }, [currentTrackChange])
+        
+        setCurrentTrack(addTrackToList);
+    }, [addTrackToList])
 
     useEffect(()=> {
         fetch('http://localhost:5000/').then((res) => {
@@ -107,10 +111,10 @@ export const Wrapper =  () => {
         <div id="wrapper">
             <Router>
                 <Navbar />
-                <Sidebar setTrack={setCurrentTrackChange} activeTrack={currentTrack}/>
+                <Sidebar setTrack={setAddTrackToList} activeTrack={currentTrack}/>
                 <div id="content">
                 <Routes>
-                    <Route path="/discover" element={<Discover activeTrack={currentTrack} setTrack={setCurrentTrackChange} />} />
+                    <Route path="/discover" element={<Discover activeTrack={currentTrack} setTrack={setAddTrackToList} />} />
                     <Route  path="/" element={<Home />} />
                     <Route path='*' element={<Notfound/>}/>
                 </Routes>

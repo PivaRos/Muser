@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const app = express();
 const session = require('express-session')
 const fs = require('fs');
@@ -17,6 +18,9 @@ app.set("view engine", "jade");
 app.engine("jade", require("jade").__express);
 
 const oneDay = 1000 * 60 * 60 * 24;
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use(cors());
 app.use(upload());
 app.use(express.static('public'));
@@ -30,12 +34,40 @@ app.use(session({
 
 const backdoor = require('./routes/backdoor');
 const search = require('./routes/search');
+const data = require('./modules/data');
 app.use("/backdoor", backdoor);
 app.use("/search", search);
 
 app.get("/sss", (req, res) => {
    //database.Execute(`INSERT INTO tracks (src, name, author, icon, likes) VALUES ('thdlplaoekrt.mp3', 'ילדה ירושלמית', 'עדי אגאי', 'ppnmaeoi24.jpg', 0)`)
     res.sendStatus(200);
+});
+
+app.post("/track/exclude", async (req, res) => {
+    if (req.body.exclude)
+    {
+        let queryString = `${req.body.exclude[0].ID}`;
+    for (let i = 1; i < req.body.exclude.length ; i ++)
+    {
+        queryString += `, ${req.body.exclude[i].ID}`;
+    }
+    try{
+        const tracks = await database.Query(`SELECT * FROM tracks WHERE ID NOT IN (${queryString}) ORDER BY Rnd(INT(NOW*id)-NOW*id)`);
+        return res.json(tracks[0]);
+    }catch(err){
+        return res.sendStatus(err);
+    }
+    }
+    else{
+        try{
+            const tracks = await database.Query(`SELECT * FROM tracks ORDER BY Rnd(INT(NOW*id)-NOW*id)`);
+        return res.json(tracks[0]);
+        }
+        catch{
+            return res.sendStatus(500);
+        }
+    }
+
 });
 
 

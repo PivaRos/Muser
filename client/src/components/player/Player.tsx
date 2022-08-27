@@ -13,7 +13,8 @@ interface props {
   track:track;
   tracks?: {
 
-  }
+  };
+  setNextAndBack: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Player = (props: props) => {
@@ -27,7 +28,7 @@ const Player = (props: props) => {
   const urlsrc = "http://localhost:5000/music/";
   const urlicon = "http://localhost:5000/music-images/";
   const [wasPlaying, setWasPlaying] = useState(false);
-
+  const [lockedButton, setLockedButton] = useState(false);
 
 
 //global main stuff here 
@@ -50,11 +51,18 @@ const Player = (props: props) => {
   };
 
   const Next = () => {
-
+    if (!lockedButton)
+    {
+      setLockedButton(true);
+    props.setNextAndBack(1);
+    setLockedButton(false);
+    }
   };
 
   const Previous = () => {
-
+    setLockedButton(true);
+    props.setNextAndBack(-1);
+    setLockedButton(false);
   };
 
 
@@ -141,9 +149,9 @@ const Player = (props: props) => {
         value={currentTime}
         readOnly
       />
-      <img className="player-button" id="backwardsvg" src={Backwardsvg.default} alt="" onClick={Previous}/>
+      <img className="player-button" id="backwardsvg" src={Backwardsvg.default} alt="" onClick={ Previous}/>
       <img className="player-button" id="playimg" src={playicon} alt="" onClick={Toggleplay} />
-      <img className="player-button" id="forwardsvg" src={Forwardsvg.default} alt="" onClick={Next}/>
+      <img className="player-button" id="forwardsvg" src={Forwardsvg.default} alt=""  onClick={Next}/>
       <input
         className="slider"
         id="volumeSlider"

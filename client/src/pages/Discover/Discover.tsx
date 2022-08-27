@@ -42,19 +42,17 @@ const Discover = (props: props) => {
                         
                 
                     }
-                }).catch((err) => console.error(err));
+                }).catch();
             }
             else
             {
-            console.log({message : "no res object"});
+
             }
         }).catch((err) => {
 
         });
-        console.log("first render");
     }, [])
 
-    console.count("Discover");
 
 
     return (

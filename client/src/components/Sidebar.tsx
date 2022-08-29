@@ -111,7 +111,7 @@ const Sidebar = (props:props) => {
             <ul id="search-ul">
                 {
                     !queryResults.error && queryResults.tracks.map((track) => {
-                       return <TrackSearch track={track} setTrack={props.setTrack} activeTrack={props.activeTrack}/>
+                       return <TrackSearch key={track.ID} track={track} setTrack={props.setTrack} activeTrack={props.activeTrack}/>
                     })}
             </ul>
             {queryResults.error && activeQuery != "" && !loading && `No results found for "${activeQuery}"`}

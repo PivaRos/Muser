@@ -31,6 +31,10 @@ app.use(session({
     resave: false 
 }));
 
+  app.use(express.json({
+    type: ['application/json', 'text/plain']
+  }))
+
 
 const backdoor = require('./routes/backdoor');
 const search = require('./routes/search');

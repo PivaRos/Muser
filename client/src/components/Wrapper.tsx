@@ -35,6 +35,9 @@ export const Wrapper =  () => {
     const [NextAndPrevTrack, setNextAndPrevTrack] = useState(0);
     const url = "http://localhost:5000/";
 
+    const [ExcludeForNext, setExcludeForNext] = useState<track[]>([]);
+
+
     useEffect(() => {
         if (NextAndPrevTrack === 1)
         {
@@ -42,17 +45,24 @@ export const Wrapper =  () => {
             let ttrack = nextTrackStack.pop();
             if (ttrack)
             {
-                console.log("local next");
                 prevTrackStack.push(track)
-                console.log(ttrack);    
                 setTrack(ttrack);
 
             }
             else
             {
-                console.log("new next");
+                prevTrackStack.push(track);
+                if (ExcludeForNext.length > 5)
+                {
+                    setExcludeForNext([]);
+                }
+
+                ExcludeForNext.push(track);
+
+
+
                 const body = {
-                    exclude:[prevTrackStack, nextTrackStack]
+                    exclude:ExcludeForNext
                 }
                 const options = {
                     method:"POST",
@@ -60,7 +70,6 @@ export const Wrapper =  () => {
                 }
                 fetch(url+"track/exclude", options).then((response) => {
                     response.json().then((data) => {
-                        prevTrackStack.push(track);
                         setTrack(data);
                     }).catch(() => {
 
@@ -74,10 +83,10 @@ export const Wrapper =  () => {
         {
             //change to prev from stack
            let tracks = prevTrackStack.pop();
-            if (tracks)
+            if (tracks?.ID !== 0)
             {
                 nextTrackStack.push(track);
-                setTrack(tracks);
+                tracks && setTrack(tracks);
             }
         }
         setNextAndPrevTrack(0);

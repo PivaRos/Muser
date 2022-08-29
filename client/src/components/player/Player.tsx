@@ -42,11 +42,11 @@ const Player = (props: props) => {
     }
     else
     {
-     if (!isEmpty(audioPlayer.current.src) && audioPlayer.current.src !== "http://localhost:5000/music" && audioPlayer.current.src !== "http://localhost:3000/")
-     {
-      setLoading(false);
-      setPlaying(!playing);
-     }
+      if(audioPlayer.current.src !== "" && audioPlayer.current.src !== "http://localhost:5000/music/" && audioPlayer.current.src !== "")
+      {
+        setLoading(false);
+        setPlaying(!playing);
+      }
     }
   };
 
@@ -92,6 +92,11 @@ const Player = (props: props) => {
 
   const volumeChange = (e: any) => {
     setVolume(+e.target.value / 100);
+  
+  }
+
+  const Ended = () => {
+    Next();
   }
 
   
@@ -136,7 +141,7 @@ const Player = (props: props) => {
         src={ urlsrc+props.track.src}
         ref={audioPlayer}
         onTimeUpdate={onPlaying}
-        onEnded={Toggleplay}
+        onEnded={Ended}
         onCanPlay={LoadedData}
       ></audio>
       <input

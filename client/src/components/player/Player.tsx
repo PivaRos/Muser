@@ -138,7 +138,7 @@ const Player = (props: props) => {
       </div>
 
       <audio
-        src={ urlsrc+props.track.src}
+        src={props.track.src && urlsrc + props.track.src}
         ref={audioPlayer}
         onTimeUpdate={onPlaying}
         onEnded={Ended}
@@ -149,7 +149,7 @@ const Player = (props: props) => {
         id="timeSlider"
         type="range"
         min="1"
-        max={duration}
+        max={ duration && +duration || 100}
         step="1"
         value={currentTime}
         readOnly
@@ -161,8 +161,8 @@ const Player = (props: props) => {
         className="slider"
         id="volumeSlider"
         type="range"
-        min="0"
-        max="100"
+        min={0}
+        max={100}
         step="1"
         value={volume * 100}
         onChange={volumeChange} />

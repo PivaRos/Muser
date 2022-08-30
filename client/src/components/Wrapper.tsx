@@ -58,8 +58,7 @@ export const Wrapper =  () => {
                 }
 
                 ExcludeForNext.push(track);
-
-
+                console.log(ExcludeForNext);
 
                 const body = {
                     exclude:ExcludeForNext

@@ -4,6 +4,7 @@ const app = express();
 const session = require('express-session')
 const fs = require('fs');
 var cors = require('cors');
+const env = require('./data/env');
 
 const Data = require('./modules/data');
 const database = new Data('database.mdb');
@@ -13,6 +14,11 @@ const port = 5000;
 
 
 const upload  = require('express-fileupload');
+
+const mongoModule = require('./modules/mongoModule.ts');
+const mongoDatabase = mongoModule(env.MongoDBuri);
+
+
 
 
 app.set("view engine", "jade");
@@ -39,7 +45,6 @@ app.use(session({
 
 const backdoor = require('./routes/backdoor');
 const search = require('./routes/search');
-const data = require('./modules/data');
 app.use("/backdoor", backdoor);
 app.use("/search", search);
 

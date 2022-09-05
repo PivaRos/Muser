@@ -15,10 +15,9 @@ const port = 5000;
 
 const upload  = require('express-fileupload');
 
-const mongoModule = require('./modules/mongoModule.ts');
-const mongoDatabase = mongoModule(env.MongoDBuri);
-
-
+const {ObjectId} = require('mongodb');
+const mongoModule = require('./modules/mongoModule.js');
+const mongoDatabase = new mongoModule(env.MongoDBuri);
 
 
 app.set("view engine", "jade");

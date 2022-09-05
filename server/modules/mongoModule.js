@@ -1,14 +1,12 @@
 
+const {MongoClient, ObjectId} = require('mongodb');
 
-import {MongoClient, ObjectId} from 'mongodb';
-import {track} from '../interfaces';
-
-export class MongoModule {
+ class MongoModule {
     Client;
     MuserDB;
     tracks;
 
-    constructor(uri:string) {
+    constructor(uri) {
         this.Client = new MongoClient(uri);
         this.MuserDB = this.Client.db("Muser");
         this.tracks = this.MuserDB.collection("tracks");
@@ -18,12 +16,12 @@ export class MongoModule {
        return await this.tracks.aggregate([{ $sample: { size: 1 } }]).toArray();
     }
 
-    async getTrackById(queryId:string) {
+    async getTrackById(queryId) {
         return await this.tracks.findOne({_id:new ObjectId(queryId)})
 
     }
 
-    async addTrack(track : track){
+    async addTrack(track){
         try{
             await this.tracks.insertOne({
                 src:track.src,
@@ -46,11 +44,12 @@ export class MongoModule {
 
     }
 
-    async getTrackExclude(ids : string[])
+    async getTrackExclude(ids)
     {
-        return await this.tracks.aggregate([{_id:{$nin:ids.map((id) => {
-            return new ObjectId(id);
-        })}} ,{ $sample: { size: 1 } }]).toArray();
+        return await this.tracks.findOne({_id:{$nin:ids}, $expr: { $lt: [0.5, {$rand: {} } ] }});
     }
 
 }
+
+
+module.exports = MongoModule;

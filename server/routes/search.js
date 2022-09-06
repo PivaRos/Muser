@@ -7,38 +7,33 @@ const { ObjectId } = require('mongodb');
 const mongoModule = require('../modules/mongoModule.js');
 const mongoDatabase = new mongoModule(process.env.MongoString);
 
-const Data = require('../modules/data');
-const database = new Data('database.mdb');
-
 router.get('/:query', async (req, res) => {
     if (true) // QUERY VALIDATION
     {
         try{
-       const data = await mongoDatabase.MuserSearch(req.params.query)
-       if (Object.keys(data).length > 0)
-       {
-        return res.json({
+        const resObject = {
             error:false,
-            authors:[{}],
-            tracks:data
-        });
-       }
-       else
+            authors:[],
+            tracks:[]
+        }
+       const data = await mongoDatabase.MuserSearch(req.params.query);
+       if (Object.keys(data.tracks).length > 0)
        {
-        return res.json({
-            error: true,
-            authors:[{}],
-            tracks:[{}]
-        });
+        resObject.tracks = data.tracks;
        }
+       if(Object.keys(data.authors).length > 0)
+       {
+        resObject.authors = data.authors;
+       }
+       if (Object.keys(data.tracks).length === 0 && Object.keys(data.authors).length === 0)
+       {
+        resObject.error = true;
+       }
+       return res.json(resObject);
     }
     catch
     {
-        return res.json({
-            error: true,
-            authors:[{}],
-            tracks:[{}]
-        });
+        return res.json({error: true, authors:[], tracks:[]});
     }
     }
 }); 

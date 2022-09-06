@@ -5,6 +5,8 @@
     width: 250px;
     background-color: #3d90ab;
     top:0;
+    scrollbar-width: thin;
+
   }
 
 
@@ -28,10 +30,19 @@
     sans-serif;
 }
 
-#search-ul{
+.search-ul{
     margin-left: 8px;
     overflow-y: scroll;
     scrollbar-width: 2px;
+    max-height:calc(80vh - 75px );
+    scrollbar-width: thin;
+
+    
+}
+
+.searchCategory
+{
+    text-decoration: underline;
 }
 
 .li-search{
@@ -43,6 +54,16 @@
     width: 90%;
     border-radius: 4px;
     padding: 5px;
+}
+
+.search-author-div{
+    width: 90%;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.search-author-div:hover{
+    background-color: lightblue;
 }
 
 .search-track-div:hover{

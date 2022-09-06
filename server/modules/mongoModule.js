@@ -57,10 +57,18 @@ const {MongoClient, ObjectId} = require('mongodb');
 
     async MuserSearch(query)
     {
-        const results = await this.tracks.find({name:"/"+query+"/"}).toArray();
-        console.log(results);
-        return results;
+        const results = await this.tracks.find({$or:[{"name": new RegExp('.*' + query.toLowerCase() + '.*')}, {"author": new RegExp('.*' + query.toLowerCase() + '.*')},{"name": new RegExp('.*' + query.toUpperCase() + '.*')}, {"author": new RegExp('.*' + query.toUpperCase() + '.*')}]}).toArray();// need to fix query of .find()
+            const authors = [];
+            results.map(track => {
+                if (!authors.includes(track.author))
+                {
+                    authors.push(track.author);
+                }
+            });
+        return {tracks:results, authors:authors};
     }
+    
+    
 
 }
 

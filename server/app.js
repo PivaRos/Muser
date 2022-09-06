@@ -5,9 +5,6 @@ const session = require('express-session')
 const fs = require('fs');
 var cors = require('cors');
 
-const Data = require('./modules/data');
-const database = new Data('database.mdb');
-
 const request = require('request');
 const port = 5000;
 

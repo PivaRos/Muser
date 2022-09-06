@@ -9,6 +9,7 @@ export interface track {
 
 export interface Author{
     name:string;
+    
 }
 
 export interface QueryResults {

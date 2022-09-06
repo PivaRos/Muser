@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import '../css/sidebar.css';
 import {TrackSearch} from "./searchTrack";
 import {track} from '../interfaces';
+import { AuthorSearch } from "./searchAuthor";
 
 
 interface props {
@@ -26,10 +27,8 @@ const Sidebar = (props:props) => {
                     _id: ""
                 }
             ],
-            Authors: [
-                {
-                    name: ""
-                }
+            authors: [
+                ""
             ]
         }
     );
@@ -55,7 +54,7 @@ const Sidebar = (props:props) => {
                     _id: "",
                     author: ""
                 }],
-                Authors: [{ name: "" }]
+                authors: [""]
             })
         }
     }, [activeQuery])
@@ -90,7 +89,6 @@ const Sidebar = (props:props) => {
     const SearchChange = (value: string) => {
         setActiveQuery(value);
     }
-
     return (
         <div id="sidebar">'
             <form>
@@ -98,12 +96,18 @@ const Sidebar = (props:props) => {
 
 
             </form>
-            <ul id="search-ul">
-                {
-                    !queryResults.error && queryResults.tracks.map((track) => {
-                       return <TrackSearch key={track._id} track={track} setTrack={props.setTrack} activeTrack={props.activeTrack}/>
+            { !queryResults.error &&
+            <><ul className="search-ul">
+                     <li className="searchCategory"><h3>Tracks</h3></li>
+                    {queryResults.tracks && queryResults.tracks.length > 0 && queryResults.tracks.map((track) => {
+                        return <TrackSearch key={track._id} track={track} setTrack={props.setTrack} activeTrack={props.activeTrack} />;
                     })}
-            </ul>
+                        {queryResults.authors.length > 0 && <li  className="searchCategory"><h3>Authors</h3></li>}
+                        {queryResults.authors && queryResults.authors.length > 0 && queryResults.authors.map((author) => {
+                            return <AuthorSearch author={author} />;
+                        })}
+                    </ul></>
+            }
             {queryResults.error && activeQuery != "" && !loading && `No results found for "${activeQuery}"`}
         </div>
     );

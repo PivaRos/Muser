@@ -128,6 +128,7 @@ export const Wrapper =  () => {
                 <div id="content">
                 <Routes>
                     <Route path="/discover" element={<Discover activeTrack={track} setTrack={setTrackChange} />} />
+                    <Route path='/author/:authorName' element={<div><h2>author page</h2></div>}/>
                     <Route  path="/" element={<Home />} />
                     <Route path='*' element={<Notfound/>}/>
                 </Routes>

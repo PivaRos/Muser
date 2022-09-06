@@ -12,6 +12,7 @@ import {track} from '../interfaces';
 
 
 
+
 export const Wrapper =  () => {
     
     const [track, setTrack] = useState({
@@ -20,7 +21,7 @@ export const Wrapper =  () => {
         author:"",
         icon:"",
         likes:0,
-        ID:0
+        _id:""
     });
     const [trackChange, setTrackChange] = useState({
         src:"",
@@ -28,14 +29,14 @@ export const Wrapper =  () => {
         author:"",
         icon:"",
         likes:0,
-        ID:0
+        _id:""
     });
     const [prevTrackStack, setPrevTrackStack] = useState<track[]>([]);
     const [nextTrackStack, setNextTrackStack] = useState<track[]>([]);
     const [NextAndPrevTrack, setNextAndPrevTrack] = useState(0);
-    const url = "http://localhost:5000/";
+    const url = "http://localhost:5000";
 
-    const [ExcludeForNext, setExcludeForNext] = useState<track[]>([]);
+    const [ExcludeForNext, setExcludeForNext] = useState<any[]>([]);
 
 
     useEffect(() => {
@@ -57,9 +58,7 @@ export const Wrapper =  () => {
                     setExcludeForNext([]);
                 }
 
-                ExcludeForNext.push(track);
-                console.log(ExcludeForNext);
-
+                ExcludeForNext.push(track._id);
                 const body = {
                     exclude:ExcludeForNext
                 }
@@ -67,7 +66,7 @@ export const Wrapper =  () => {
                     method:"POST",
                     body:JSON.stringify(body)
                 }
-                fetch(url+"track/exclude", options).then((response) => {
+                fetch(url+"/track/exclude", options).then((response) => {
                     response.json().then((data) => {
                         setTrack(data);
                     }).catch(() => {
@@ -82,7 +81,7 @@ export const Wrapper =  () => {
         {
             //change to prev from stack
            let tracks = prevTrackStack.pop();
-            if (tracks?.ID !== 0)
+            if (tracks?._id !== "")
             {
                 nextTrackStack.push(track);
                 tracks && setTrack(tracks);
@@ -103,12 +102,12 @@ export const Wrapper =  () => {
 
 
     useEffect(()=> {
-        fetch(url+'song').then((res) => {
+        fetch(url+'/track').then((res) => {
             if (res)
             {
                 res.json().then(data => {
                     if(data){
-                    setTrack(data);
+                    setTrack(data[0]);
                     
                     }
                 }).catch((err) => console.error(err));

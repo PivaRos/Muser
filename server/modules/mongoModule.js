@@ -16,6 +16,10 @@ const {MongoClient, ObjectId} = require('mongodb');
        return await this.tracks.aggregate([{ $sample: { size: 1 } }]).toArray();
     }
 
+    async getRandomTrackList(numberOfTracks) {
+        return await this.tracks.aggregate([{ $sample: { size: numberOfTracks } }]).toArray();
+     }
+
     async getTrackById(queryId) {
         return await this.tracks.findOne({_id:new ObjectId(queryId)})
 
@@ -44,9 +48,18 @@ const {MongoClient, ObjectId} = require('mongodb');
 
     }
 
-    async getTrackExclude(ids)
+    async getRandomTrackExclude(exclude)
     {
-        return await this.tracks.findOne({_id:{$nin:ids}, $expr: { $lt: [0.5, {$rand: {} } ] }});
+        return await this.tracks.findOne({_id:{$nin:exclude.map(id => {
+            return new ObjectId(id);
+        })}, $expr: { $lt: [0.5, {$rand: {} } ] }});
+    }
+
+    async MuserSearch(query)
+    {
+        const results = await this.tracks.find({name:"/"+query+"/"}).toArray();
+        console.log(results);
+        return results;
     }
 
 }

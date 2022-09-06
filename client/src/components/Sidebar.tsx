@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { string } from "yargs";
-import { QueryResults } from '../interfaces';
-import searchTrack from "./searchTrack";
 import '../css/sidebar.css';
-import TrackSearch from "./searchTrack";
+import {TrackSearch} from "./searchTrack";
 import {track} from '../interfaces';
 
 
 interface props {
-    setTrack: React.Dispatch<React.SetStateAction<{
-        src: string;
-        name: string;
-        author: string;
-        icon: string;
-        likes: number;
-        ID: number;
-    }>>, 
+    setTrack: React.Dispatch<React.SetStateAction<track>>, 
     activeTrack:track;
 }
 
@@ -33,7 +23,7 @@ const Sidebar = (props:props) => {
                     name: "",
                     author: "",
                     likes: 0,
-                    ID: 0
+                    _id: ""
                 }
             ],
             Authors: [
@@ -47,7 +37,7 @@ const Sidebar = (props:props) => {
     const url = "http://localhost:5000/";
 
     useEffect(() => {
-        if (activeQuery != "") {
+        if (activeQuery !== "") {
             setLoading(true);
             const timeout = setTimeout(() => {
                 getResults(activeQuery);
@@ -62,7 +52,7 @@ const Sidebar = (props:props) => {
                     name: "",
                     icon: "",
                     likes: 0,
-                    ID: 0,
+                    _id: "",
                     author: ""
                 }],
                 Authors: [{ name: "" }]
@@ -111,7 +101,7 @@ const Sidebar = (props:props) => {
             <ul id="search-ul">
                 {
                     !queryResults.error && queryResults.tracks.map((track) => {
-                       return <TrackSearch key={track.ID} track={track} setTrack={props.setTrack} activeTrack={props.activeTrack}/>
+                       return <TrackSearch key={track._id} track={track} setTrack={props.setTrack} activeTrack={props.activeTrack}/>
                     })}
             </ul>
             {queryResults.error && activeQuery != "" && !loading && `No results found for "${activeQuery}"`}

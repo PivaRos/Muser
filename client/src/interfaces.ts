@@ -4,7 +4,7 @@ export interface track {
     author:string;
     icon:string;
     likes:number;
-    ID:number;
+    _id:string;
 }
 
 export interface Author{

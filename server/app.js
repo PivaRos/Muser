@@ -4,7 +4,6 @@ const app = express();
 const session = require('express-session')
 const fs = require('fs');
 var cors = require('cors');
-const env = require('./data/env');
 
 const Data = require('./modules/data');
 const database = new Data('database.mdb');
@@ -12,12 +11,16 @@ const database = new Data('database.mdb');
 const request = require('request');
 const port = 5000;
 
+require('dotenv').config();
 
-const upload  = require('express-fileupload');
 
-const {ObjectId} = require('mongodb');
+
+const upload = require('express-fileupload');
+
+const { ObjectId } = require('mongodb');
 const mongoModule = require('./modules/mongoModule.js');
-const mongoDatabase = new mongoModule(env.MongoDBuri);
+const mongoDatabase = new mongoModule(process.env.MongoString);
+
 
 
 app.set("view engine", "jade");
@@ -32,14 +35,14 @@ app.use(upload());
 app.use(express.static('public'));
 app.use(session({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    saveUninitialized:true,
+    saveUninitialized: true,
     cookie: { maxAge: oneDay },
-    resave: false 
+    resave: false
 }));
 
-  app.use(express.json({
+app.use(express.json({
     type: ['application/json', 'text/plain']
-  }))
+}))
 
 
 const backdoor = require('./routes/backdoor');
@@ -48,31 +51,23 @@ app.use("/backdoor", backdoor);
 app.use("/search", search);
 
 app.get("/sss", (req, res) => {
-   //database.Execute(`INSERT INTO tracks (src, name, author, icon, likes) VALUES ('thdlplaoekrt.mp3', 'ילדה ירושלמית', 'עדי אגאי', 'ppnmaeoi24.jpg', 0)`)
+    //database.Execute(`INSERT INTO tracks (src, name, author, icon, likes) VALUES ('thdlplaoekrt.mp3', 'ילדה ירושלמית', 'עדי אגאי', 'ppnmaeoi24.jpg', 0)`)
     res.sendStatus(200);
 });
 
 app.post("/track/exclude", async (req, res) => {
-    if (req.body.exclude)
-    {
-        let queryString = `${req.body.exclude[0].ID}`;
-    for (let i = 1; i < req.body.exclude.length ; i ++)
-    {
-        queryString += `, ${req.body.exclude[i].ID}`;
-    }
-    try{
-        const tracks = await database.Query(`SELECT * FROM tracks WHERE ID NOT IN (${queryString}) ORDER BY Rnd(INT(NOW*id)-NOW*id)`);
-        return res.json(tracks[0]);
-    }catch(err){
-        return res.sendStatus(err);
-    }
-    }
-    else{
-        try{
-            const tracks = await database.Query(`SELECT * FROM tracks ORDER BY Rnd(INT(NOW*id)-NOW*id)`);
-        return res.json(tracks[0]);
+    if (req.body.exclude) {
+        try {
+            return res.json( await mongoDatabase.getRandomTrackExclude(req.body.exclude));
+        } catch (err) {
+            return res.sendStatus(500);
         }
-        catch{
+    }
+    else {
+        try {
+          return res.json( await mongoDatabase.getRandomTrack());
+        }
+        catch {
             return res.sendStatus(500);
         }
     }
@@ -80,46 +75,21 @@ app.post("/track/exclude", async (req, res) => {
 });
 
 
-app.get('/', async (req, res) => {
-    try{
-     const tracks = await database.Query(`SELECT * FROM tracks ORDER BY Rnd(INT(NOW*id)-NOW*id)`); 
-     if(tracks)
-     {
-       const track = tracks;
-       return res.json(track);
-     }  
-     else
-     {
-        return res.send("not doubd");
-     }
-    }catch (err){
-        return res.status(500).send(err);
+app.get('/track/list', async (req, res) => {
+    try {
+        return res.json(await mongoDatabase.getRandomTrackList(9));
+    } catch (err) {
+        return res.status(500);
     }
-
-    
-    res.sendFile(__dirname + `/music/${randomMusic()}`, {acceptRanges: false});
 });
 
 
-
-app.get('/song', async (req, res) => {
-    try{
-     const tracks = await database.Query(`SELECT * FROM tracks ORDER BY Rnd(INT(NOW*id)-NOW*id)`); 
-     if(tracks)
-     {
-       const track = tracks[0]
-       return res.json(track);
-     }  
-     else
-     {
-        return res.send("not doubd");
-     }
-    }catch (err){
-        return res.status(500).send(err);
+app.get('/track', async (req, res) => {
+    try {
+        return res.json(await mongoDatabase.getRandomTrack());
+    } catch {
+        return res.sendStatus(500);
     }
-
-    
-    res.sendFile(__dirname + `/music/${randomMusic()}`, {acceptRanges: false});
 });
 
 
@@ -129,10 +99,3 @@ app.get('/song', async (req, res) => {
 app.listen(port, () => {
     console.log("Running !");
 });
-
-function randomMusic() {
-    const files = fs.readdirSync(__dirname + `/music/`);
-    const chosenFile = files[Math.floor(Math.random() * files.length)];
-    return `${chosenFile}`;
-}
-  

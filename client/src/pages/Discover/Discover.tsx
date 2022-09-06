@@ -7,14 +7,7 @@ import s from "./Discover.module.css"
 
 
 interface props {
-    setTrack: React.Dispatch<React.SetStateAction<{
-        src: string;
-        name: string;
-        author: string;
-        icon: string;
-        likes: number;
-        ID: number;
-    }>>, 
+    setTrack: React.Dispatch<React.SetStateAction<track>>, 
     activeTrack:track;
 }
 
@@ -25,14 +18,14 @@ const Discover = (props: props) => {
         name:"",
         icon:"",
         likes:0,
-        ID:0
+        _id:""
     }]);
     const [Loading, setLoading] = useState(true);
-
+    const url = "http://localhost:5000";
 
     
     useEffect(()=> {
-        fetch('http://localhost:5000/').then((res) => {
+        fetch(url+'/track/list').then((res) => {
             if (res)
             {
                 res.json().then(data => {

@@ -4,18 +4,11 @@ import {track} from '../interfaces';
 
 interface props {
     track:track;
-    setTrack: React.Dispatch<React.SetStateAction<{
-        src: string;
-        name: string;
-        author: string;
-        icon: string;
-        likes: number;
-        ID: number;
-    }>>;
+    setTrack: React.Dispatch<React.SetStateAction<track>>;
     activeTrack : track;
 }
 
-const TrackSearch = (props : props) => {
+ export const TrackSearch = (props : props) => {
 
     const changeTrack = () => {
         props.setTrack(props.track);
@@ -28,5 +21,3 @@ const TrackSearch = (props : props) => {
         </div></li>
     );
 };
-
-export default TrackSearch

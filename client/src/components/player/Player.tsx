@@ -42,11 +42,8 @@ const Player = (props: props) => {
     }
     else
     {
-      if(audioPlayer.current.src !== "" && audioPlayer.current.src !== "http://localhost:5000/music/" && audioPlayer.current.src !== "")
-      {
         setLoading(false);
         setPlaying(!playing);
-      }
     }
   };
 
@@ -125,6 +122,7 @@ const Player = (props: props) => {
       audioPlayer.current.load();
     }
   }, [props.track])
+  console.log(props.track);
 
   return (
     <div id="player">

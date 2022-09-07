@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import {track} from '../interfaces';
 
 
 interface props {
-    author:string;
+    author: string;
 }
 
- export const AuthorSearch = (props : props) => {
+export const AuthorSearch = (props: props) => {
+
+
+    const [authorUrlName, setauthorUrlName] = useState<string>(props.author);
+
+    useEffect(() => {
+        if (authorUrlName.includes(" ")) {
+            setauthorUrlName(authorUrlName.replaceAll(" ", "-"));
+        }
+    }, [])
 
     return (
         <li className="li-search"><div className="search-author-div">
-            <NavLink className="link" to={"/author/"+props.author}><h4>{props.author}</h4></NavLink>
+
+            <NavLink className="link" to={"/author/" + authorUrlName}><h4>{props.author}</h4></NavLink>
         </div></li>
     );
 };

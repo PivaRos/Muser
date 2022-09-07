@@ -7,7 +7,7 @@ interface props  {
     }
 
 const Navlink = (props : props) => {
-    return <Link to={props.to} style={{ textDecoration: 'none' }}>{props.text}</Link>
+    return <Link className="link" to={props.to} style={{ textDecoration: 'none' }}>{props.text}</Link>
 }
 
 export default Navlink;

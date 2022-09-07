@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {track} from '../../interfaces';
+import { track } from '../../interfaces';
 import '../../css/player.css';
 import '../../css/player-mobile.css';
 const Playsvg = require("../../svgs/play.svg");
@@ -8,9 +8,9 @@ const Forwardsvg = require("../../svgs/forward.svg");
 const Backwardsvg = require("../../svgs/backward.svg");
 
 
-  
+
 interface props {
-  track:track;
+  track: track;
   tracks?: {
 
   };
@@ -31,28 +31,25 @@ const Player = (props: props) => {
   const [lockedButton, setLockedButton] = useState(false);
 
 
-//global main stuff here 
- 
+  //global main stuff here 
+
 
 
   const Toggleplay = () => {
-    if(!Loading)
-    {
+    if (!Loading) {
       setPlaying(!playing);
     }
-    else
-    {
-        setLoading(false);
-        setPlaying(!playing);
+    else {
+      setLoading(false);
+      setPlaying(!playing);
     }
   };
 
   const Next = () => {
-    if (!lockedButton)
-    {
+    if (!lockedButton) {
       setLockedButton(true);
-    props.setNextAndBack(1);
-    setLockedButton(false);
+      props.setNextAndBack(1);
+      setLockedButton(false);
     }
   };
 
@@ -69,7 +66,7 @@ const Player = (props: props) => {
       setPlayicon(Pausesvg.default);
     }
     else {
-      audioPlayer.current.pause();      
+      audioPlayer.current.pause();
       setPlayicon(Playsvg.default);
     }
   }, [playing])
@@ -89,49 +86,44 @@ const Player = (props: props) => {
 
   const volumeChange = (e: any) => {
     setVolume(+e.target.value / 100);
-  
+
   }
 
   const Ended = () => {
     Next();
   }
 
-  
+
   const LoadedData = () => {
- 
-   if (wasPlaying)
-   {
-    setPlaying(true);
-   }
-   else
-   {
-    setPlaying(false);
-   }
+
+    if (wasPlaying) {
+      setPlaying(true);
+    }
+    else {
+      setPlaying(false);
+    }
   }
 
   useEffect(() => {
-    if(playing)
-    {
+    if (playing) {
       setPlaying(false);
       setWasPlaying(true);
       audioPlayer.current.load();
     }
-    else
-    {
+    else {
       setWasPlaying(false);
       audioPlayer.current.load();
     }
   }, [props.track])
-  console.log(props.track);
 
   return (
     <div id="player">
-      
+
       <div id="track-data">
-      {props.track.icon && <img className="icon" id="track-icon" src={urlicon+ props.track.icon} alt=""/>}
-      <div id="track-text">
-        <span id="track-name">{props.track.name}</span><br/>
-        <span id="track-author">{props.track.author}</span>
+        {props.track.icon && <img className="icon" id="track-icon" src={urlicon + props.track.icon} alt="" /> || <img className="icon" id="track-icon" src={urlicon + "default.png"} alt="" />}
+        <div id="track-text">
+          <span id="track-name">{props.track.name}</span><br />
+          <span id="track-author">{props.track.author}</span>
         </div>
       </div>
 
@@ -147,14 +139,14 @@ const Player = (props: props) => {
         id="timeSlider"
         type="range"
         min="1"
-        max={ duration && +duration || 100}
+        max={duration && +duration || 100}
         step="1"
         value={currentTime}
         readOnly
       />
-      <img className="player-button" id="backwardsvg" src={Backwardsvg.default} alt="" onClick={ Previous}/>
+      <img className="player-button" id="backwardsvg" src={Backwardsvg.default} alt="" onClick={Previous} />
       <img className="player-button" id="playimg" src={playicon} alt="" onClick={Toggleplay} />
-      <img className="player-button" id="forwardsvg" src={Forwardsvg.default} alt=""  onClick={Next}/>
+      <img className="player-button" id="forwardsvg" src={Forwardsvg.default} alt="" onClick={Next} />
       <input
         className="slider"
         id="volumeSlider"
@@ -173,6 +165,6 @@ const Player = (props: props) => {
 
 export default Player;
 
-function isEmpty(value:any) {
+function isEmpty(value: any) {
   return value === undefined || value === null || value === '';
 }

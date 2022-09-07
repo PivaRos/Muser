@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import '../css/sidebar.css';
-import {TrackSearch} from "./searchTrack";
-import {track} from '../interfaces';
+import { TrackSearch } from "./searchTrack";
+import { track } from '../interfaces';
 import { AuthorSearch } from "./searchAuthor";
 
 
 interface props {
-    setTrack: React.Dispatch<React.SetStateAction<track>>, 
-    activeTrack:track;
+    setTrack: React.Dispatch<React.SetStateAction<track>>,
+    activeTrack: track;
 }
 
 
 
-const Sidebar = (props:props) => {
+const Sidebar = (props: props) => {
     const [activeQuery, setActiveQuery] = useState("");
     const [queryResults, setQueryResults] = useState(
         {
@@ -28,7 +28,7 @@ const Sidebar = (props:props) => {
                 }
             ],
             authors: [
-                ""
+                { name: "" }
             ]
         }
     );
@@ -54,7 +54,7 @@ const Sidebar = (props:props) => {
                     _id: "",
                     author: ""
                 }],
-                authors: [""]
+                authors: [{ name: "" }]
             })
         }
     }, [activeQuery])
@@ -96,17 +96,17 @@ const Sidebar = (props:props) => {
 
 
             </form>
-            { !queryResults.error &&
-            <><ul className="search-ul">
-                     <li className="searchCategory"><h3>Tracks</h3></li>
+            {!queryResults.error &&
+                <><ul className="search-ul">
+                    <li className="searchCategory"><h3>Tracks</h3></li>
                     {queryResults.tracks && queryResults.tracks.length > 0 && queryResults.tracks.map((track) => {
                         return <TrackSearch key={track._id} track={track} setTrack={props.setTrack} activeTrack={props.activeTrack} />;
                     })}
-                        {queryResults.authors.length > 0 && <li  className="searchCategory"><h3>Authors</h3></li>}
-                        {queryResults.authors && queryResults.authors.length > 0 && queryResults.authors.map((author) => {
-                            return <AuthorSearch author={author} />;
-                        })}
-                    </ul></>
+                    {queryResults.authors.length > 0 && <li className="searchCategory"><h3>Authors</h3></li>}
+                    {queryResults.authors && queryResults.authors.length > 0 && queryResults.authors.map((author, index) => {
+                        return <AuthorSearch key={index} author={author.name} />;
+                    })}
+                </ul></>
             }
             {queryResults.error && activeQuery != "" && !loading && `No results found for "${activeQuery}"`}
         </div>

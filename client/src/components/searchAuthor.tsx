@@ -13,6 +13,7 @@ export const AuthorSearch = (props: props) => {
     const [authorUrlName, setauthorUrlName] = useState<string>(props.author);
 
     useEffect(() => {
+        console.log(props.author)
         if (authorUrlName.includes(" ")) {
             setauthorUrlName(authorUrlName.replaceAll(" ", "-"));
         }

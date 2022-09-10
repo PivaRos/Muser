@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { track } from '../../interfaces';
 import '../../css/player.css';
 import '../../css/player-mobile.css';
+import { AuthorComponent } from "../authorComponent";
 const Playsvg = require("../../svgs/play.svg");
 const Pausesvg = require("../../svgs/pause.svg");
 const Forwardsvg = require("../../svgs/forward.svg");
@@ -123,7 +124,9 @@ const Player = (props: props) => {
         {props.track.icon && <img className="icon" id="track-icon" src={urlicon + props.track.icon} alt="" /> || <img className="icon" id="track-icon" src={urlicon + "default.png"} alt="" />}
         <div id="track-text">
           <span id="track-name">{props.track.name}</span><br />
-          <span id="track-author">{props.track.author}</span>
+          {props.track.author.map((author) => (
+            <AuthorComponent author={author}/>
+          ))}
         </div>
       </div>
 

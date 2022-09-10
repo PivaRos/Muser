@@ -22,6 +22,7 @@ router.get('/:query', async (req, res) => {
             }
             if (data.authors.length > 0) {
                 resObject.authors = data.authors;
+                
             }
             if (data.tracks.length === 0 && data.authors.length === 0) {
                 resObject.error = true;

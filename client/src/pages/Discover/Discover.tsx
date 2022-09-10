@@ -14,7 +14,7 @@ interface props {
 const Discover = (props: props) => {
     const [Tracklist, setTrackList] = useState<track[]>([{
         src:"",
-        author:"",
+        author:[""],
         name:"",
         icon:"",
         likes:0,

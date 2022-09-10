@@ -1,139 +1,164 @@
 
 
 
-.track-ul{
-    list-style: none;
-    width: 100%;
-    
-}
+    .track-ul{
+        list-style: none;
+        width: 100%;
+        
+    }
 
-.track-li{
-    left: 3px;
-    background-color:  rgb(118, 201, 231);
-    justify-content: center;
-    margin-top: 5px;
-    height: 56px;
-    border-radius:4px;
-    position: relative;
-    cursor: pointer;
-    width: calc(100vw - 290px);
-    user-select: none;
-
-
-}
+    .track-li{
+        left: 3px;
+        background-color:  rgb(118, 201, 231);
+        justify-content: center;
+        margin-top: 5px;
+        height: 56px;
+        border-radius:4px;
+        position: relative;
+        cursor: pointer;
+        width: calc(100vw - 290px);
+        user-select: none;
 
 
-.li-div{
-    position: absolute;
-    left: 6px;
-    top:15px;
-    width: 100%;
-    
-}
+    }
 
 
-.heart-icon svg{
-    position:absolute;
-    height: 18px;
-    right: 18px;
-    top: 18px;
-}
-
-.heart-icon svg{
-    height: 18px;
-    width: 18px;
-
-}
+    .li-div{
+        position: absolute;
+        left: 6px;
+        top:15px;
+        width: 100%;
+        
+    }
 
 
-.heart-icon svg:hover{
-    transform: scale(108%);
-}
+    .heart-icon svg{
+        position:absolute;
+        height: 18px;
+        right: 18px;
+        top: 18px;
+    }
 
-.filledheart{
-    opacity: 70%;
-}
+    .heart-icon svg{
+        height: 18px;
+        width: 18px;
 
-.track-name{
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.track-author{
-    position: absolute;
-    overflow: hidden;
-    margin-left: 15px;
-    font-size: 12px;
-    margin-top: 4px;
-}
-
-.track-author:hover{
-    cursor: pointer;
-    text-decoration: underline;
-}
+    }
 
 
-.track-li:hover{
-    background-color: lightblue;
+    .heart-icon svg:hover{
+        transform: scale(108%);
+    }
 
-}
+    .filledheart{
+        opacity: 70%;
+    }
 
-.tracklist{
+    .track-name{
+        font-weight: bold;
+        font-size: 14px;
+    }
 
-    border-radius: 4px;
-    margin-top: 40px;
-    position: absolute;
-    left: 10px;
-    height: 89%;
-    width: 100%;
-    overflow: hidden;
-    overflow-y: scroll;
+    .track-author{
+        position: absolute;
+        overflow: hidden;
+        margin-left: 15px;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .track-author:hover{
+        cursor: pointer;
+        text-decoration: underline;
+    }
 
 
-    --scrollbar-width: 8px;
+    .track-li:hover{
+        background-color: lightblue;
 
-    /* mask fade distance, for use in mask calculations */
-    --mask-height: 15px;
+    }
+
+    .tracklist{
+
+        border-radius: 4px;
+        margin-top: 40px;
+        position: absolute;
+        left: 10px;
+        height: 89%;
+        width: 100%;
+        overflow: hidden;
+        overflow-y: scroll;
 
 
-       /* The content mask is a linear gradient from top to bottom */
-       --mask-image-content: linear-gradient(
-        to bottom,
-        transparent,
-        black var(--mask-height),
-        black calc(100% - var(--mask-height)),
-        transparent
-    );
+        --scrollbar-width: 8px;
 
-    /* Here we scale the content gradient to the width of the container 
-  minus the scrollbar width. The height is the full container height */
-    --mask-size-content: calc(100% - var(--scrollbar-width)) 100%;
+        /* mask fade distance, for use in mask calculations */
+        --mask-height: 15px;
 
-    /* The scrollbar mask is a black pixel */
-    --mask-image-scrollbar: linear-gradient(black, black);
 
-    /* The width of our black pixel is the width of the scrollbar.
-  The height is the full container height */
-    --mask-size-scrollbar: var(--scrollbar-width) 100%;
+        /* The content mask is a linear gradient from top to bottom */
+        --mask-image-content: linear-gradient(
+            to bottom,
+            transparent,
+            black var(--mask-height),
+            black calc(100% - var(--mask-height)),
+            transparent
+        );
 
-    /* Apply the mask image and mask size variables */
-    mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
-    mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+        /* Here we scale the content gradient to the width of the container 
+    minus the scrollbar width. The height is the full container height */
+        --mask-size-content: calc(100% - var(--scrollbar-width)) 100%;
 
-    /* Position the content gradient in the top left, and the 
-  scroll gradient in the top right */
-    mask-position: 0 0, 100% 0;
+        /* The scrollbar mask is a black pixel */
+        --mask-image-scrollbar: linear-gradient(black, black);
 
-    /* We don't repeat our mask images */
-    mask-repeat: no-repeat, no-repeat;
+        /* The width of our black pixel is the width of the scrollbar.
+    The height is the full container height */
+        --mask-size-scrollbar: var(--scrollbar-width) 100%;
 
-}
+        /* Apply the mask image and mask size variables */
+        mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+        mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
 
-.active-track{
-    background: lightblue;
-}
+        /* Position the content gradient in the top left, and the 
+    scroll gradient in the top right */
+        mask-position: 0 0, 100% 0;
 
-.active-track .track-name{
-    color:  rgb(10, 98, 241);
+        /* We don't repeat our mask images */
+        mask-repeat: no-repeat, no-repeat;
 
-}
+    }
+
+    .active-track{
+        background: lightblue;
+    }
+
+    .active-track .track-name{
+        color:  rgb(10, 98, 241);
+
+    }
+
+    .track-author{
+        display: inline-block;
+        position: relative;
+    }
+    .author-div{
+        position: absolute;
+        width: auto;
+        height: auto;
+        display: inline-block;
+    }
+    .author-div ::after
+    { 
+        top:2px;
+        margin-left: 2px;
+        position: absolute;
+        content: ", ";
+        font-size: smaller;
+    }
+    .author-div :last-child::after
+    { 
+
+        content: "";
+    }
+

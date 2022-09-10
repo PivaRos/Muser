@@ -3,6 +3,7 @@ import Emptyheart from "../svgs/emptyheart";
 import Filledheart from "../svgs/filledheart";
 import {track} from '../interfaces';
 import { NavLink } from "react-router-dom";
+import { AuthorComponent } from "./authorComponent";
 
 
 interface props {
@@ -19,13 +20,6 @@ const changeTrack = () => {
 
 }
 
-const [authorUrlName, setauthorUrlName] = useState<string>(props.track.author);
-
-useEffect(() => {
-    if (authorUrlName.includes(" ")) {
-        setauthorUrlName(authorUrlName.replaceAll(" ", "-"));
-    }
-}, [])
 
 
 useEffect(() => {
@@ -48,7 +42,11 @@ const toggleLoved = () => {
     <li className={liClasses} >
         <div className="li-div" onClick={changeTrack}>
             <label className="track-name">{props.track.name}</label>
-            <NavLink onClick={(e) => e.stopPropagation()} className="link" to={"/author/" + authorUrlName}><label className="track-author">{props.track.author}</label></NavLink>
+            <div className="author-div">
+            {props.track.author && props.track.author.map((author, index) => (
+                <AuthorComponent key={index} author={author} />
+            ))}
+            </div>
         </div>
         
         <div onClick={toggleLoved} className="heart-icon">{Loved &&<Filledheart/> || <Emptyheart/> }</div>

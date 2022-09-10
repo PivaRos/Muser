@@ -19,7 +19,7 @@ export const Wrapper = () => {
     const [track, setTrack] = useState({
         src: "",
         name: "",
-        author: "",
+        author: [""],
         icon: "",
         likes: 0,
         _id: ""
@@ -27,7 +27,7 @@ export const Wrapper = () => {
     const [trackChange, setTrackChange] = useState({
         src: "",
         name: "",
-        author: "",
+        author: [""],
         icon: "",
         likes: 0,
         _id: ""

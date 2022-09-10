@@ -61,13 +61,25 @@ class MongoModule {
         const results = await this.tracks.find({ $or: [{ "name": new RegExp('.*' + query.toLowerCase() + '.*') }, { "author": new RegExp('.*' + query.toLowerCase() + '.*') }, { "name": new RegExp('.*' + query.toUpperCase() + '.*') }, { "author": new RegExp('.*' + query.toUpperCase() + '.*') }] }).toArray();// need to fix query of .find()
         const authors = [];
         results.map(track => {
-            if (!authors.some(({ name }) => name === track.author)) {
+            if (track.author.lenght === 1 && !authors.some(({ name }) => name === track.author)) {
                 authors.push({
                     name: track.author
                 });
                 return;
 
             }
+            else
+            {
+            track.author.forEach(author => {
+             if (!authors.some(({ name }) => name === track.author))
+            {
+                authors.push({
+                    name: author
+                }); 
+            }
+            });
+            }
+            
         });
         return { tracks: results, authors: authors };
     }

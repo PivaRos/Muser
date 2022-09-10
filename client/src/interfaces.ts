@@ -1,7 +1,7 @@
 export interface track {
     src: string;
     name: string;
-    author: string;
+    author: string[];
     icon: string;
     likes: number;
     _id: string;

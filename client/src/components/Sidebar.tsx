@@ -22,7 +22,7 @@ const Sidebar = (props: props) => {
                     src: "",
                     icon: "",
                     name: "",
-                    author: "",
+                    author: [""],
                     likes: 0,
                     _id: ""
                 }
@@ -52,7 +52,7 @@ const Sidebar = (props: props) => {
                     icon: "",
                     likes: 0,
                     _id: "",
-                    author: ""
+                    author: [""]
                 }],
                 authors: [{ name: "" }]
             })

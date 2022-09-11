@@ -84,6 +84,10 @@ class MongoModule {
         return { tracks: results, authors: authors };
     }
 
+    async getAuthor(author){
+            return await this.tracks.find({author:[author]}).toArray();
+    }
+
 
 
 }

@@ -41,11 +41,12 @@ app.use(express.json({
     type: ['application/json', 'text/plain']
 }))
 
-
+const author = require('./routes/author');
 const backdoor = require('./routes/backdoor');
 const search = require('./routes/search');
 app.use("/backdoor", backdoor);
 app.use("/search", search);
+app.use("/author", author)
 
 app.get("/sss", (req, res) => {
     //database.Execute(`INSERT INTO tracks (src, name, author, icon, likes) VALUES ('thdlplaoekrt.mp3', 'ילדה ירושלמית', 'עדי אגאי', 'ppnmaeoi24.jpg', 0)`)

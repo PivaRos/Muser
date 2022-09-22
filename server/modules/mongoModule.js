@@ -1,5 +1,9 @@
 
 const { MongoClient, ObjectId } = require('mongodb');
+const Grid = require('gridfs-stream');
+
+
+
 
 class MongoModule {
     Client;
@@ -10,6 +14,7 @@ class MongoModule {
         this.Client = new MongoClient(uri);
         this.MuserDB = this.Client.db("Muser");
         this.tracks = this.MuserDB.collection("tracks");
+
     }
 
     async getRandomTrack() {
@@ -84,13 +89,13 @@ class MongoModule {
         return { tracks: results, authors: authors };
     }
 
-    async getAuthor(author){
-            return await this.tracks.find({author:[author]}).toArray();
+    async UploadTrack(){
+
     }
 
-
-
+    async getAuthor(author){
+        return await this.tracks.find({author:author}).toArray();
+    }
 }
-
 
 module.exports = MongoModule;

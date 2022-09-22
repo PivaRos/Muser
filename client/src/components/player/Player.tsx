@@ -124,8 +124,8 @@ const Player = (props: props) => {
         {props.track.icon && <img className="icon" id="track-icon" src={urlicon + props.track.icon} alt="" /> || <img className="icon" id="track-icon" src={urlicon + "default.png"} alt="" />}
         <div id="track-text">
           <span id="track-name">{props.track.name}</span><br />
-          {props.track.author.map((author) => (
-            <AuthorComponent author={author}/>
+          { props.track.author.map((author, index) => (
+            <AuthorComponent key={index} author={author}/>
           ))}
         </div>
       </div>

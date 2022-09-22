@@ -22,7 +22,7 @@ export const AuthorComp = (props: props) => {
                 setLoading(false);
             })
         })
-    })
+    }, [authorName])
     
 
 

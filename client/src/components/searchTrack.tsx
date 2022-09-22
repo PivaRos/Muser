@@ -18,8 +18,8 @@ interface props {
     return (
         <li className="li-search" onClick={changeTrack}><div className="search-track-div">
             <h4>{props.track.name}</h4>
-            <h6>{props.track.author.map((author) => (
-                <AuthorComponent author={author}/>
+            <h6>{props.track.author.map((author, index) => (
+                <AuthorComponent key={index} author={author}/>
             ))}</h6>
         </div></li>
     );

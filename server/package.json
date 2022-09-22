@@ -6,6 +6,7 @@
     "express-fileupload": "^1.4.0",
     "express-session": "^1.17.3",
     "fs": "^0.0.1-security",
+    "gridfs-stream": "^1.1.1",
     "jade": "^1.11.0",
     "mongodb": "^4.9.1",
     "node-adodb": "^5.0.3",

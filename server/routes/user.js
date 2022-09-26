@@ -20,12 +20,26 @@ const mongoDatabase = new mongoModule(process.env.MongoString);
 
 const registerOnAction = mongoDatabase.OnActionDB.collection("register");
 
+const UserValidation = async (req, res, next) => {
+    res.locals.user = await mongoDatabase.users.findOne(ObjectId(req.cookies.SessionID));
+    if(res.locals.user)
+    {
+        next();
+    }
+    else
+    {
+        return res.sendStatus(401);
+    }
+
+}
+
+
 router.post("/", async (req, res) => {
     if (true) // validation 
     {
         const user = await mongoDatabase.users.findOne({ $and: [{ username: req.body.username }, { password: req.body.password }] });
         if (user) {
-            return res.json(user);
+            return res.cookie("SessionID", user._id.toString(), { expires: new Date(Date.now() + 28800000), httpOnly: true }).sendStatus(200);
         }
         else {
             return res.sendStatus(401);
@@ -59,7 +73,7 @@ router.post("/register/1", async (req, res) => {
         }
         try {
             await transporter.sendMail(mailOptions);
-            return res.cookie("SessionID", response.insertedId.toString(), { expires: new Date(Date.now() + 14400000), httpOnly: true }).sendStatus(200);
+            return res.cookie("SessionID", response.insertedId.toString(), { expires: new Date(Date.now() + 28800000), httpOnly: true }).sendStatus(200);
         }
         catch
         {
@@ -129,11 +143,61 @@ router.post("/register/resend", async (req, res) => {
             }
         }
         else {
-            return res.status(401).send("code was already sent, please wait at least 2 minutes before requesting new one")
+            return res.status(401).json({ 
+                message:"code was already sent, please wait at least 2 minutes before requesting new one",
+                lastsend:getRegisterAction.lastSendCode
+            })
         }
     }
-
 });
+
+
+router.put("/track/like", UserValidation, async (req, res) => {
+    if(true) // validation
+    {
+        try{
+            if (!res.locals.user.likedtracks.includes(req.body.trackid))
+            {
+                const result = await mongoDatabase.tracks.findOneAndUpdate({ _id: ObjectId(req.body.trackid) }, {$inc: { likes: 1 }});
+                if (result)
+                {
+                        await mongoDatabase.users.updateOne({_id:ObjectId(res.locals.user._id)}, { $push: { likedtracks: req.body.trackid } });
+                        return res.sendStatus(200);
+                }
+            }
+            return res.sendStatus(400);
+        }
+        catch{
+            return res.sendStatus(500);
+        }
+
+    }
+});
+
+router.put("/track/unlike", UserValidation, async (req, res) => {
+    if(true) // validation
+    {
+        try{
+            if(res.locals.user.likedtracks.includes(req.body.trackid))
+            {
+                const result = await mongoDatabase.tracks.findOneAndUpdate({ _id: ObjectId(req.body.trackid) }, {$inc: { likes: -1 }});
+                if (result)
+                {
+                    await mongoDatabase.users.updateOne({_id:ObjectId(res.locals.user._id)}, { $pull: { likedtracks: req.body.trackid } });
+                    return res.sendStatus(200);
+                }
+            }
+            return res.sendStatus(400);
+        }
+        catch{
+            return res.sendStatus(500);
+        }
+
+    }
+});
+
+
+
 
 function randomCodeGenerator(length) {
     var result = '';

@@ -8,12 +8,18 @@ const Grid = require('gridfs-stream');
 class MongoModule {
     Client;
     MuserDB;
+    OnActionDB;
+    users;
     tracks;
+    
 
     constructor(uri) {
         this.Client = new MongoClient(uri);
         this.MuserDB = this.Client.db("Muser");
+        this.OnActionDB = this.Client.db("OnAction");
         this.tracks = this.MuserDB.collection("tracks");
+        this.users = this.MuserDB.collection("users");
+        
 
     }
 

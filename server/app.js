@@ -15,6 +15,8 @@ const crypto = require('crypto');
 const path = require('path');
 const {GridFsStorage} = require('multer-gridfs-storage');
 
+const cookieParser = require("cookie-parser");
+
 const { ObjectId } = require('mongodb');
 const mongoModule = require('./modules/mongoModule.js');
 const mongoDatabase = new mongoModule(process.env.MongoString);
@@ -59,13 +61,17 @@ const storage = new GridFsStorage({
 
   const upload = multer({ storage });
 
+  app.use(cookieParser());
+
 const author = require('./routes/author');
 const backdoor = require('./routes/backdoor');
 const search = require('./routes/search');
+const user = require('./routes/user');
 const { env } = require('process');
 app.use("/backdoor", backdoor);
 app.use("/search", search);
 app.use("/author", author)
+app.use("/user", user);
 
 app.get("/sss", (req, res) => {
     //database.Execute(`INSERT INTO tracks (src, name, author, icon, likes) VALUES ('thdlplaoekrt.mp3', 'ילדה ירושלמית', 'עדי אגאי', 'ppnmaeoi24.jpg', 0)`)

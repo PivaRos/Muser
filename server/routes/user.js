@@ -15,13 +15,12 @@ const transporter = nodemailer.createTransport({
 
 
 const { ObjectId } = require('mongodb');
-const mongoModule = require('../modules/mongoModule.js');
+const mongoModule =  require('../modules/mongoModule.js');
 const mongoDatabase = new mongoModule(process.env.MongoString);
 
 const registerOnAction = mongoDatabase.OnActionDB.collection("register");
 
-const UserValidation = async (req, res, next) => {
-    res.locals.user = await mongoDatabase.users.findOne(ObjectId(req.cookies.SessionID));
+const UserAuthorization = async (req, res, next) => {
     if(res.locals.user)
     {
         next();
@@ -30,16 +29,16 @@ const UserValidation = async (req, res, next) => {
     {
         return res.sendStatus(401);
     }
-
 }
 
 
-router.post("/", async (req, res) => {
+router.post("/" ,async (req, res) => {
     if (true) // validation 
-    {
-        const user = await mongoDatabase.users.findOne({ $and: [{ username: req.body.username }, { password: req.body.password }] });
-        if (user) {
-            return res.cookie("SessionID", user._id.toString(), { expires: new Date(Date.now() + 28800000), httpOnly: true }).sendStatus(200);
+    {   
+        const sessionID = randomSessionGenerator(16);
+        const user = await mongoDatabase.users.findOneAndUpdate({ $and: [{ username: req.body.username }, { password: req.body.password }] }, {$set:{sessionid:sessionID}});
+        if (user.value) {
+            return res.cookie("SessionID", sessionID, { expires: new Date(Date.now() + 28800000), httpOnly: true }).sendStatus(200);
         }
         else {
             return res.sendStatus(401);
@@ -52,12 +51,14 @@ router.post("/register/1", async (req, res) => {
     if (!user) //validation
     {
         const code = randomCodeGenerator(6);
+        const sessionID = randomSessionGenerator(16);
         const response = await registerOnAction.insertOne({
             username: req.body.username,
             password: req.body.password,
             email: req.body.email,
             code: code,
-            lastSendCode: Date.now()
+            lastSendCode: Date.now(),
+            sessionid:sessionID
         });
 
         let mailOptions = {
@@ -73,7 +74,8 @@ router.post("/register/1", async (req, res) => {
         }
         try {
             await transporter.sendMail(mailOptions);
-            return res.cookie("SessionID", response.insertedId.toString(), { expires: new Date(Date.now() + 28800000), httpOnly: true }).sendStatus(200);
+
+            return res.cookie("SessionID", sessionID, { expires: new Date(Date.now() + 28800000), httpOnly: true }).sendStatus(200);
         }
         catch
         {
@@ -95,10 +97,11 @@ router.post("/register/2", async (req, res) => {
                 const response = await mongoDatabase.users.insertOne({
                     username: Action.username,
                     password: Action.password,
-                    email: Action.email
+                    email: Action.email,
+                    sessionid:Action.sessionid
                 });
                 registerOnAction.deleteMany({ $or: [{ username: Action.username }, { email: Action.email }] });
-                return res.cookie("SessionID", response.insertedId.toString(), { expires: new Date(Date.now() + 14400000), httpOnly: true }).sendStatus(200);
+                return res.cookie("SessionID", Action.sessionid, { expires: new Date(Date.now() + 14400000), httpOnly: true }).sendStatus(200);
 
             }
             else {
@@ -114,7 +117,7 @@ router.post("/register/2", async (req, res) => {
 
 
 router.post("/register/resend", async (req, res) => {
-    if (true)// validation
+    if (true)// validation for req.body components
     {
         const getRegisterAction = await registerOnAction.findOne(ObjectId(req.cookies.SessionID));
         const lastsend = new Date(getRegisterAction.lastSendCode);
@@ -129,7 +132,7 @@ router.post("/register/resend", async (req, res) => {
                 text: code,
                 html: `
                 <body style="color:black;">
-                <h1 style="color:black;">Hey, Here is you Code: ${code}</h1>
+                <h1 style="color:black;">Hey, Here is your Code: ${code}</h1>
                 </body>
                 `
             }
@@ -152,7 +155,7 @@ router.post("/register/resend", async (req, res) => {
 });
 
 
-router.put("/track/like", UserValidation, async (req, res) => {
+router.put("/track/like", UserAuthorization, async (req, res) => {
     if(true) // validation
     {
         try{
@@ -174,7 +177,7 @@ router.put("/track/like", UserValidation, async (req, res) => {
     }
 });
 
-router.put("/track/unlike", UserValidation, async (req, res) => {
+router.put("/track/unlike", UserAuthorization, async (req, res) => {
     if(true) // validation
     {
         try{
@@ -196,12 +199,41 @@ router.put("/track/unlike", UserValidation, async (req, res) => {
     }
 });
 
+router.get("/private", UserAuthorization, (req, res) => {
+    return res.json(res.locals.user);
+});
+
+router.get("/public", async (req, res) => {
+    if (true) // validation
+    {
+        res.locals.user = await mongoDatabase.users.findOne( { _id : ObjectId(req.body._id) }, {projection:{ password:0 , sessionid:0 , email:0, _id:0} });
+        if (res.locals.user)
+        {
+        return res.json(res.locals.user);
+        }
+        else
+        {
+            return res.sendStatus(400);
+        }
+    }
+});
+
 
 
 
 function randomCodeGenerator(length) {
     var result = '';
     var characters = '0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+function randomSessionGenerator(length) {
+    var result = '';
+    var characters = '0123456789QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm';
     var charactersLength = characters.length;
     for (var i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));

@@ -4,6 +4,7 @@ import Filledheart from "../svgs/filledheart";
 import {track} from '../interfaces';
 import { NavLink } from "react-router-dom";
 import { AuthorComponent } from "./authorComponent";
+import { response } from "express";
 
 
 interface props {
@@ -12,6 +13,7 @@ interface props {
     activeTrack : track;
 }
 
+const url = "https://localhost:5000";
 const TrackRow = (props : props) => {
 const [liClasses, setLiClasses] = useState("track-li ");
 const [Loved, setLoved] = useState(false);
@@ -23,19 +25,41 @@ const changeTrack = () => {
 
 
 useEffect(() => {
-if (JSON.stringify(props.track) === JSON.stringify(props.activeTrack))
-{
-    setLiClasses("track-li active-track");
-}
-else
-{
-    setLiClasses("track-li");
-}
+    let options = {
+        method:"GET"
+    }
+    fetch(url+"/user/private", options).then(response => {
+        response.json().then(data => {
+            if (data.includes(props.track._id))
+            {
+                console.log("is liked");
+            }
+        }); 
+    })
+
+    if (JSON.stringify(props.track) === JSON.stringify(props.activeTrack))
+    {
+        setLiClasses("track-li active-track");
+    }
+    else
+    {
+        setLiClasses("track-li");
+    }
 
 }, [props.activeTrack, props.track])
 
 const toggleLoved = () => {
-    setLoved(!Loved);
+    if (Loved)
+    {
+        //switch back
+
+        setLoved(!Loved);
+    }
+    else
+    {
+        //switch back
+        setLoved(!Loved);
+    }
 }
 
     return (

@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import Emptyheart from "../svgs/emptyheart";
 import Filledheart from "../svgs/filledheart";
 import {track} from '../interfaces';
-import { NavLink } from "react-router-dom";
 import { AuthorComponent } from "./authorComponent";
-import { response } from "express";
 
 
 interface props {
     track:track;
     setTrack: React.Dispatch<React.SetStateAction<track>>;
     activeTrack : track;
+    liked : boolean;
 }
 
 const url = "https://localhost:5000";
 const TrackRow = (props : props) => {
 const [liClasses, setLiClasses] = useState("track-li ");
-const [Loved, setLoved] = useState(false);
+const [Loved, setLoved] = useState(props.liked);
+const [likes, setLikes] = useState(props.track.likes);
 const changeTrack = () => {
     props.setTrack(props.track)
 
@@ -25,18 +25,6 @@ const changeTrack = () => {
 
 
 useEffect(() => {
-    let options = {
-        method:"GET"
-    }
-    fetch(url+"/user/private", options).then(response => {
-        response.json().then(data => {
-            if (data.includes(props.track._id))
-            {
-                console.log("is liked");
-            }
-        }); 
-    })
-
     if (JSON.stringify(props.track) === JSON.stringify(props.activeTrack))
     {
         setLiClasses("track-li active-track");
@@ -48,17 +36,21 @@ useEffect(() => {
 
 }, [props.activeTrack, props.track])
 
+
 const toggleLoved = () => {
     if (Loved)
     {
-        //switch back
+        //from like to unlike
 
         setLoved(!Loved);
+        setLikes(likes-1);
     }
     else
     {
-        //switch back
+        //from unlike to like
+        setLikes(likes+1);
         setLoved(!Loved);
+
     }
 }
 
@@ -73,7 +65,7 @@ const toggleLoved = () => {
             </div>
         </div>
         
-        <div onClick={toggleLoved} className="heart-icon">{Loved &&<Filledheart/> || <Emptyheart/> }</div>
+        <div onClick={toggleLoved} className="heart-icon">{Loved &&<Filledheart/> || <Emptyheart/>  }<span>{likes}</span></div>
     </li>);
 };
 

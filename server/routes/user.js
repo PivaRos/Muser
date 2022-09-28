@@ -21,6 +21,8 @@ const mongoDatabase = new mongoModule(process.env.MongoString);
 const registerOnAction = mongoDatabase.OnActionDB.collection("register");
 
 const UserAuthorization = async (req, res, next) => {
+    //res.locals.user = await mongoDatabase.users.findOne(ObjectId(req.body.sessionid));
+    res.locals.user = await mongoDatabase.users.findOne({sessionid:req.headers.authorization});
     if(res.locals.user)
     {
         next();
@@ -38,7 +40,7 @@ router.post("/" ,async (req, res) => {
         const sessionID = randomSessionGenerator(16);
         const user = await mongoDatabase.users.findOneAndUpdate({ $and: [{ username: req.body.username }, { password: req.body.password }] }, {$set:{sessionid:sessionID}});
         if (user.value) {
-            return res.cookie("SessionID", sessionID, { expires: new Date(Date.now() + 28800000), httpOnly: true }).sendStatus(200);
+            return res.json({sessionid:sessionID});
         }
         else {
             return res.sendStatus(401);
@@ -75,7 +77,7 @@ router.post("/register/1", async (req, res) => {
         try {
             await transporter.sendMail(mailOptions);
 
-            return res.cookie("SessionID", sessionID, { expires: new Date(Date.now() + 28800000), httpOnly: true }).sendStatus(200);
+            return res.json({sessionid:sessionID});
         }
         catch
         {
@@ -91,7 +93,7 @@ router.post("/register/1", async (req, res) => {
 router.post("/register/2", async (req, res) => {
     if (true)// validation
     {
-        const Action = await registerOnAction.findOne(ObjectId(req.cookies.SessionID));
+        const Action = await registerOnAction.findOne(ObjectId( req.body.sessionid));
         if (Action._id) {
             if (Action.code === req.body.code) {
                 const response = await mongoDatabase.users.insertOne({
@@ -119,7 +121,7 @@ router.post("/register/2", async (req, res) => {
 router.post("/register/resend", async (req, res) => {
     if (true)// validation for req.body components
     {
-        const getRegisterAction = await registerOnAction.findOne(ObjectId(req.cookies.SessionID));
+        const getRegisterAction = await registerOnAction.findOne(ObjectId( req.body.sessionid));
         const lastsend = new Date(getRegisterAction.lastSendCode);
         const diffMins = Math.round((((new Date() - lastsend) % 86400000) % 3600000) / 60000);
         if (diffMins >= 2) {
@@ -137,7 +139,7 @@ router.post("/register/resend", async (req, res) => {
                 `
             }
             try {
-                await registerOnAction.updateOne({ _id: ObjectId(req.cookies.SessionID) }, { $set: { code: code, lastSendCode: Date.now() } });
+                await registerOnAction.updateOne({ _id: ObjectId( req.body.sessionid) }, { $set: { code: code, lastSendCode: Date.now() } });
                 await transporter.sendMail(mailOptions);
                 return res.sendStatus(200);
             }

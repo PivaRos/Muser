@@ -10,15 +10,23 @@ interface props {
     tracks: track[];
     setTrack: React.Dispatch<React.SetStateAction<track>>;
     activeTrack: track;
+    likedByUser:string[];
 }
 
 const TracklistComp = (props: props) => {
     return (
         <div className="tracklist">
             <ul className="track-ul">
-                {props.tracks.map((track) => (
-                    <TrackRow key={track._id} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
-                ))}
+                {
+                    props.tracks.map((track) => {
+                        let liked = false;
+                        if (props.likedByUser.includes(track._id))
+                        {
+                            liked = true;
+                        }
+                        return <TrackRow key={track._id} liked={liked} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
+                    })
+                }
             </ul>
         </div>
     );

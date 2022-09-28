@@ -37,23 +37,22 @@ class MongoModule {
     }
 
     async addTrack(track) {
+        let res;
         try {
-            await this.tracks.insertOne({
+           res = await this.tracks.insertOne({
                 src: track.src,
                 name: track.name,
                 author: track.author,
                 icon: track.icon,
                 likes: 0
 
-            }, err => {
-                if (!err) {
-                    return true;
-                }
-                return false;
-            })
+            });
         }
         catch {
             return false;
+        }
+        finally{
+            return res;
         }
 
     }

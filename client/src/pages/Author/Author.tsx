@@ -30,7 +30,7 @@ export const AuthorComp = (props: props) => {
         <h1>{authorName}</h1>
         <div >
             <h3 id="author-from-label">More From Him:</h3>
-                <TracklistComp tracks={tracks} setTrack={props.setTrack} activeTrack={props.activeTrack }/>
+                <TracklistComp likedByUser={[]} tracks={tracks} setTrack={props.setTrack} activeTrack={props.activeTrack }/>
             </div>
     </div>);
 }

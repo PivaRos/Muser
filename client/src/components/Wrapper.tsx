@@ -8,14 +8,15 @@ import Navbar from "./Navbar";
 import Player from './player/Player';
 import Sidebar from "./Sidebar";
 import Notfound from '../pages/Notfound/Notfound';
-import { track } from '../interfaces';
+import { track, User } from '../interfaces';
 import { AuthorComp } from '../pages/Author/Author';
+import { LoginPage } from '../pages/Login/LoginPage';
 
 
 
 
 export const Wrapper = () => {
-
+    const [user, setUser] = useState<User | boolean>(false);
     const [track, setTrack] = useState({
         src: "",
         name: "",
@@ -34,12 +35,12 @@ export const Wrapper = () => {
     });
     const [prevTrackStack, setPrevTrackStack] = useState<track[]>([]);
     const [nextTrackStack, setNextTrackStack] = useState<track[]>([]);
+    let HasUser = false;
     const [NextAndPrevTrack, setNextAndPrevTrack] = useState(0);
     const url = "http://localhost:5000";
 
     const [ExcludeForNext, setExcludeForNext] = useState<any[]>([]);
-
-
+    
     useEffect(() => {
         if (NextAndPrevTrack === 1) {
 
@@ -122,6 +123,7 @@ export const Wrapper = () => {
                     <Routes>
                         <Route path="/discover" element={<Discover activeTrack={track} setTrack={setTrackChange} />} />
                         <Route path='/author/:authorName' element={<div><AuthorComp activeTrack={track} setTrack={setTrackChange} /></div>} />
+                        <Route path="/login" element={<LoginPage setUser={setUser}/>} />
                         <Route path="/" element={<Home />} />
                         <Route path='*' element={<Notfound />} />
                     </Routes>

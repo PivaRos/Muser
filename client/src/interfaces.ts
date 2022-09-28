@@ -17,3 +17,11 @@ export interface QueryResults {
     Authors: author[];
     Tracks: track[];
 }
+export interface User {
+    _id:string;
+    username:string;
+    password:string;
+    email:string;
+    likedtracks:string[];
+    sessionid:string;
+}

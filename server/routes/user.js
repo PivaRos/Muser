@@ -37,7 +37,7 @@ const UserAuthorization = async (req, res, next) => {
 router.post("/" ,async (req, res) => {
     if (true) // validation 
     {   
-        const sessionID = randomSessionGenerator(16);
+        const sessionID = randomSessionGenerator(18);
         const user = await mongoDatabase.users.findOneAndUpdate({ $and: [{ username: req.body.username }, { password: req.body.password }] }, {$set:{sessionid:sessionID}});
         if (user.value) {
             return res.json({sessionid:sessionID});
@@ -63,7 +63,7 @@ router.post("/register/1", async (req, res) => {
             sessionid:sessionID
         });
 
-        let mailOptions = {
+        let SignupMailOptions = {
             from: process.env.SmtpDataUserName,
             to: req.body.email,
             subject: "Signup To Muser !",
@@ -75,7 +75,7 @@ router.post("/register/1", async (req, res) => {
             `
         }
         try {
-            await transporter.sendMail(mailOptions);
+            await transporter.sendMail(SignupMailOptions);
 
             return res.json({sessionid:sessionID});
         }
@@ -201,17 +201,26 @@ router.put("/track/unlike", UserAuthorization, async (req, res) => {
     }
 });
 
-router.get("/private", UserAuthorization, (req, res) => {
-    return res.json(res.locals.user);
+router.get("/private", async (req, res) => {
+    res.locals.user = await mongoDatabase.users.findOne({sessionid:req.headers.authorization}, {projection:{sessionid:0, password:0}});
+    if(res.locals.user)
+    {
+        return res.json(res.locals.user);   
+    }
+    else
+    {
+        return res.sendStatus(401);
+    }
 });
 
 router.get("/public", async (req, res) => {
     if (true) // validation
     {
         res.locals.user = await mongoDatabase.users.findOne( { _id : ObjectId(req.body._id) }, {projection:{ password:0 , sessionid:0 , email:0, _id:0} });
+       console.log(res.locals.user);
         if (res.locals.user)
         {
-        return res.json(res.locals.user);
+            return res.json(res.locals.user);
         }
         else
         {

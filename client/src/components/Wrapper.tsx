@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Discover from "../pages/Discover/Discover";
 import Home from "../pages/Home/Home";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter, Navigate, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Player from './player/Player';
 import Sidebar from "./Sidebar";
@@ -16,7 +16,9 @@ import { LoginPage } from '../pages/Login/LoginPage';
 
 
 export const Wrapper = () => {
-    const [user, setUser] = useState<User | boolean>(false);
+
+
+    const [user, setUser] = useState<User | null>();
     const [track, setTrack] = useState({
         src: "",
         name: "",
@@ -35,7 +37,7 @@ export const Wrapper = () => {
     });
     const [prevTrackStack, setPrevTrackStack] = useState<track[]>([]);
     const [nextTrackStack, setNextTrackStack] = useState<track[]>([]);
-    let HasUser = false;
+
     const [NextAndPrevTrack, setNextAndPrevTrack] = useState(0);
     const url = "http://localhost:5000";
 
@@ -98,6 +100,33 @@ export const Wrapper = () => {
 
 
     useEffect(() => {
+        //Check if user loggedin
+       const sessionid = getCookie("SessionID");
+       if (sessionid) // need to add validation for session value
+       {
+        //user loggedin
+        const options = {
+            method:"GET",
+            headers:{
+                "Authorization":sessionid
+            }
+        }
+        fetch(url+"/user/private", options).then(response => {
+            response.json().then(data => {
+                setUser(data);
+            }).catch(() => {
+               delete_cookie("SessionID");
+            })
+        }).catch(() => {
+           delete_cookie("SessionID");
+        });
+       }
+       else
+       {
+        //user is not loggedin. display default
+       }
+        
+        //Get first random track
         fetch(url + '/track').then((res) => {
             if (res) {
                 res.json().then(data => {
@@ -113,18 +142,29 @@ export const Wrapper = () => {
         }).catch((err) => {
 
         });
+        let current_cookie = document.cookie;
+        setInterval(function() {
+            if (current_cookie !== document.cookie)
+            {
+                document.location.reload(); // need to change to smth else
+            }
+        }, 1000); 
+        return () => {
+            
+        };
+
     }, [])
     return (
         <div id="wrapper">
             <Router>
-                <Navbar />
+                <Navbar user={user} />
                 <Sidebar setTrack={setTrackChange} activeTrack={track} />
                 <div id="content">
                     <Routes>
                         <Route path="/discover" element={<Discover activeTrack={track} setTrack={setTrackChange} />} />
                         <Route path='/author/:authorName' element={<div><AuthorComp activeTrack={track} setTrack={setTrackChange} /></div>} />
-                        <Route path="/login" element={<LoginPage setUser={setUser}/>} />
-                        <Route path="/" element={<Home />} />
+                      {!user &&  <Route path="/login" element={<LoginPage setUser={setUser}/>} />}
+                        <Route path="/" element={<Home user={user} />} />
                         <Route path='*' element={<Notfound />} />
                     </Routes>
 
@@ -136,4 +176,23 @@ export const Wrapper = () => {
         </div>
     );
 }
+
+
+function getCookie(name: string): string|null {
+	const nameLenPlus = (name.length + 1);
+	return document.cookie
+		.split(';')
+		.map(c => c.trim())
+		.filter(cookie => {
+			return cookie.substring(0, nameLenPlus) === `${name}=`;
+		})
+		.map(cookie => {
+			return decodeURIComponent(cookie.substring(nameLenPlus));
+		})[0] || null;
+}
+
+function delete_cookie(name:string) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+
 export default Wrapper;

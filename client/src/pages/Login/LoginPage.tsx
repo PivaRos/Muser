@@ -2,14 +2,12 @@ import { wait } from "@testing-library/user-event/dist/utils";
 import { useState, useEffect } from "react";
 import { User } from "../../interfaces";
 import {Routes, Route, useNavigate} from 'react-router-dom';
-import {usePageValidation} from '../../hooks/usePageValidation';
 
 interface props{
     setUser: React.Dispatch<React.SetStateAction<User | null | undefined>>
 }
 
 export const LoginPage = (props:props) => {
-    const validation = usePageValidation;
 
 
     const navigate = useNavigate();
@@ -19,14 +17,6 @@ export const LoginPage = (props:props) => {
     const [message, setMessage] = useState("");
     const url = "http://localhost:5000";
 
-    
-    const PageValidation = () => {
-        validation(navigate);
-    }
-
-    useEffect(() => {
-        PageValidation();
-    })
 
     const submit  = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

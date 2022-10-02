@@ -18,12 +18,14 @@ interface props{
             <ul className="track-ul-rich">
                 {
                     props.tracks.map((track) => {
+                        if (track.icon){
                         let liked = false;
                         if (props.likedByUser.includes(track._id))
                         {
                             liked = true;
                         }
                         return <TrackRowRich key={track._id} liked={liked} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
+                        }
                     })
                 }
             </ul>

@@ -5,9 +5,13 @@
         list-style: none;
         width: 100%;
         display: grid;
-        background-color: red;
         grid-template-columns: repeat(5, 190px);
         grid-template-rows: repeat(2, 200px);
+        grid-gap: 34px 0;
+        height: auto;
+        margin-top: 20px;
+        margin-bottom: 60px;
+
         
     }
 
@@ -22,17 +26,43 @@
         cursor: pointer;
         width: calc(180px);
         user-select: none;
+        
 
 
+    }
+
+    .track-li-rich:hover:after{
+        bottom: 8px;
+        left: 8px;
+        position: absolute;
+        content: "";
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        background-color: lightblue;
+        
+    }
+
+    .track-li-rich::after:hover{
+        transform: scale(1.3);
+        display: none;;
+    }
+
+    .track-li-rich img {
+        display: absolute;
+            margin: 0;
+            padding: 0;
+            height: 180px;
+            aspect-ratio: 1/1;
+            left: 0;
+            border-radius: 4px;
+            object-fit:cover;
     }
 
 
     .li-div-rich{
         position: absolute;
-        left: 6px;
-        top:15px;
         width: 100%;
-        
     }
 
 

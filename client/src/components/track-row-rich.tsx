@@ -55,6 +55,7 @@ const toggleLoved = () => {
     return (
     <li className={liClasses} >
         <div className="li-div-rich" onClick={changeTrack}>
+            <img src={"http://localhost:5000/music-images/"+props.track.icon}/>
             <label className="track-name-rich">{props.track.name}</label>
             <div className="author-div-rich">
             {props.track.author && props.track.author.map((author, index) => (

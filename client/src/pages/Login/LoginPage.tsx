@@ -2,6 +2,7 @@ import { wait } from "@testing-library/user-event/dist/utils";
 import { useState, useEffect } from "react";
 import { User } from "../../interfaces";
 import {Routes, Route, useNavigate} from 'react-router-dom';
+import { Message } from "../../components/message";
 
 interface props{
     setUser: React.Dispatch<React.SetStateAction<User | null | undefined>>
@@ -14,8 +15,9 @@ export const LoginPage = (props:props) => {
     
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState<string | JSX.Element>();
     const url = "http://localhost:5000";
+    
 
 
     const submit  = async (e:React.FormEvent<HTMLFormElement>) => {
@@ -37,7 +39,8 @@ export const LoginPage = (props:props) => {
                 const data1 = await res.json();
                 if(res.status == 200)
                 {
-                    setMessage("seccesful login !");
+
+                    setMessage(<Message type={"OK"} text={"seccesful login !"}/>);
                     setCookie("SessionID", data1.sessionid, 1);
                     let sessionid = "";
                     const data = await (await fetch(url+"/user/private", {
@@ -53,12 +56,13 @@ export const LoginPage = (props:props) => {
                 }
                 else
                 {
-                    setMessage("user was not found");
+                    setMessage(<Message type={"ERROR"} text={"user was not found"}/>);
                 }
             }
             catch
             {
-                setMessage("ERROR");
+                setMessage(<Message type={"ERROR"} text={"Oops Something Went Wrong !"}/>);
+
             }
 
             
@@ -70,7 +74,7 @@ export const LoginPage = (props:props) => {
     return (
         <div id="login-div">
             <h2>Login</h2>
-            <h2>{message}</h2>
+            <h2><>{message}</></h2>
         <form onSubmit={e => { submit(e)}}>
             <input onChange={e => {setUsername(e.target.value)}} type="input" id="username" placeholder="username"></input><br />
             <input onChange={e => {setPassword(e.target.value)}} type="password" id="password" placeholder="password"></input>

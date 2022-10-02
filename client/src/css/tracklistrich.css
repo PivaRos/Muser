@@ -1,0 +1,147 @@
+
+
+
+    .track-ul-rich{
+        list-style: none;
+        width: 100%;
+        display: grid;
+        background-color: red;
+        grid-template-columns: repeat(5, 190px);
+        grid-template-rows: repeat(2, 200px);
+        
+    }
+
+    .track-li-rich{
+        left: 3px;
+        background-color:  rgb(118, 201, 231);
+        justify-content: center;
+        margin-top: 5px;
+        height: 180px;
+        border-radius:4px;
+        position: relative;
+        cursor: pointer;
+        width: calc(180px);
+        user-select: none;
+
+
+    }
+
+
+    .li-div-rich{
+        position: absolute;
+        left: 6px;
+        top:15px;
+        width: 100%;
+        
+    }
+
+
+
+    .track-name{
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .track-author{
+        position: absolute;
+        overflow: hidden;
+        margin-left: 15px;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .track-author:hover{
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+
+    .track-li-rich:hover{
+        background-color: lightblue;
+
+    }
+
+    .tracklistrich{
+
+        border-radius: 4px;
+        margin-top: 40px;
+        position: absolute;
+        left: 10px;
+        height: 89%;
+        width: 100%;
+        overflow: hidden;
+        overflow-y: scroll;
+
+
+        --scrollbar-width: 8px;
+
+        /* mask fade distance, for use in mask calculations */
+        --mask-height: 15px;
+
+
+        /* The content mask is a linear gradient from top to bottom */
+        --mask-image-content: linear-gradient(
+            to bottom,
+            transparent,
+            black var(--mask-height),
+            black calc(100% - var(--mask-height)),
+            transparent
+        );
+
+        /* Here we scale the content gradient to the width of the container 
+    minus the scrollbar width. The height is the full container height */
+        --mask-size-content: calc(100% - var(--scrollbar-width)) 100%;
+
+        /* The scrollbar mask is a black pixel */
+        --mask-image-scrollbar: linear-gradient(black, black);
+
+        /* The width of our black pixel is the width of the scrollbar.
+    The height is the full container height */
+        --mask-size-scrollbar: var(--scrollbar-width) 100%;
+
+        /* Apply the mask image and mask size variables */
+        mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+        mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+
+        /* Position the content gradient in the top left, and the 
+    scroll gradient in the top right */
+        mask-position: 0 0, 100% 0;
+
+        /* We don't repeat our mask images */
+        mask-repeat: no-repeat, no-repeat;
+
+    }
+
+    .active-track{
+        background: lightblue;
+    }
+
+    .active-track .track-name{
+        color:  rgb(10, 98, 241);
+
+    }
+
+    .track-author{
+        display: inline-block;
+        position: relative;
+    }
+    .author-div{
+        position: absolute;
+        width: auto;
+        height: auto;
+        display: inline-block;
+    }
+    .author-div ::after
+    { 
+        top:2px;
+        margin-left: 2px;
+        position: absolute;
+        content: ", ";
+        font-size: smaller;
+    }
+    .author-div :last-child::after
+    { 
+
+        content: "";
+    }
+

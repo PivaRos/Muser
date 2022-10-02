@@ -164,7 +164,7 @@ export const Wrapper = () => {
                         <Route path="/discover" element={<Discover activeTrack={track} setTrack={setTrackChange} />} />
                         <Route path='/author/:authorName' element={<div><AuthorComp activeTrack={track} setTrack={setTrackChange} /></div>} />
                       {!user &&  <Route path="/login" element={<LoginPage setUser={setUser}/>} />}
-                        <Route path="/" element={<Home user={user} />} />
+                        <Route path="/" element={<Home activeTrack={track}  setTrack={setTrack} user={user} />} />
                         <Route path='*' element={<Notfound />} />
                     </Routes>
 

@@ -64,7 +64,11 @@ const Player = (props: props) => {
 
   useEffect(() => {
     if (props.playing) {
-      audioPlayer.current.play();
+      try{
+         audioPlayer.current.play();
+      }catch{
+      }
+     
       setPlayicon(Pausesvg.default);
     }
     else {
@@ -110,11 +114,10 @@ const Player = (props: props) => {
     if (props.playing) {
       props.setPlaying(false);
       setWasPlaying(true);
-      audioPlayer.current.load();
+
     }
     else {
       setWasPlaying(false);
-      audioPlayer.current.load();
     }
   }, [props.track])
 

@@ -9,7 +9,7 @@
 
     .track-li{
         left: 3px;
-        background-color:  rgb(118, 201, 231);
+        background-color:  lightblue;
         justify-content: center;
         margin-top: 5px;
         height: 56px;
@@ -74,8 +74,7 @@
 
 
     .track-li:hover{
-        background-color: lightblue;
-
+        background-color: rgb(140, 193, 210);
     }
 
     .tracklist{

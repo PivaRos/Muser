@@ -21,6 +21,17 @@
 
 }
 
+.playimg{
+  top:18px;
+  justify-content: center;
+  display: flex;
+  position: relative;
+ height: 20px;
+ width: 20px;
+ cursor: pointer;
+
+}
+
 .slider {
     margin-top: 10px;
     margin-left: 20px;

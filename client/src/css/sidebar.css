@@ -3,7 +3,7 @@
     position: fixed;
     height:calc(100vh - 80px) ;
     width: 250px;
-    background-color: #3d90ab;
+    background-color: rgb(140, 193, 210);
     top:0;
     scrollbar-width: thin;
 

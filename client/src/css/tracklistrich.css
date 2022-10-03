@@ -1,36 +1,46 @@
 
 
+    @keyframes opacityAnimation
+    {
+        0%{
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        100%{
+            transform: translateY(0px);
+            opacity: 100;
+        }
+    }
+
+
 
     .track-ul-rich{
         list-style: none;
         width: 100%;
-        display: grid;
-        grid-template-columns: repeat(5, 190px);
+        display:grid;
         grid-template-rows: repeat(2, 200px);
         grid-gap: 34px 0;
+        grid-template-columns: repeat(auto-fill, minmax(min(200px,100%), 0.5fr));
         height: auto;
         margin-top: 20px;
         margin-bottom: 60px;
-
-        
     }
 
     .track-li-rich{
         left: 3px;
-        background-color:  rgb(118, 201, 231);
         justify-content: center;
         margin-top: 5px;
-        height: 180px;
         border-radius:4px;
         position: relative;
         cursor: pointer;
-        width: calc(180px);
+        width: 180px;
+        height: 229px;
         user-select: none;
     }
 
-    .track-li-rich:hover{
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        scale: 1.04;
+    .track-li-rich:hover {
+        scale: 1.03;
+        transition: 260ms ease;
     }
 
     .track-playing-rich{
@@ -48,6 +58,14 @@
 
     .track-li-rich:hover .track-playing-rich
     {
+        animation: opacityAnimation ease 0.25s;
+        display: block;
+
+    }
+
+    .active-track-rich .track-playing-rich
+    {
+        animation: opacityAnimation ease 0s;
         display: block;
 
     }
@@ -61,12 +79,23 @@
     }
 
 
+   .track-playing-rich img{
+    justify-content: center;
+    display: flex;
+    position: relative;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    left: 16px;
+    top: 16px;
+}
 
     .track-playing-rich:hover{
         scale: 1.02;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 25px;
     }
 
-    .track-li-rich img {
+    .icon-image {
         display: absolute;
             margin: 0;
             padding: 0;
@@ -74,13 +103,23 @@
             aspect-ratio: 1/1;
             border-radius: 4px;
             object-fit:cover;
-            left: 14px;
+            
     }
 
-
-    .li-div-rich{
+    .li-div-rich {
         position: absolute;
         width: 100%;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .li-div-rich .track-name-rich {
+        padding-left: 10px;
+    }
+  
+
+    .li-div-rich:hover{
+        overflow:auto;
     }
 
     .track-name{
@@ -102,14 +141,10 @@
     }
 
 
-    .track-li-rich:hover{
-        background-color: lightblue;
-
-    }
-
      .active-track-rich .track-playing-rich{
         display: block;
      }
+   
 
 
     .tracklistrich{

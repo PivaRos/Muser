@@ -1,0 +1,50 @@
+
+
+#login-form{
+    position: absolute;
+    padding: 3rem;
+    border-radius: 4px;
+    top:30%;
+    bottom: 50%;
+    height: calc(55% - 40px);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 50px;
+    background-color: #598CFF;
+}
+
+ #login-form input[type=password], #login-form input[type=input]{
+    padding: 10px;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    margin-bottom: 15px;
+    border-radius: 2.5px;
+}
+
+#message{
+    position: absolute;
+    top:5%
+}
+
+.icon
+{
+    height: 100px;
+    position: absolute;
+    top: 10%;
+    left: 42%;
+    user-select: none;
+    -webkit-user-drag: none;
+    
+}
+
+
+#submit{
+    cursor: pointer;
+    padding: 10px 30px 10px 30px ;
+    border-radius: 4px;
+    size: 14px;
+    border: none;
+}
+
+#submit:hover{
+    text-decoration: underline;
+}

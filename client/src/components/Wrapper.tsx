@@ -17,7 +17,6 @@ import { LoginPage } from '../pages/Login/LoginPage';
 
 export const Wrapper = () => {
 
-
     const [user, setUser] = useState<User | null>();
     const [track, setTrack] = useState({
         src: "",
@@ -143,11 +142,19 @@ export const Wrapper = () => {
         }).catch((err) => {
 
         });
-        let current_cookie = document.cookie;
+        let current_cookie = getCookie("SessionID");
         setInterval(function() {
-            if (current_cookie !== document.cookie)
+            if (current_cookie !== getCookie("SessionID"))
             {
-                document.location.reload(); // need to change to smth else
+                if (current_cookie === null)
+                {
+
+                    current_cookie = getCookie("SessionID");
+                }
+                else{
+                    setUser(null);
+                    current_cookie = getCookie("SessionID");
+                }
             }
         }, 1000); 
         return () => {

@@ -89,4 +89,9 @@ width: 100%;
   display: flex;
 }
 
+img{
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 }

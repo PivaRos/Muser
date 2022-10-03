@@ -10,6 +10,8 @@ interface props{
     setTrack: React.Dispatch<React.SetStateAction<track>>;
     activeTrack: track;
     likedByUser:string[];
+    playing:boolean;
+    setPlaying:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
  const TrackListRich = (props:props) => {
@@ -24,7 +26,7 @@ interface props{
                         {
                             liked = true;
                         }
-                        return <TrackRowRich key={track._id} liked={liked} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
+                        return <TrackRowRich setPlaying={props.setPlaying} playing={props.playing} key={track._id} liked={liked} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
                         }
                     })
                 }

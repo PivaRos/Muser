@@ -35,6 +35,7 @@ export const Wrapper = () => {
         likes: 0,
         _id: ""
     });
+    const [playing, setPlaying] = useState(false);
     const [prevTrackStack, setPrevTrackStack] = useState<track[]>([]);
     const [nextTrackStack, setNextTrackStack] = useState<track[]>([]);
 
@@ -164,14 +165,14 @@ export const Wrapper = () => {
                         <Route path="/discover" element={<Discover activeTrack={track} setTrack={setTrackChange} />} />
                         <Route path='/author/:authorName' element={<div><AuthorComp activeTrack={track} setTrack={setTrackChange} /></div>} />
                       {!user &&  <Route path="/login" element={<LoginPage setUser={setUser}/>} />}
-                        <Route path="/" element={<Home activeTrack={track}  setTrack={setTrack} user={user} />} />
+                        <Route path="/" element={<Home setPlaying={setPlaying} playing={playing} activeTrack={track}  setTrack={setTrack} user={user} />} />
                         <Route path='*' element={<Notfound />} />
                     </Routes>
 
                 </div>
 
 
-                <Player setNextAndBack={setNextAndPrevTrack} track={track} />
+                <Player playing={playing} setPlaying={setPlaying} setNextAndBack={setNextAndPrevTrack} track={track} />
             </Router>
         </div>
     );

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {track} from '../interfaces';
 import { AuthorComponent } from "./authorComponent";
+import { TrackPlaying } from "./track-playing";
 
 
 interface props {
@@ -8,17 +9,25 @@ interface props {
     setTrack: React.Dispatch<React.SetStateAction<track>>;
     activeTrack : track;
     liked : boolean;
+    playing:boolean;
+    setPlaying:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const url = "https://localhost:5000";
+
 const TrackRowRich = (props : props) => {
+
+const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState(false);
 const [liClasses, setLiClasses] = useState("track-li-rich");
 const [Loved, setLoved] = useState(props.liked);
 const [likes, setLikes] = useState(props.track.likes);
 const changeTrack = () => {
     props.setTrack(props.track)
+    props.setPlaying(true); 
 
 }
+
+
 
 
 
@@ -40,17 +49,28 @@ const toggleLoved = () => {
     {
         //from like to unlike
 
-        setLoved(!Loved);
+        setLoved(false);
         setLikes(likes-1);
     }
     else
     {
         //from unlike to like
         setLikes(likes+1);
-        setLoved(!Loved);
+        setLoved(true);
 
     }
 }
+
+    useEffect(() => {
+        if (JSON.stringify(props.activeTrack) === JSON.stringify(props.track) && props.playing)
+        {
+            setIsCurrentlyPlaying(true);
+        }
+        else
+        {
+            setIsCurrentlyPlaying(false);
+        }
+    },[props.playing, props.activeTrack])
 
     return (
     <li className={liClasses} >
@@ -61,6 +81,8 @@ const toggleLoved = () => {
             {props.track.author && props.track.author.map((author, index) => (
                 <AuthorComponent key={index} author={author} />
             ))}
+            <TrackPlaying setIsCurrentPlaying={setIsCurrentlyPlaying} playing={props.playing} setPlaying={props.setPlaying} isCurrentlyPlaying={isCurrentlyPlaying} setTrack={props.setTrack}/>
+
             </div>
         </div>
         </li>);

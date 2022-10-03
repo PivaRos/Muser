@@ -16,12 +16,13 @@ interface props {
 
   };
   setNextAndBack: React.Dispatch<React.SetStateAction<number>>;
+  playing:boolean;
+  setPlaying:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Player = (props: props) => {
   const [Loading, setLoading] = useState(true);
   const audioPlayer = useRef(new Audio());
-  const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(+audioPlayer.current.duration);
   const [volume, setVolume] = useState(1);
@@ -38,11 +39,11 @@ const Player = (props: props) => {
 
   const Toggleplay = () => {
     if (!Loading) {
-      setPlaying(!playing);
+      props.setPlaying(!props.playing);
     }
     else {
       setLoading(false);
-      setPlaying(!playing);
+      props.setPlaying(!props.playing);
     }
   };
 
@@ -62,7 +63,7 @@ const Player = (props: props) => {
 
 
   useEffect(() => {
-    if (playing) {
+    if (props.playing) {
       audioPlayer.current.play();
       setPlayicon(Pausesvg.default);
     }
@@ -70,7 +71,7 @@ const Player = (props: props) => {
       audioPlayer.current.pause();
       setPlayicon(Playsvg.default);
     }
-  }, [playing])
+  }, [props.playing])
 
   useEffect(() => {
     audioPlayer.current.volume = volume;
@@ -98,16 +99,16 @@ const Player = (props: props) => {
   const LoadedData = () => {
 
     if (wasPlaying) {
-      setPlaying(true);
+      props.setPlaying(true);
     }
     else {
-      setPlaying(false);
+      props.setPlaying(false);
     }
   }
 
   useEffect(() => {
-    if (playing) {
-      setPlaying(false);
+    if (props.playing) {
+      props.setPlaying(false);
       setWasPlaying(true);
       audioPlayer.current.load();
     }

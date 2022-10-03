@@ -8,7 +8,8 @@ interface props{
     user:User | null | undefined;
     setTrack: React.Dispatch<React.SetStateAction<track>>, 
     activeTrack:track;
-    
+    playing:boolean;
+    setPlaying:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Home = (props:props) => {
@@ -50,7 +51,7 @@ const Home = (props:props) => {
         <div className="page" id="home">
             {!props.user && <h2>Welcome To Muser !</h2>}
             {props.user && <h2>Welcome {props.user.username}</h2>}
-            <TrackListRich activeTrack={props.activeTrack} likedByUser={[]} tracks={Tracklist} setTrack={props.setTrack} />
+            <TrackListRich setPlaying={props.setPlaying} playing={props.playing} activeTrack={props.activeTrack} likedByUser={[]} tracks={Tracklist} setTrack={props.setTrack} />
         </div>
     );  
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { User } from '../../interfaces';
 import TrackListRich from '../../components/trackListRich';
 import {track} from '../../interfaces';
+import "../../css/home.css";
 
 
 interface props{
@@ -50,6 +51,7 @@ const Home = (props:props) => {
     return (
         <div className="page" id="home">
             {!props.user && <h2>Welcome To Muser !</h2>}
+            {Loading && <h2 className="loading">loading...</h2>}
             {props.user && <h2>Welcome {props.user.username}</h2>}
             <TrackListRich setPlaying={props.setPlaying} playing={props.playing} activeTrack={props.activeTrack} likedByUser={[]} tracks={Tracklist} setTrack={props.setTrack} />
         </div>

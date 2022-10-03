@@ -100,7 +100,7 @@ app.post("/track/exclude", async (req, res) => {
 
 app.get('/track/list', async (req, res) => {
     try {
-        return res.json(await mongoDatabase.getRandomTrackList(9));
+        return res.json(await mongoDatabase.getRandomTrackList(11));
     } catch (err) {
         return res.status(500);
     }

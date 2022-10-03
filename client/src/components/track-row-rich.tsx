@@ -21,12 +21,25 @@ const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState(false);
 const [liClasses, setLiClasses] = useState("track-li-rich");
 const [Loved, setLoved] = useState(props.liked);
 const [likes, setLikes] = useState(props.track.likes);
+
+const [playingCssClass, setPlayingCssClass] = useState(" ac");
+
 const changeTrack = () => {
     props.setTrack(props.track)
     props.setPlaying(true); 
 
 }
 
+useEffect(() => {
+    if (JSON.stringify(props.activeTrack) === JSON.stringify(props.track) && props.playing)
+    {
+        setPlayingCssClass("Visble");
+    }
+    else
+    {
+        setPlayingCssClass(" ");
+    }
+}, []);
 
 
 
@@ -70,18 +83,18 @@ const toggleLoved = () => {
         {
             setIsCurrentlyPlaying(false);
         }
-    },[props.playing, props.activeTrack])
+    }, [props.activeTrack]);
 
     return (
     <li className={liClasses} >
-        <div className="li-div-rich" onClick={changeTrack}>
+        <div className="li-div-rich">
             <img src={"http://localhost:5000/music-images/"+props.track.icon}/>
             <label className="track-name-rich">{props.track.name}</label>
             <div className="author-div-rich">
             {props.track.author && props.track.author.map((author, index) => (
                 <AuthorComponent key={index} author={author} />
             ))}
-            <TrackPlaying setIsCurrentPlaying={setIsCurrentlyPlaying} playing={props.playing} setPlaying={props.setPlaying} isCurrentlyPlaying={isCurrentlyPlaying} setTrack={props.setTrack}/>
+            <TrackPlaying cssClass={playingCssClass} playing={props.playing} activeTrack={props.activeTrack} track={props.track} setPlaying={props.setPlaying} setTrack={props.setTrack}/>
 
             </div>
         </div>

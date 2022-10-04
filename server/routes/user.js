@@ -60,7 +60,7 @@ router.post("/register/1", async (req, res) => {
             email: req.body.email,
             code: code,
             lastSendCode: Date.now(),
-            sessionid:sessionID
+            actionid:sessionID
         });
 
         let SignupMailOptions = {
@@ -70,14 +70,14 @@ router.post("/register/1", async (req, res) => {
             text: code,
             html: `
             <body style="color:black;">
-            <h1 style="color:black;">Hey, Here is you Code: ${code}</h1>
+            <h1 style="color:black;">Hey, Here is your Code: ${code}</h1>
             </body>
             `
         }
         try {
             await transporter.sendMail(SignupMailOptions);
 
-            return res.json({sessionid:sessionID});
+            return res.json({actionid:sessionID});
         }
         catch
         {
@@ -90,20 +90,36 @@ router.post("/register/1", async (req, res) => {
 
 });
 
+router.delete("/register", async (req, res) => {
+    if (true)// validation
+    {
+
+       const response = await registerOnAction.findOneAndDelete({actionid:req.headers.authorization});
+       if (response.ok)
+       {
+        return res.sendStatus(200);
+       }
+       else
+       {
+        return res.sendStatus(500);
+       }
+    }
+});
+
 router.post("/register/2", async (req, res) => {
     if (true)// validation
     {
-        const Action = await registerOnAction.findOne(ObjectId( req.body.sessionid));
+        const Action = await registerOnAction.findOne({actionid : req.headers.authorization});
         if (Action._id) {
             if (Action.code === req.body.code) {
                 const response = await mongoDatabase.users.insertOne({
                     username: Action.username,
                     password: Action.password,
                     email: Action.email,
-                    sessionid:Action.sessionid
+                    sessionid:Action.actionid
                 });
                 registerOnAction.deleteMany({ $or: [{ username: Action.username }, { email: Action.email }] });
-                return res.cookie("SessionID", Action.sessionid, { expires: new Date(Date.now() + 14400000), httpOnly: true }).sendStatus(200);
+                return res.json({sessionid:actionid});
 
             }
             else {
@@ -121,7 +137,7 @@ router.post("/register/2", async (req, res) => {
 router.post("/register/resend", async (req, res) => {
     if (true)// validation for req.body components
     {
-        const getRegisterAction = await registerOnAction.findOne(ObjectId( req.body.sessionid));
+        const getRegisterAction = await registerOnAction.findOne({actionid:req.headers.authorization});
         const lastsend = new Date(getRegisterAction.lastSendCode);
         const diffMins = Math.round((((new Date() - lastsend) % 86400000) % 3600000) / 60000);
         if (diffMins >= 2) {
@@ -139,7 +155,7 @@ router.post("/register/resend", async (req, res) => {
                 `
             }
             try {
-                await registerOnAction.updateOne({ _id: ObjectId( req.body.sessionid) }, { $set: { code: code, lastSendCode: Date.now() } });
+                await registerOnAction.updateOne({ actionid: req.headers.authorization }, { $set: { code: code, lastSendCode: Date.now() } });
                 await transporter.sendMail(mailOptions);
                 return res.sendStatus(200);
             }
@@ -151,7 +167,7 @@ router.post("/register/resend", async (req, res) => {
             return res.status(401).json({ 
                 message:"code was already sent, please wait at least 2 minutes before requesting new one",
                 lastsend:getRegisterAction.lastSendCode
-            })
+            });
         }
     }
 });

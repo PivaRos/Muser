@@ -23,7 +23,7 @@ export const LoginPage = (props: props) => {
 
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (true) // validation
+        if (true) // validation 
         {
             const options = {
                 method: "POST",
@@ -48,6 +48,19 @@ export const LoginPage = (props: props) => {
                         }
                     })).json();
                     props.setUser(data);
+                    const ActionID = getCookie("ActionID");
+                    if (ActionID)
+                    {
+                        const optionsDeleteActionRequest = {
+                            method:"DELETE",
+                            headers:{
+                                "Autorization":ActionID
+                            }
+                        }
+                        fetch(url+"/user/register", optionsDeleteActionRequest);
+                        delete_cookie("ActionID");
+
+                    }
                     navigate('/');
 
 
@@ -101,4 +114,8 @@ function getCookie(cname: string) {
     return "";
 }
 
+
+function delete_cookie(name:string) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
 

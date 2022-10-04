@@ -102,8 +102,14 @@ export const Wrapper = () => {
     useEffect(() => {
         //Check if user loggedin
        const sessionid = getCookie("SessionID");
+       const actionid = getCookie("ActionID");
+       if (actionid) // need to add validation for action value
+       {
+        
+       }
        if (sessionid) // need to add validation for session value
        {
+        
         //user loggedin
         const options = {
             method:"GET",

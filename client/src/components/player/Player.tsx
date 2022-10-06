@@ -27,7 +27,7 @@ const Player = (props: props) => {
   const [duration, setDuration] = useState(+audioPlayer.current.duration);
   const [volume, setVolume] = useState(1);
   const [playicon, setPlayicon] = useState(Playsvg);
-  const urlsrc = "http://localhost:5000/music/";
+  const urlsrc = "http://localhost:5000/backdoor/track/";
   const urlicon = "http://localhost:5000/music-images/";
   const [wasPlaying, setWasPlaying] = useState(false);
   const [lockedButton, setLockedButton] = useState(false);

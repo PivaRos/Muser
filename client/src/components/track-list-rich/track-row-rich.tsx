@@ -75,7 +75,7 @@ const TrackRowRich = (props: props) => {
     return (
         <li className={liClasses} >
             <div className="li-div-rich">
-                <img className="icon-image" src={"http://localhost:5000/music-images/" + props.track.icon} />
+                <img className="icon-image" src={"http://localhost:5000/upload/file/" + props.track.icon} />
                 <label className="track-name-rich">{props.track.name}</label>
                 <div className="author-div-rich">
                     {props.track.author && props.track.author.map((author, index) => (

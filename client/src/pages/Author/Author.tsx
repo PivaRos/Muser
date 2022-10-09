@@ -33,7 +33,7 @@ export const AuthorComp = (props: props) => {
         <div >
             {loading && <h2 className="loading">loading...</h2>}
             <h3 id="author-from-label">More From Him:</h3>
-            <TracklistComp user={props.user} likedByUser={[]} tracks={tracks} setTrack={props.setTrack} activeTrack={props.activeTrack} />
+            <TracklistComp settings={{withAuthor:false}} user={props.user} likedByUser={[]} tracks={tracks} setTrack={props.setTrack} activeTrack={props.activeTrack} />
         </div>
     </div>);
 }

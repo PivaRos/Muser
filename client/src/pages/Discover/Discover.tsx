@@ -65,7 +65,7 @@ const Discover = (props: props) => {
         <div className="page" id={s.content}>
             <h2 id={s.label}>Discover</h2>
             {Loading && <h2 className={s.loading}>loading...</h2>}
-            {!Loading && <TracklistComp user={props.user} likedByUser={likedByUser} activeTrack={props.activeTrack} setTrack={props.setTrack} tracks={Tracklist}/>}
+            {!Loading && <TracklistComp settings={{withAuthor:true}} user={props.user} likedByUser={likedByUser} activeTrack={props.activeTrack} setTrack={props.setTrack} tracks={Tracklist}/>}
         </div>
     )
 }

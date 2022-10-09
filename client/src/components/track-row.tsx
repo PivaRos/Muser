@@ -12,6 +12,9 @@ interface props {
     activeTrack: track;
     liked: boolean;
     user:User | null | undefined;
+    settings:{
+        withAuthor:boolean;
+    }
 }
 
 const TrackRow = (props: props) => {
@@ -109,11 +112,12 @@ const TrackRow = (props: props) => {
         <li className={liClasses} >
             <div className="li-div" onClick={changeTrack}>
                 <label className="track-name">{props.track.name}</label>
-                <div className="author-div">
+               { props.settings.withAuthor && <div className="author-div">
                     {props.track.author && props.track.author.map((author, index) => (
                         <AuthorComponent key={index} author={author} />
                     ))}
                 </div>
+                }
                 <label className="duration"></label>
             </div>
 

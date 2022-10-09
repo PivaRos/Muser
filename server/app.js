@@ -63,11 +63,14 @@ const author = require('./routes/author');
 const backdoor = require('./routes/backdoor');
 const search = require('./routes/search');
 const user = require('./routes/user');
+const upload = require('./routes/upload');
+
 const { env } = require('process');
 app.use("/search", search);
 app.use("/author", author)
 app.use("/user", user);
 app.use("/backdoor", backdoor);
+app.use("/upload", upload);
 
 
 app.get("/sss", (req, res) => {

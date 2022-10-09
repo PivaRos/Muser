@@ -12,7 +12,9 @@ interface props {
     activeTrack: track;
     likedByUser:string[];
     user:User | null | undefined;
-
+    settings:{
+        withAuthor:boolean;
+    }
 }
 
 const TracklistComp = (props: props) => {
@@ -26,7 +28,7 @@ const TracklistComp = (props: props) => {
                         {
                             liked = true;
                         }
-                        return <TrackRow user={props.user} key={track._id} liked={liked} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
+                        return <TrackRow settings={props.settings} user={props.user} key={track._id} liked={liked} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
                     })
                 }
             </ul>

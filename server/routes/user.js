@@ -177,19 +177,19 @@ router.put("/track/like", UserAuthorization, async (req, res) => {
     if(true) // validation
     {
         try{
-            if (!res.locals.user.likedtracks.includes(req.body.trackid))
+            if (!res.locals.user.likedtracks || !res.locals.user.likedtracks.includes(req.body.trackid))
             {
                 const result = await mongoDatabase.tracks.findOneAndUpdate({ _id: ObjectId(req.body.trackid) }, {$inc: { likes: 1 }});
                 if (result)
                 {
-                        await mongoDatabase.users.updateOne({_id:ObjectId(res.locals.user._id)}, { $push: { likedtracks: req.body.trackid } });
-                        return res.sendStatus(200);
+                    await mongoDatabase.users.updateOne({_id:ObjectId(res.locals.user._id)}, { $push: { likedtracks: req.body.trackid } });
+                    return res.sendStatus(200);
                 }
             }
             return res.sendStatus(400);
         }
-        catch{
-            return res.sendStatus(500);
+        catch(err){
+            return res.status(500).json(err.message);
         }
 
     }

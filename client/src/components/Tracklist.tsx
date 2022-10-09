@@ -1,7 +1,7 @@
 import React from "react";
 import '../css/tracklist.css';
 import TrackRow from "./track-row";
-import {track} from '../interfaces';
+import {track, User} from '../interfaces';
 
 
 
@@ -11,6 +11,8 @@ interface props {
     setTrack: React.Dispatch<React.SetStateAction<track>>;
     activeTrack: track;
     likedByUser:string[];
+    user:User | null | undefined;
+
 }
 
 const TracklistComp = (props: props) => {
@@ -24,7 +26,7 @@ const TracklistComp = (props: props) => {
                         {
                             liked = true;
                         }
-                        return <TrackRow key={track._id} liked={liked} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
+                        return <TrackRow user={props.user} key={track._id} liked={liked} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
                     })
                 }
             </ul>

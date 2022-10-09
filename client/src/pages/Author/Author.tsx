@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react"
-import { track } from '../../interfaces';
+import { track, User } from '../../interfaces';
 import { useParams } from "react-router-dom";
 import TracklistComp from "../../components/Tracklist";
 
 interface props {
     setTrack: React.Dispatch<React.SetStateAction<track>>,
     activeTrack: track;
+    user : User | null | undefined;
 }
 
 
@@ -26,12 +27,13 @@ export const AuthorComp = (props: props) => {
 
 
 
+
     return (<div className="page" id="page-author">
         <h1>{authorName}</h1>
         <div >
             {loading && <h2 className="loading">loading...</h2>}
             <h3 id="author-from-label">More From Him:</h3>
-            <TracklistComp likedByUser={[]} tracks={tracks} setTrack={props.setTrack} activeTrack={props.activeTrack} />
+            <TracklistComp user={props.user} likedByUser={[]} tracks={tracks} setTrack={props.setTrack} activeTrack={props.activeTrack} />
         </div>
     </div>);
 }

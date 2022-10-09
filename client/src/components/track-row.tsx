@@ -1,25 +1,40 @@
 import React, { useEffect, useState } from "react";
 import Emptyheart from "../svgs/emptyheart";
 import Filledheart from "../svgs/filledheart";
-import { track } from '../interfaces';
+import { track, User } from '../interfaces';
 import { AuthorComponent } from "./authorComponent";
 
+const url = "http://localhost:5000";
 
 interface props {
     track: track;
     setTrack: React.Dispatch<React.SetStateAction<track>>;
     activeTrack: track;
     liked: boolean;
+    user:User | null | undefined;
 }
 
 const TrackRow = (props: props) => {
     const [liClasses, setLiClasses] = useState("track-li ");
     const [Loved, setLoved] = useState(props.liked);
     const [likes, setLikes] = useState(props.track.likes);
+    const [loading, setLoading] = useState(false);
+    const [isLoggedin, setIsLoggedin] = useState(false);
     const changeTrack = () => {
         props.setTrack(props.track)
 
     }
+
+    useEffect(() => {
+        if (props.user)
+        {
+            setIsLoggedin(true);
+        }
+        else
+        {
+            setIsLoggedin(false);
+        }
+    }, [props.user])
 
 
 
@@ -34,18 +49,59 @@ const TrackRow = (props: props) => {
     }, [props.activeTrack, props.track])
 
 
-    const toggleLoved = () => {
-        if (Loved) {
-            //from like to unlike
-
-            setLoved(!Loved);
-            setLikes(likes - 1);
-        }
-        else {
-            //from unlike to like
-            setLikes(likes + 1);
-            setLoved(!Loved);
-
+    const toggleLoved = async () => {
+        if (!loading) // if not already doing somth
+        {
+            console.log("hello")
+            setLoading(true);
+            if (Loved) {
+                //from like to unlike
+                //code here
+                const options = {
+                    method:"PUT",
+                    headers: {
+                        "Authorization": getCookie("SessionID") || ""
+                    },
+                    body:JSON.stringify({
+                        trackid:props.track._id
+                    })
+                }
+                const response = await fetch(url+ "/user/track/unlike", options);
+                if (response.status === 200)
+                {
+                    setLoved(!Loved);
+                    setLikes(likes - 1);
+                }
+                else
+                {
+                    //message here
+                }
+                setLoading(false);
+            }
+            else {
+                //from unlike to like
+                // code here
+                const options = {
+                    method:"PUT",
+                    headers: {
+                        "Authorization": getCookie("SessionID") || ""
+                    },
+                    body:JSON.stringify({
+                        trackid:props.track._id
+                    })
+                }
+                const response = await fetch(url+ "/user/track/like", options);
+                if (response.status === 200)
+                {
+                    setLikes(likes + 1);
+                    setLoved(!Loved);
+                }
+                else
+                {
+                    //message
+                }
+                setLoading(false);  
+            }
         }
     }
 
@@ -61,8 +117,21 @@ const TrackRow = (props: props) => {
                 <label className="duration"></label>
             </div>
 
-            <div onClick={toggleLoved} className="heart-icon">{Loved ? <Filledheart /> : <Emptyheart />}<span>{likes}</span></div>
+           {props.user && <div onClick={toggleLoved} className="heart-icon">{Loved ? <Filledheart /> : <Emptyheart />}<span className="track-list-likes-counter">{likes}</span></div> || <span className="track-list-likes-counter">{likes}</span>}
         </li>);
 };
 
 export default TrackRow
+
+function getCookie(name: string): string|null {
+	const nameLenPlus = (name.length + 1);
+	return document.cookie
+		.split(';')
+		.map(c => c.trim())
+		.filter(cookie => {
+			return cookie.substring(0, nameLenPlus) === `${name}=`;
+		})
+		.map(cookie => {
+			return decodeURIComponent(cookie.substring(nameLenPlus));
+		})[0] || null;
+}

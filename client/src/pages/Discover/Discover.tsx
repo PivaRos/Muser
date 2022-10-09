@@ -1,17 +1,19 @@
 
 import React, { useEffect, useState } from "react";
 import TracklistComp from '../../components/Tracklist';
-import {track} from '../../interfaces';
+import {track, User} from '../../interfaces';
 import s from "./Discover.module.css"
 
-
+const url = "http://localhost:5000";
 
 interface props {
     setTrack: React.Dispatch<React.SetStateAction<track>>, 
     activeTrack:track;
+    user:User | null | undefined; 
 }
 
 const Discover = (props: props) => {
+    const [likedByUser,setLikedByUser] = useState(props.user?.likedtracks || [""]);
     const [Tracklist, setTrackList] = useState<track[]>([{
         src:"",
         author:[""],
@@ -21,7 +23,6 @@ const Discover = (props: props) => {
         _id:""
     }]);
     const [Loading, setLoading] = useState(true);
-    const url = "http://localhost:5000";
 
     
     useEffect(()=> {
@@ -46,13 +47,25 @@ const Discover = (props: props) => {
         });
     }, [])
 
+    useEffect(() => {
+        if(props.user?.likedtracks)
+        {
+
+            setLikedByUser(props.user.likedtracks || []);
+        }
+        else
+        {
+            setLikedByUser([]);
+        }
+    }, [props.user])
+
 
 
     return (
         <div className="page" id={s.content}>
             <h2 id={s.label}>Discover</h2>
             {Loading && <h2 className={s.loading}>loading...</h2>}
-            {!Loading && <TracklistComp likedByUser={[]} activeTrack={props.activeTrack} setTrack={props.setTrack} tracks={Tracklist}/>}
+            {!Loading && <TracklistComp user={props.user} likedByUser={likedByUser} activeTrack={props.activeTrack} setTrack={props.setTrack} tracks={Tracklist}/>}
         </div>
     )
 }

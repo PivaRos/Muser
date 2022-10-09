@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { track } from '../../interfaces';
+import { track, User } from '../../interfaces';
 import '../../css/player.css';
 import '../../css/player-mobile.css';
 import { AuthorComponent } from "../authorComponent";
@@ -18,6 +18,7 @@ interface props {
   setNextAndBack: React.Dispatch<React.SetStateAction<number>>;
   playing:boolean;
   setPlaying:React.Dispatch<React.SetStateAction<boolean>>;
+  user:User | null | undefined
 }
 
 const Player = (props: props) => {

@@ -37,6 +37,7 @@ export const Wrapper = () => {
     const [playing, setPlaying] = useState(false);
     const [prevTrackStack, setPrevTrackStack] = useState<track[]>([]);
     const [nextTrackStack, setNextTrackStack] = useState<track[]>([]);
+    const [GlobalMessage, setGlobalMessage] = useState<string>("");
 
     const [NextAndPrevTrack, setNextAndPrevTrack] = useState(0);
     const url = "http://localhost:5000";
@@ -171,12 +172,13 @@ export const Wrapper = () => {
     return (
         <div id="wrapper">
             <Router>
+                <h3>{GlobalMessage}</h3>
                 <Navbar user={user} />
                 <Sidebar setTrack={setTrackChange} activeTrack={track} />
                 <div id="content">
                     <Routes>
-                        <Route path="/discover" element={<Discover activeTrack={track} setTrack={setTrackChange} />} />
-                        <Route path='/author/:authorName' element={<div><AuthorComp activeTrack={track} setTrack={setTrackChange} /></div>} />
+                        <Route path="/discover" element={<Discover user={user} activeTrack={track} setTrack={setTrackChange} />} />
+                        <Route path='/author/:authorName' element={<div><AuthorComp user={user} activeTrack={track} setTrack={setTrackChange} /></div>} />
                       {!user &&  <Route path="/login" element={<LoginPage setUser={setUser}/>} />}
                         <Route path="/" element={<Home setPlaying={setPlaying} playing={playing} activeTrack={track}  setTrack={setTrack} user={user} />} />
                         <Route path='*' element={<Notfound />} />
@@ -185,7 +187,7 @@ export const Wrapper = () => {
                 </div>
 
 
-                <Player playing={playing} setPlaying={setPlaying} setNextAndBack={setNextAndPrevTrack} track={track} />
+                <Player user={user} playing={playing} setPlaying={setPlaying} setNextAndBack={setNextAndPrevTrack} track={track} />
             </Router>
         </div>
     );

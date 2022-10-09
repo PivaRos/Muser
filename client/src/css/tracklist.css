@@ -22,6 +22,14 @@
 
     }
 
+    .track-list-likes-counter{
+        position: absolute;
+        right: 45px;
+        opacity: 40%;
+        user-select: none;
+        line-height: 50px; vertical-align: middle;
+    }
+
 
     .li-div{
         position: absolute;

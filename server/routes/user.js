@@ -119,7 +119,7 @@ router.post("/register/2", async (req, res) => {
                     sessionid:Action.actionid
                 });
                 registerOnAction.deleteMany({ $or: [{ username: Action.username }, { email: Action.email }] });
-                return res.json({sessionid:actionid});
+                return res.json({sessionid:Action.actionid});
 
             }
             else {

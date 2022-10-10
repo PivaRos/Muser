@@ -39,6 +39,10 @@ const TrackRow = (props: props) => {
         }
     }, [props.user])
 
+    useEffect(() => {
+        setLoved(props.liked);
+    }, [props])
+
 
 
     useEffect(() => {
@@ -55,7 +59,6 @@ const TrackRow = (props: props) => {
     const toggleLoved = async () => {
         if (!loading) // if not already doing somth
         {
-            console.log("hello")
             setLoading(true);
             if (Loved) {
                 //from like to unlike

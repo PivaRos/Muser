@@ -15,6 +15,7 @@ interface props {
     settings:{
         withAuthor:boolean;
     }
+    setUser:React.Dispatch<React.SetStateAction<User | null | undefined>>;
 }
 
 const TrackRow = (props: props) => {
@@ -77,6 +78,19 @@ const TrackRow = (props: props) => {
                 {
                     setLoved(!Loved);
                     setLikes(likes - 1);
+                    //update local user
+                    if (props.user)
+                    {
+                        for(let i = 0;i< props.user.likedtracks.length;i++)
+                        {
+                            if (props.user.likedtracks[i] === props.track._id)
+                            {
+                                let clone =props.user;
+                                clone.likedtracks.splice(i,1);
+                                props.setUser(clone);
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -101,6 +115,14 @@ const TrackRow = (props: props) => {
                 {
                     setLikes(likes + 1);
                     setLoved(!Loved);
+                    //update local user
+                    if (props.user)
+                    {
+
+                        let clone = props.user;
+                        clone.likedtracks.push(props.track._id);
+                        props.setUser(clone);
+                    }
                 }
                 else
                 {

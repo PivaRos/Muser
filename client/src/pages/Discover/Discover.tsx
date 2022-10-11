@@ -10,6 +10,7 @@ interface props {
     setTrack: React.Dispatch<React.SetStateAction<track>>, 
     activeTrack:track;
     user:User | null | undefined; 
+    setUser:React.Dispatch<React.SetStateAction<User | null | undefined>>;
 }
 
 const Discover = (props: props) => {
@@ -65,7 +66,7 @@ const Discover = (props: props) => {
         <div className="page" id={s.content}>
             <h2 id={s.label}>Discover</h2>
             {Loading && <h2 className={s.loading}>loading...</h2>}
-            {!Loading && <TracklistComp settings={{withAuthor:true}} user={props.user} likedByUser={likedByUser} activeTrack={props.activeTrack} setTrack={props.setTrack} tracks={Tracklist}/>}
+            {!Loading && <TracklistComp setUser={props.setUser} settings={{withAuthor:true}} user={props.user} activeTrack={props.activeTrack} setTrack={props.setTrack} tracks={Tracklist}/>}
         </div>
     )
 }

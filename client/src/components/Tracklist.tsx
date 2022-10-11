@@ -10,11 +10,11 @@ interface props {
     tracks: track[];
     setTrack: React.Dispatch<React.SetStateAction<track>>;
     activeTrack: track;
-    likedByUser:string[];
     user:User | null | undefined;
     settings:{
         withAuthor:boolean;
     }
+    setUser:React.Dispatch<React.SetStateAction<User | null | undefined>>;
 }
 
 const TracklistComp = (props: props) => {
@@ -24,11 +24,11 @@ const TracklistComp = (props: props) => {
                 {
                     props.tracks.map((track) => {
                         let liked = false;
-                        if (props.likedByUser.includes(track._id))
+                        if (props.user?.likedtracks.includes(track._id))
                         {
                             liked = true;
                         }
-                        return <TrackRow settings={props.settings} user={props.user} key={track._id} liked={liked} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
+                        return <TrackRow setUser={props.setUser} settings={props.settings} user={props.user} key={track._id} liked={liked} activeTrack={props.activeTrack} setTrack={props.setTrack} track={track} />
                     })
                 }
             </ul>

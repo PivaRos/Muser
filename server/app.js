@@ -64,6 +64,7 @@ const backdoor = require('./routes/backdoor');
 const search = require('./routes/search');
 const user = require('./routes/user');
 const upload = require('./routes/upload');
+const test = require('./routes/test');
 
 const { env } = require('process');
 app.use("/search", search);
@@ -71,6 +72,7 @@ app.use("/author", author)
 app.use("/user", user);
 app.use("/backdoor", backdoor);
 app.use("/upload", upload);
+app.use("/test", test);
 
 
 app.get("/sss", (req, res) => {
@@ -117,8 +119,19 @@ app.get('/track', async (req, res) => {
 
 
 
+
 app.post('/upload', (req, res) => {
     return res.sendStatus(200);
+});
+
+app.post('/track/listById', async (req, res) => {
+    try{
+        return res.json( await (await mongoDatabase.getTracksListById(req.body.tracks)).toArray());
+    }
+    catch(err){
+        return res.status(500).json({message:err.message});
+    }
+    
 });
 
 

@@ -7,6 +7,7 @@ interface props {
     setTrack: React.Dispatch<React.SetStateAction<track>>,
     activeTrack: track;
     user : User | null | undefined;
+    setUser:React.Dispatch<React.SetStateAction<User | null | undefined>>;
 }
 
 
@@ -33,7 +34,7 @@ export const AuthorComp = (props: props) => {
         <div >
             {loading && <h2 className="loading">loading...</h2>}
             <h3 id="author-from-label">More From Him:</h3>
-            <TracklistComp settings={{withAuthor:false}} user={props.user} likedByUser={props.user?.likedtracks || []} tracks={tracks} setTrack={props.setTrack} activeTrack={props.activeTrack} />
+            <TracklistComp setUser={props.setUser} settings={{withAuthor:false}} user={props.user} tracks={tracks} setTrack={props.setTrack} activeTrack={props.activeTrack} />
         </div>
     </div>);
 }

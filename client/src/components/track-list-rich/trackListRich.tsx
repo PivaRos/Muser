@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import '../../css/tracklistrich.css';
 import TrackRowRich from "./track-row-rich";
-import { track } from '../../interfaces';
+import { Playlist, track, User } from '../../interfaces';
+import { PlaylistComp } from "../playlist";
 
 
 
@@ -12,6 +13,9 @@ interface props {
     likedByUser: string[];
     playing: boolean;
     setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+    Playlists:Playlist[] | null | undefined;
+    user:User | null | undefined;
+    setUser:React.Dispatch<React.SetStateAction<User | null | undefined>>;
 }
 
 const TrackListRich = (props: props) => {
@@ -19,7 +23,11 @@ const TrackListRich = (props: props) => {
     return (
         <div className="tracklistrich">
             <ul className={"track-ul-rich "+classes}>
+                {props.Playlists && props.Playlists.map((playlist, key) => {
+                    return <li key={key} className="track-li-rich"><div className="li-div-rich"><PlaylistComp setUser={props.setUser} name={playlist.name} tracks={playlist.tracks} activeTrack={props.activeTrack} setTrack={props.setTrack} settings={{display:"BOX"}} user={props.user} /></div>   </li>
+                })}
                 {
+                    
                     props.tracks.map((track) => {
                         if (track.icon) {
                             let liked = false;
@@ -32,6 +40,7 @@ const TrackListRich = (props: props) => {
                         return "";
                         
                     })
+                    
                     
                 }
             </ul>

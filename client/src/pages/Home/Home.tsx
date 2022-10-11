@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { User } from '../../interfaces';
+import { Playlist, User } from '../../interfaces';
 import TrackListRich from '../../components/track-list-rich/trackListRich';
 import { track } from '../../interfaces';
 import "../../css/home.css";
+import { PlaylistComp } from '../../components/playlist';
 
 
 interface props {
@@ -11,9 +12,13 @@ interface props {
     activeTrack: track;
     playing: boolean;
     setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+    playLists:Playlist[]| undefined| null;
+    setPlayList:React.Dispatch<React.SetStateAction<Playlist[] | undefined | null>>;
+    setUser:React.Dispatch<React.SetStateAction<User | null | undefined>>;
 }
 
 const Home = (props: props) => {
+
 
     const [Tracklist, setTrackList] = useState<track[]>([{
         src: "",
@@ -50,8 +55,9 @@ const Home = (props: props) => {
         <div className="page" id="home">
             {!props.user && <h2>Welcome To Muser !</h2>}
             {Loading && <h2 className="loading">loading...</h2>}
-            {props.user && <h2>Welcome {props.user.username}</h2>}
-            <TrackListRich setPlaying={props.setPlaying} playing={props.playing} activeTrack={props.activeTrack} likedByUser={[]} tracks={Tracklist} setTrack={props.setTrack} />
+            {props.user && <h2>Welcome {props.user.username}</h2>}  
+            <TrackListRich setUser={props.setUser} user={props.user} Playlists={props.playLists} setPlaying={props.setPlaying} playing={props.playing} activeTrack={props.activeTrack} likedByUser={[]} tracks={Tracklist} setTrack={props.setTrack} />
+            
         </div>
     );
 }

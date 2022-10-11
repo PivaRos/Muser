@@ -8,7 +8,7 @@ import Navbar from "./Navbar";
 import Player from './player/Player';
 import Sidebar from "./Sidebar";
 import Notfound from '../pages/Notfound/Notfound';
-import { track, User } from '../interfaces';
+import { Playlist, track, User } from '../interfaces';
 import { AuthorComp } from '../pages/Author/Author';
 import { LoginPage } from '../pages/Login/LoginPage';
 
@@ -18,6 +18,7 @@ import { LoginPage } from '../pages/Login/LoginPage';
 export const Wrapper = () => {
 
     const [user, setUser] = useState<User | null>();
+    const [Playlists, setPlaylists] = useState<Playlist[] | undefined | null>();
     const [track, setTrack] = useState({
         src: "",
         name: "",
@@ -149,6 +150,7 @@ export const Wrapper = () => {
         }).catch((err) => {
 
         });
+
         let current_cookie = getCookie("SessionID");
         setInterval(function() {
             if (current_cookie !== getCookie("SessionID"))
@@ -167,8 +169,77 @@ export const Wrapper = () => {
         return () => {
             
         };
+       
 
     }, [])
+
+
+    useEffect(() => {
+
+
+        if (Playlists)
+        {
+            if (user && user.likedtracks && user.likedtracks.length  > 2 )
+            {
+
+                var found = false;
+                for(var i = 0; i < Playlists.length; i++) {
+                    if (Playlists[i].name === "Liked Songs") {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if(!found){
+                const options = {
+                    method:"POST",
+                    body:JSON.stringify({tracks:user?.likedtracks})
+                }
+                fetch(url+"/track/listById", options).then(response => {
+                    response.json().then(data => {
+                        if (!Playlists)
+                        {
+                            let clone = [];
+                            clone.push({name:"Liked Songs", tracks:data, icon:null});
+                            setPlaylists(clone);
+                        }
+                        else
+                        {
+                            let clone = Playlists
+                            clone.push({name:"Liked Songs", tracks:data, icon:null});
+                            setPlaylists(clone);
+                        }
+
+                        console.log(Playlists);
+                    })
+                })
+                }
+            }
+        }
+        else
+        {
+            if (user && user.likedtracks && user.likedtracks.length  > 2 )
+            {
+
+                const options = {
+                    method:"POST",
+                    body:JSON.stringify({tracks:user?.likedtracks})
+                }
+                fetch(url+"/track/listById", options).then(response => {
+                    response.json().then(data => {
+                            let clone = [];
+                            clone.push({name:"Liked Songs", tracks:data, icon:null});
+                            setPlaylists(clone);
+                    })
+
+                    
+                })
+
+            }
+        }
+    }, [user])
+
+
     return (
         <div id="wrapper">
             <Router>
@@ -177,11 +248,12 @@ export const Wrapper = () => {
                 <Sidebar setTrack={setTrackChange} activeTrack={track} />
                 <div id="content">
                     <Routes>
-                        <Route path="/discover" element={<Discover user={user} activeTrack={track} setTrack={setTrackChange} />} />
-                        <Route path='/author/:authorName' element={<div><AuthorComp user={user} activeTrack={track} setTrack={setTrackChange} /></div>} />
+                        <Route path="/discover" element={<Discover setUser={setUser} user={user} activeTrack={track} setTrack={setTrackChange} />} />
+                        <Route path='/author/:authorName' element={<div><AuthorComp setUser={setUser} user={user} activeTrack={track} setTrack={setTrackChange} /></div>} />
                       {!user &&  <Route path="/login" element={<LoginPage setUser={setUser}/>} />}
-                        <Route path="/" element={<Home setPlaying={setPlaying} playing={playing} activeTrack={track}  setTrack={setTrack} user={user} />} />
+                        <Route path="/" element={<Home setUser={setUser} setPlayList={setPlaylists} playLists={Playlists} setPlaying={setPlaying} playing={playing} activeTrack={track}  setTrack={setTrack} user={user} />} />
                         <Route path='*' element={<Notfound />} />
+
                     </Routes>
 
                 </div>

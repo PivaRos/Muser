@@ -25,3 +25,9 @@ export interface User {
     likedtracks:string[];
     sessionid:string;
 }
+
+export interface Playlist {
+    name:string;
+    tracks:track[];
+    icon:null | undefined | string;
+}

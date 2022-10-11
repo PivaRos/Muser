@@ -37,6 +37,13 @@ class MongoModule {
 
     }
 
+    async getTracksListById(queryIds) {
+        return await this.tracks.find({ _id: {$in:queryIds.map((id) => {
+            return new ObjectId(id);
+        })}});
+
+    }
+
     async addTrack(track) {
         let res;
         try {
@@ -66,6 +73,38 @@ class MongoModule {
                 })
             }, $expr: { $lt: [0.5, { $rand: {} }] }
         });
+    }
+
+
+
+    async getRandomTrackExcludeAndInclude(include, exclude) {
+        let result = await this.tracks.findOne({
+             $and: [
+        {
+            _id: {
+                $in: include.map(id => {
+                    return new ObjectId(id);
+                })
+            }
+        },
+        {
+            _id:{
+                $nin: exclude.map(id => {
+                    return new ObjectId(id);
+                })  
+            }
+        }
+    ],
+    $expr: { $lt: [0.5, {$rand: {} } ] }
+    });
+    if (result === null)
+    {
+       return this.getRandomTrackExcludeAndInclude(include, exclude);
+    }
+    else
+    {
+        return result;
+    }
     }
 
     async MuserSearch(query) {

@@ -11,6 +11,7 @@ import Notfound from '../pages/Notfound/Notfound';
 import { Playlist, track, User } from '../interfaces';
 import { AuthorComp } from '../pages/Author/Author';
 import { LoginPage } from '../pages/Login/LoginPage';
+import { templateElement } from '@babel/types';
 
 
 
@@ -175,7 +176,26 @@ export const Wrapper = () => {
 
 
     useEffect(() => {
+        if (!user && Playlists)
+        {
+            for(var i = 0; i < Playlists.length; i++) {
 
+                if (Playlists[i].name === "Liked Songs") {
+                    if (Playlists.length === 1)
+                    {
+                        setPlaylists(null);
+                        break;
+                    }
+                    else
+                    {
+                    var tempPlaylists = Playlists;
+                    tempPlaylists.splice(i,1);
+                    setPlaylists(tempPlaylists);
+                    break;
+                    }
+                }
+            }
+        }
 
         if (Playlists)
         {

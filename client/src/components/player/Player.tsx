@@ -7,6 +7,9 @@ const Playsvg = require("../../svgs/play.svg");
 const Pausesvg = require("../../svgs/pause.svg");
 const Forwardsvg = require("../../svgs/forward.svg");
 const Backwardsvg = require("../../svgs/backward.svg");
+const Volume1 = require("../../svgs/volume1.svg");
+const Volume05 = require("../../svgs/volume0.5.svg");
+const Volume0 = require("../../svgs/volume0.svg");
 
 
 
@@ -22,6 +25,7 @@ interface props {
 }
 
 const Player = (props: props) => {
+  const [currentSvg, setCurrentSvg] = useState(Volume1);
   const [Loading, setLoading] = useState(true);
   const audioPlayer = useRef(new Audio());
   const [currentTime, setCurrentTime] = useState(0);
@@ -77,10 +81,22 @@ const Player = (props: props) => {
       setPlayicon(Playsvg.default);
     }
   }, [props.playing])
-
   useEffect(() => {
     audioPlayer.current.volume = volume;
+
+    if (audioPlayer.current.volume > 0.5 && currentSvg !== Volume1)
+    {
+      setCurrentSvg(Volume1);
+    }
+   else if (audioPlayer.current.volume === 0 && currentSvg !== Volume0)
+   {
+    setCurrentSvg(Volume0);
+   }
+   else if(audioPlayer.current.volume <= 0.5 && currentSvg !== Volume05) {
+      setCurrentSvg(Volume05);
+   }
   }, [volume])
+
 
 
 
@@ -155,6 +171,8 @@ const Player = (props: props) => {
       <img className="player-button" id="backwardsvg" src={Backwardsvg.default} alt="" onClick={Previous} />
       <img className="player-button" id="playimg" src={playicon} alt="" onClick={Toggleplay} />
       <img className="player-button" id="forwardsvg" src={Forwardsvg.default} alt="" onClick={Next} />
+      <div id="volume-div">
+<img className="player-svg" id="volume-svg" src={currentSvg.default} alt=""/>
       <input
         className="slider"
         id="volumeSlider"
@@ -164,6 +182,7 @@ const Player = (props: props) => {
         step="1"
         value={volume * 100}
         onChange={volumeChange} />
+</div>
       <div>
       </div>
     </div>

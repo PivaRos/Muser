@@ -52,10 +52,23 @@
   }
 
 
+
+  #volume-svg{
+    height: 21px;
+    margin-top: 2px;
+    position: absolute;
+    margin-left: -15px;
+  }
+
+ 
   #volumeSlider{
+    max-width: 150px;
+  }
+
+  #volume-div{
     right: 30px;
-    top: 15px;
-    width: 10%;
+    top: 25px;
+    width: 18vw;
     position: absolute;
   }
 

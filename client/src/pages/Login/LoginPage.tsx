@@ -14,16 +14,24 @@ export const LoginPage = (props: props) => {
 
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState<string | JSX.Element>();
     const url = "http://localhost:5000";
 
 
+    const validation = () => {
+        if (!username || !password)
+        {
+            return false;
+        }
+        return true
+    }
 
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (true) // validation 
+        if (validation()) // validation 
         {
             const options = {
                 method: "POST",
@@ -36,11 +44,13 @@ export const LoginPage = (props: props) => {
                 })
             }
             try {
+                setLoading(true);
                 const res = await fetch(url + "/user", options);
                 const data1 = await res.json();
                 if (res.status === 200) {
 
                     setMessage(<Message type={"OK"} text={"seccesful login !"} />);
+                    setLoading(false);
                     setCookie("SessionID", data1.sessionid, 1);
                     const data = await (await fetch(url + "/user/private", {
                         headers: {
@@ -68,12 +78,13 @@ export const LoginPage = (props: props) => {
                 }
                 else {
                     setMessage(<Message type={"ERROR"} text={"user was not found"} />);
+                    setLoading(false);
                 }
             }
             catch
             {
                 setMessage(<Message type={"ERROR"} text={"Oops Something Went Wrong !"} />);
-
+                setLoading(false);
             }
 
 
@@ -85,7 +96,7 @@ export const LoginPage = (props: props) => {
     return (
         <div className="page" id="login-div">
             <h3 id="message">{message}</h3>
-            <img className="icon" src="/icon-with-text.png" />
+            {loading && <h2>loading...</h2>}
             <form id="login-form" onSubmit={e => { submit(e) }}>
                 <input onChange={e => { setUsername(e.target.value) }} type="input" id="username" placeholder="username"></input><br />
                 <input onChange={e => { setPassword(e.target.value) }} type="password" id="password" placeholder="password"></input><br />

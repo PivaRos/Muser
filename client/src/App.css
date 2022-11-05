@@ -52,15 +52,22 @@ width: 100%;
   display: flex;
   justify-content: center;
   position: fixed;
-  left: 20%;
   height: 53px;
   width: calc(100vw - 250px);
 }
+
 #navbar {
   height: 53px;
   width: calc(100vw - 250px);
   right: 0;
   position: absolute;
+}
+
+#nav-icon{
+  left: 5px;
+  position: absolute;
+  top: 8px;
+  height: 45px;
 }
 
 #navbar ul li{
@@ -84,6 +91,7 @@ width: 100%;
   background-color:lightblue;
 }
 .page{
+  margin-top: 20px;
   width: 100%;
   justify-content: center;
   display: flex;

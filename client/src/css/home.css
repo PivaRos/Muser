@@ -6,3 +6,8 @@
     cursor: none;
     user-select: none;
 }
+
+#head-title{
+    left: 15px;
+    position: absolute;
+}

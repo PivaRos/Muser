@@ -13,6 +13,7 @@ const Navbar = (props:props) => {
                 <li><NavLink to="/" text="Home"/></li>
                 <li><NavLink to="/discover" text="Discover"/></li>
                 {!props.user && <li><NavLink to="/login" text="Login"/></li>}
+                {props.user && <li><NavLink to="/" text="asd"/></li>}
             </ul>
         </div>
     );

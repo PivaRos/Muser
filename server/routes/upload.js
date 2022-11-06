@@ -74,6 +74,23 @@ const uploadIcon = new multer({ storageIcon });
 
 
 
+
+const UserAuthorization = async (req, res, next) => {
+  //res.locals.user = await mongoDatabase.users.findOne(ObjectId(req.body.sessionid));
+  res.locals.user = await mongoDatabase.users.findOne({sessionid:req.headers.authorization});
+  if(res.locals.user)
+  {
+      next();
+  }
+  else
+  {
+      return res.sendStatus(401);
+  }
+}
+
+
+
+
 // @route POST /upload
 // @desc  Uploads file to DB
 router.post('/track', upload.fields([{name:"track",maxCount:1}, {name:"icon", maxCount:1}]), async (req, res) => {
@@ -90,9 +107,32 @@ router.post('/track', upload.fields([{name:"track",maxCount:1}, {name:"icon", ma
   }
 });
 
-router.post('/track-icon', uploadIcon.single("icon") , (req, res) => {
-    return res.json({ file: req.file });
-});
+ router.delete('/user-avatar', UserAuthorization, async (req, res) => {
+
+ });
+
+ // not ready yet
+router.post('/user-avatar', UserAuthorization, upload.single("avatar"), async (req, res) => {
+  if (req.file)
+  {
+    try{
+    if (!res.locals.user.avatar) // if no avatar before
+    {
+        await mongoDatabase.updateUserIcon(req.headers.authorization, req.file.filename);
+        return res.sendStatus(200);
+    }
+   else if (res.locals.user.avatar) // if user already had avatar
+   {
+      //delete previus avatar
+      // and save the new one
+   }
+  }
+  catch{
+    // delete saved avatar 
+    return res.sendStatus(500);
+  }
+  }
+} );
 
 
 

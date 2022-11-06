@@ -65,6 +65,22 @@ class MongoModule {
 
     }
 
+    /**
+    * 
+    * @param {string} sessionid 
+    * @param {string} imageName 
+    *
+    */
+    async updateUserIcon(sessionid, imageName){
+       return await this.users.updateOne({sessionid:sessionid }, { set:{ avatar : imageName } } );
+    }
+
+
+    /**
+    * returns random track that does not included in the exclude param
+    * @param {string[]} exclude 
+    * array of the Ids of the tracks you want to exclude or null
+    */
     async getRandomTrackExclude(exclude) {
         return await this.tracks.findOne({
             _id: {

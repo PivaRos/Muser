@@ -23,6 +23,7 @@ export interface User {
     password:string;
     email:string;
     likedtracks:string[];
+    avatar:string;
     sessionid:string;
 }
 

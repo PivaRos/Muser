@@ -72,7 +72,7 @@ class MongoModule {
     *
     */
     async updateUserIcon(sessionid, imageName){
-       return await this.users.updateOne({sessionid:sessionid }, { set:{ avatar : imageName } } );
+       return await this.users.updateOne({sessionid:sessionid }, { $set:{ avatar : imageName } } );
     }
 
 
@@ -124,9 +124,30 @@ class MongoModule {
     }
 
     async MuserSearch(query) {
-        const results = await this.tracks.find({ $or: [{ "name": new RegExp('.*' + query.toLowerCase() + '.*') }, { "author": new RegExp('.*' + query.toLowerCase() + '.*') }, { "name": new RegExp('.*' + query.toUpperCase() + '.*') }, { "author": new RegExp('.*' + query.toUpperCase() + '.*') }] }).toArray();// need to fix query of .find()
+        const results = await this.tracks.aggregate([
+            {
+                $search: {
+                  index: 'default',
+                  text: {
+                    query: query,
+                    path: {
+                      'wildcard': '*'
+                    }
+                  }
+                }
+            }
+        ]).toArray();   
+        const results2 = await this.tracks.find(
+            {
+                $or:[{name:{ $regex: query, $options: "i" }}, {author:{ $regex: query, $options: "i" }},]
+            }
+        ).toArray();   
+
+        const sumresults = results.concat(results2);
+            console.log(sumresults);
+
         const authors = [];
-        results.map(track => {
+        sumresults.map(track => {
             if (track.author.lenght === 1 && !authors.some(({ name }) => name === track.author)) {
                 authors.push({
                     name: track.author
@@ -147,7 +168,7 @@ class MongoModule {
             }
             
         });
-        return { tracks: results, authors: authors };
+        return { tracks: sumresults, authors: authors };
     }
 
     async UploadTrack(){

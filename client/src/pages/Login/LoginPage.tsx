@@ -18,7 +18,7 @@ export const LoginPage = (props: props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState<string | JSX.Element>();
-    const url = "http://localhost:5000";
+    const url = process.env.REACT_APP_url;
 
 
     const validation = () => {

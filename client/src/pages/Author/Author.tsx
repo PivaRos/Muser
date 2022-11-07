@@ -12,7 +12,7 @@ interface props {
 
 
 export const AuthorComp = (props: props) => {
-    const url = "http://localhost:5000";
+    const url = process.env.REACT_APP_url;
     let { authorName } = useParams();
     const [loading, setLoading] = useState(true);
     const [tracks, setTracks] = useState([]);

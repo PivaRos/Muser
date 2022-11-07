@@ -6,8 +6,11 @@ interface props  {
     text:string;
     }
 
+
+
 const Navlink = (props : props) => {
-    return <Link className="link" to={props.to} style={{ textDecoration: 'none' }}>{props.text}</Link>
+
+        return <Link className="nav-link" to={props.to} style={{ textDecoration: 'none' }}>{props.text}</Link>
 }
 
 export default Navlink;

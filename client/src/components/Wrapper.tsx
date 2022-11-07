@@ -42,7 +42,7 @@ export const Wrapper = () => {
     const [GlobalMessage, setGlobalMessage] = useState<string>("");
 
     const [NextAndPrevTrack, setNextAndPrevTrack] = useState(0);
-    const url = "http://localhost:5000";
+    const url = process.env.REACT_APP_url;
 
     const [ExcludeForNext, setExcludeForNext] = useState<any[]>([]);
     

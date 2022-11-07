@@ -111,7 +111,6 @@ router.post('/track', upload.fields([{name:"track",maxCount:1}, {name:"icon", ma
 
  });
 
- // not ready yet
 router.post('/user-avatar', UserAuthorization, upload.single("avatar"), async (req, res) => {
   if (req.file)
   {
@@ -124,15 +123,18 @@ router.post('/user-avatar', UserAuthorization, upload.single("avatar"), async (r
    else if (res.locals.user.avatar) // if user already had avatar
    {
       //delete previus avatar
-      // and save the new one
+      gfs.remove({ filename: res.locals.user.avatar, root: 'uploads' }, (err, gridStore) => {});
+      // save the new one
+      await mongoDatabase.updateUserIcon(req.headers.authorization, req.file.filename);
+      return res.sendStatus(200);
    }
   }
-  catch{
-    // delete saved avatar 
+  catch(err){
+    gfs.remove({ filename: req.file.filename, root: 'uploads' }, (err, gridStore) => {});
     return res.sendStatus(500);
   }
   }
-} );
+});
 
 
 
@@ -141,7 +143,6 @@ router.post('/user-avatar', UserAuthorization, upload.single("avatar"), async (r
 // @desc Display Image
 router.get('/file/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    // Check if file
     if (!file || file.length === 0) {
       return res.status(404).json({
         err: 'No file exists'
@@ -156,7 +157,6 @@ router.get('/file/:filename', (req, res) => {
 
 router.get('/track/icon/:filename', (req, res) => {
   gfsIcons.files.findOne({ filename: req.params.filename }, (err, file) => {
-    // Check if file
     if (!file || file.length === 0) {
       return res.status(404).json({
         err: 'No file exists'
@@ -171,13 +171,21 @@ router.get('/track/icon/:filename', (req, res) => {
 // @route DELETE /files/:id
 // @desc  Delete file
 router.delete('/files/:id', (req, res) => {
+  if (req.body.secretID === "secretIDmyid123")
+  {
   gfs.remove({ _id: req.params.id, root: 'uploads' }, (err, gridStore) => {
     if (err) {
-      return res.status(404).json({ err: err });
+      return res.sendStatus(500);
     }
 
     res.sendStatus(200);
   });
+}
+else
+{
+  return res.sendStatus(500); 
+}
+
 });
 
 module.exports = router;

@@ -33,7 +33,7 @@ const Sidebar = (props: props) => {
         }
     );
     const [loading, setLoading] = useState(false);
-    const url = "http://localhost:5000/";
+    const url = process.env.REACT_APP_url+"/" || "http://localhost:5000/";
 
     useEffect(() => {
         if (activeQuery !== "") {

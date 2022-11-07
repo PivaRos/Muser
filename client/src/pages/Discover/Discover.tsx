@@ -4,7 +4,7 @@ import TracklistComp from '../../components/Tracklist';
 import {track, User} from '../../interfaces';
 import s from "./Discover.module.css"
 
-const url = "http://localhost:5000";
+const url = process.env.REACT_APP_url;
 
 interface props {
     setTrack: React.Dispatch<React.SetStateAction<track>>, 

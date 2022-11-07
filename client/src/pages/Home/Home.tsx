@@ -29,7 +29,7 @@ const Home = (props: props) => {
         _id: ""
     }]);
     const [Loading, setLoading] = useState(true);
-    const url = "http://localhost:5000";
+    const url = process.env.REACT_APP_url;
 
 
     useEffect(() => {

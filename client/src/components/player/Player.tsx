@@ -32,8 +32,9 @@ const Player = (props: props) => {
   const [duration, setDuration] = useState(+audioPlayer.current.duration);
   const [volume, setVolume] = useState(1);
   const [playicon, setPlayicon] = useState(Playsvg);
-  const urlsrc = "http://localhost:5000/upload/file/";
-  const urlicon = "http://localhost:5000/upload/file/";
+  const url = process.env.REACT_APP_url;
+  const urlsrc = url+"/upload/file/";
+  const urlicon = url+"/upload/file/";
   const [wasPlaying, setWasPlaying] = useState(false);
   const [lockedButton, setLockedButton] = useState(false);
 

@@ -169,5 +169,28 @@
     object-fit:cover;
   }
 
+  .time-viewer{
+    position: absolute;
+    top:47px;
+    user-select: none;
+    -webkit-user-drag: none;
+    font-size: 13px;
+    color: #105269;
+    font-weight: 300;
+    opacity: 50%;
+  }
+
+  .time-viewer-passed{
+    margin-right: calc(35% + 35px);
+  }
+
+  .time-viewer-left{
+    margin-left: calc(35% + 75px);
+  }
+  .liked-icon-player{
+    margin-right: 98vw;
+    height: fit-content;
+    width: fit-content;
+  }
 
 }

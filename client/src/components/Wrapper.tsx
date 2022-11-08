@@ -45,6 +45,11 @@ export const Wrapper = () => {
     const url = process.env.REACT_APP_url;
 
     const [ExcludeForNext, setExcludeForNext] = useState<any[]>([]);
+
+    useEffect(() => {
+        console.log(track)
+        console.log(user)
+    }, [user, track])
     
     useEffect(() => {
         if (NextAndPrevTrack === 1) {
@@ -279,7 +284,7 @@ export const Wrapper = () => {
                 </div>
 
 
-                <Player user={user} playing={playing} setPlaying={setPlaying} setNextAndBack={setNextAndPrevTrack} track={track} />
+                <Player setTrack={setTrack} setUser={setUser} user={user} playing={playing} setPlaying={setPlaying} setNextAndBack={setNextAndPrevTrack} track={track} />
             </Router>
         </div>
     );

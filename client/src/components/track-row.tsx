@@ -42,7 +42,10 @@ const TrackRow = (props: props) => {
 
     useEffect(() => {
         setLoved(props.liked);
-    }, [props])
+    }, [props.liked])
+
+    useEffect(() => {
+    }, [props.liked])
 
 
 
@@ -77,7 +80,6 @@ const TrackRow = (props: props) => {
                 if (response.status === 200)
                 {
                     setLoved(!Loved);
-                    setLikes(likes - 1);
                     //update local user
                     if (props.user)
                     {
@@ -88,7 +90,11 @@ const TrackRow = (props: props) => {
                                 let clone =props.user;
                                 clone.likedtracks.splice(i,1);
                                 props.setUser(clone);
+                                let cloneTrack = props.track;
+                                cloneTrack.likes -= 1;
+                                props.setTrack(cloneTrack);
                             }
+
                         }
                     }
                 }
@@ -113,7 +119,6 @@ const TrackRow = (props: props) => {
                 const response = await fetch(url+ "/user/track/like", options);
                 if (response.status === 200)
                 {
-                    setLikes(likes + 1);
                     setLoved(!Loved);
                     //update local user
                     if (props.user)
@@ -122,6 +127,9 @@ const TrackRow = (props: props) => {
                         let clone = props.user;
                         clone.likedtracks.push(props.track._id);
                         props.setUser(clone);
+                        let cloneTrack = props.track;
+                        cloneTrack.likes += 1;
+                        props.setTrack(cloneTrack);
                     }
                 }
                 else

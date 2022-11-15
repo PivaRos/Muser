@@ -90,7 +90,6 @@ const UserAuthorization = async (req, res, next) => {
 
 
 
-
 // @route POST /upload
 // @desc  Uploads file to DB
 router.post('/track', upload.fields([{name:"track",maxCount:1}, {name:"icon", maxCount:1}]), async (req, res) => {
@@ -170,10 +169,10 @@ router.get('/track/icon/:filename', (req, res) => {
 
 // @route DELETE /files/:id
 // @desc  Delete file
-router.delete('/files/:id', (req, res) => {
+router.delete('/files/:filename', (req, res) => {
   if (req.body.secretID === "secretIDmyid123")
   {
-  gfs.remove({ _id: req.params.id, root: 'uploads' }, (err, gridStore) => {
+  gfs.remove({ filename: req.params.filename, root: 'uploads' }, (err, gridStore) => {
     if (err) {
       return res.sendStatus(500);
     }

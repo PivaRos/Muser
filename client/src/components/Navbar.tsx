@@ -1,8 +1,9 @@
 import userEvent from "@testing-library/user-event";
-import React from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { User } from "../interfaces";
 import NavLink from "./Navlink";
+import { Slider } from "./Slider";
 
 interface props {
     user : User | null | undefined;
@@ -12,6 +13,19 @@ interface props {
 const Navbar = (props:props) => {
 
     const host = process.env.REACT_APP_url;
+    const [dropMenu, setDropMenu] = useState(false);
+
+    const ToggleSlider = () => {
+        setDropMenu(!dropMenu);
+    }
+
+    useEffect(() => {
+        if (!props.user)
+        {
+            setDropMenu(false);
+        }
+    }, [props.user])
+
     return (
         <div id="navbar">
             <ul id="navlist">
@@ -19,8 +33,12 @@ const Navbar = (props:props) => {
                 <li className="nav-li"><NavLink to="/" text="Home"/></li>
                 <li className="nav-li"><NavLink to="/discover" text="Discover"/></li>
                 {!props.user && <li className="nav-li"><NavLink to="/login" text="Login"/></li>}
-                {props.user?.avatar && <li className="nav-li-avatar"><Link to={"profile/"+props.user.username} className="image-link"><img id="user-avatar" src={host+"/upload/file/"+props.user.avatar} /></Link></li>}
+                {props.user?.avatar && <li className="nav-li-avatar"><a onClick={ToggleSlider} className="image-link"><img id="user-avatar" src={host+"/upload/file/"+props.user.avatar} /></a></li>}
             </ul>
+            <div className="dropDownList">
+                {(dropMenu && props.user) && <Slider user={props.user} animation="slide-down" /> }
+                { (dropMenu && props.user) &&  <div onClick={ToggleSlider} className="focus-div"></div>}
+            </div>
         </div>
     );
 }

@@ -144,8 +144,7 @@ class MongoModule {
         ).toArray();   
 
         const sumresults = results.concat(results2);
-            console.log(sumresults);
-
+        
         const authors = [];
         sumresults.map(track => {
             if (track.author.lenght === 1 && !authors.some(({ name }) => name === track.author)) {

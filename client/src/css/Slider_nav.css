@@ -1,0 +1,62 @@
+.navbar-slider-menu{
+    position: absolute;
+    right: 0;
+    top:56px;
+    height: calc(80vh - 56px - 20vh);
+    width:120px;
+    z-index: 6;
+        background: rgb(165, 229, 251);
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+
+}
+
+.slider-ul{
+    height: 100%;
+    width: 100%;
+    list-style: none;
+    text-align: center;
+    user-select: none;
+}
+
+.slider-ul li{
+    padding-top: 10px;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.slider-ul li label{
+    cursor: pointer;
+}
+
+.slider-ul li label:hover{
+    text-decoration: underline;
+}
+
+.slider-ul li a {
+    text-decoration: none;
+}
+
+@keyframes slideDown {
+    0%{
+        transform: scale(0);
+        transform:translateX(120px); 
+
+    }
+    50%{
+
+        transform:translateX(100px); 
+        transform: scale(0.8);
+
+    }
+    100%{
+        transform:translateX(0); 
+        transform: scale(1);
+    }
+}
+
+.slide-down{
+    animation:0.3s slideDown ;
+}

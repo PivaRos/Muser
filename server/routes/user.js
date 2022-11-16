@@ -229,11 +229,10 @@ router.get("/private", async (req, res) => {
     }
 });
 
-router.get("/public", async (req, res) => {
+router.get("/public/:username", async (req, res) => {
     if (true) // validation
     {
-        res.locals.user = await mongoDatabase.users.findOne( { _id : ObjectId(req.body._id) }, {projection:{ password:0 , sessionid:0 , email:0, _id:0} });
-       console.log(res.locals.user);
+        res.locals.user = await mongoDatabase.users.findOne( { username : req.params.username }, {projection:{ password:0 , sessionid:0 , email:0, _id:0} });
         if (res.locals.user)
         {
             return res.json(res.locals.user);

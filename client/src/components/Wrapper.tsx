@@ -11,7 +11,7 @@ import Notfound from '../pages/Notfound/Notfound';
 import { Playlist, track, User } from '../interfaces';
 import { AuthorComp } from '../pages/Author/Author';
 import { LoginPage } from '../pages/Login/LoginPage';
-import { templateElement } from '@babel/types';
+import { ProfilePage } from '../pages/Profile/ProfilePage';
 
 
 
@@ -46,11 +46,6 @@ export const Wrapper = () => {
 
     const [ExcludeForNext, setExcludeForNext] = useState<any[]>([]);
 
-    useEffect(() => {
-        console.log(track)
-        console.log(user)
-    }, [user, track])
-    
     useEffect(() => {
         if (NextAndPrevTrack === 1) {
 
@@ -274,6 +269,7 @@ export const Wrapper = () => {
                 <div id="content">
                     <Routes>
                         <Route path="/discover" element={<Discover setUser={setUser} user={user} activeTrack={track} setTrack={setTrackChange} />} />
+                        <Route path="/profile/:username" element={<ProfilePage user={user} setUser={setUser}/>}/>
                         <Route path='/author/:authorName' element={<div><AuthorComp setUser={setUser} user={user} activeTrack={track} setTrack={setTrackChange} /></div>} />
                       {!user &&  <Route path="/login" element={<LoginPage setUser={setUser}/>} />}
                         <Route path="/" element={<Home setUser={setUser} setPlayList={setPlaylists} playLists={Playlists} setPlaying={setPlaying} playing={playing} activeTrack={track}  setTrack={setTrack} user={user} />} />

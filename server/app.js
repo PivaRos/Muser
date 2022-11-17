@@ -65,6 +65,7 @@ const search = require('./routes/search');
 const user = require('./routes/user');
 const upload = require('./routes/upload');
 const test = require('./routes/test');
+const sse = require('./routes/sse');
 
 const { env } = require('process');
 app.use("/search", search);
@@ -73,6 +74,7 @@ app.use("/user", user);
 app.use("/backdoor", backdoor);
 app.use("/upload", upload);
 app.use("/test", test);
+app.use("/event", sse);
 
 
 app.get("/sss", (req, res) => {

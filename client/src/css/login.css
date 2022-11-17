@@ -7,6 +7,7 @@
     top:30%;
     bottom: 50%;
     height: calc(40% - 40px);
+    min-height: 240px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 50px;
     background-color: #598CFF;
 }

@@ -24,7 +24,6 @@ const TrackListRich = (props: props) => {
         <div id="tracklistrich" className="tracklistrich">
             <ul id="track-ul-rich" className={"track-ul-rich "+classes}>
                 {props.Playlists && props.Playlists.map((playlist, key) => {
-                    console.log(playlist);
                     return <li key={key} className="track-li-rich"><div className="li-div-rich"><PlaylistComp setUser={props.setUser} name={playlist.name} tracks={playlist.tracks} activeTrack={props.activeTrack} setTrack={props.setTrack} settings={{display:"BOX"}} user={props.user} /></div>   </li>
                 })}
 

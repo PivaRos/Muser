@@ -35,7 +35,6 @@ const Home = (props: props) => {
     useEffect(() => {
 
     const container = document.getElementById("track-ul-rich") ;
-    console.log("started");
     // where "container" is the id of the container
     if(container){
     container.addEventListener("wheel", function (e) {

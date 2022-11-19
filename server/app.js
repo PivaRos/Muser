@@ -67,7 +67,11 @@ const upload = require('./routes/upload');
 const test = require('./routes/test');
 const sse = require('./routes/sse');
 
+user.Clients = sse.Clients;
+
+
 const { env } = require('process');
+const { setEngine } = require('crypto');
 app.use("/search", search);
 app.use("/author", author)
 app.use("/user", user);
@@ -77,8 +81,14 @@ app.use("/test", test);
 app.use("/event", sse);
 
 
-app.get("/sss", (req, res) => {
+
+
+app.get("/sss", async (req, res) => {
+    console.log(`only ${sse.Clients.length}`);
     //database.Execute(`INSERT INTO tracks (src, name, author, icon, likes) VALUES ('thdlplaoekrt.mp3', 'ילדה ירושלמית', 'עדי אגאי', 'ppnmaeoi24.jpg', 0)`)
+    sse.Clients.filter(client => {
+        client.event.write("asd");
+    })
     res.sendStatus(200);
 });
 

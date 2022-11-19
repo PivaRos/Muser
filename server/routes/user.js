@@ -40,6 +40,17 @@ router.post("/" ,async (req, res) => {
         const sessionID = randomSessionGenerator(18);
         const user = await mongoDatabase.users.findOneAndUpdate({ $and: [{ username: req.body.username }, { password: req.body.password }] }, {$set:{sessionid:sessionID}});
         if (user.value) {
+            if (user.value.online)
+            {
+                
+                router.Clients.filter(client => {
+                    if (JSON.stringify(client._id) === JSON.stringify(user.value._id))
+                    {
+                        client.event.write(JSON.stringify({message:"signed out", action:"logout"}));
+                        client.event.end();
+                    }
+                });
+            }
             return res.json({sessionid:sessionID});
         }
         else {

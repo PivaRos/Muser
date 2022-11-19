@@ -12,17 +12,21 @@ const mongoModule =  require('../modules/mongoModule.js');
 const { route } = require('./backdoor.js');
 const mongoDatabase = new mongoModule(process.env.MongoString);
 
-let Clients = [];
+router.Clients = [];
 
+const validation = (req, res, next) => {
+    //validation here !
+    next();
+}
 
-
-router.get("/init/:sessionid", async (req, res) => {
-     const data = await mongoDatabase.users.findOne({sessionid:req.params.sessionid})
-      if (data._id)
+router.get("/init/:sessionid", validation, async (req, res) => {
+    const data = await (await mongoDatabase.users.findOneAndUpdate({sessionid:req.params.sessionid}, { $set:{online:true}})).value
+    console.log(data);
+    if (data && data._id)
       {
-        Clients.push({
-            ClientID : data._id,
-            res
+        router.Clients.push({
+            _id: data._id,
+            event: res
         });
         res.set({
             'Cache-Control': 'no-cache',
@@ -30,20 +34,21 @@ router.get("/init/:sessionid", async (req, res) => {
             'Connection': 'keep-alive'
           });
         res.flushHeaders();
-        req.on('close', () => {
-            Clients = Clients.filter(client => client.id !== data._id);
+        req.on('close', async () => {
+        await mongoDatabase.users.findOneAndUpdate({_id:data._id}, { $set:{online:false}})
+        router.Clients = router.Clients.filter(client => client._id !== data._id);
             return
           });
         }
         else
         {
-        return res.sendStatus(403);
+        return res.sendStatus(405);
         }
 });
 
 
 router.get("/test", (req, res) => {
-    Clients.map(client => {
+    router.Clients.map(client => {
         responseJson  = {
             message :"hello with sse !"
         }

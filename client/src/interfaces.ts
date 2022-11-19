@@ -25,6 +25,7 @@ export interface User {
     likedtracks:string[];
     avatar:string;
     sessionid:string;
+    online:boolean;
 }
 
 export interface Playlist {

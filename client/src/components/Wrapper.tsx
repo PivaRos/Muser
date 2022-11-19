@@ -251,12 +251,27 @@ export const Wrapper = () => {
                             clone.push({name:"Liked Songs", tracks:data, icon:null});
                             setPlaylists(clone);
                     })
-
                     
                 })
 
             }
         }
+
+
+        if (user)
+        {
+            let eventSource = new EventSource(url+"/event/init/"+getCookie("SessionID"));
+
+            
+            eventSource.onopen = () => {
+                console.log("opened ! ");
+                eventSource.onmessage = function(event) {
+                    console.log("New message", event.data);
+                    // will log 3 times for the data stream above
+                    };
+            }
+        }
+        
     }, [user])
 
 

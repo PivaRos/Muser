@@ -21,7 +21,6 @@ const validation = (req, res, next) => {
 
 router.get("/init/:sessionid", validation, async (req, res) => {
     const data = await (await mongoDatabase.users.findOneAndUpdate({sessionid:req.params.sessionid}, { $set:{online:true}})).value
-    console.log(data);
     if (data && data._id)
       {
         router.Clients.push({
@@ -34,6 +33,13 @@ router.get("/init/:sessionid", validation, async (req, res) => {
             'Connection': 'keep-alive'
           });
         res.flushHeaders();
+        
+        res.write("init");
+        setInterval(() => {
+            res.write("new write");
+        }, 5000)
+
+
         req.on('close', async () => {
         await mongoDatabase.users.findOneAndUpdate({_id:data._id}, { $set:{online:false}})
         router.Clients = router.Clients.filter(client => client._id !== data._id);

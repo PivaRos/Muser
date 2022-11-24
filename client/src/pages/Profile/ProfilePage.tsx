@@ -4,7 +4,6 @@ import { User } from "../../interfaces";
 import { useNavigate, useParams } from 'react-router-dom';
 import { Message } from "../../components/message";
 import "../../css/profile.css";
-import { set } from "mongoose";
 
 interface props {
     setUser: React.Dispatch<React.SetStateAction<User | null | undefined>>

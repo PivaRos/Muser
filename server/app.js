@@ -16,7 +16,6 @@ const { ObjectId } = require('mongodb');
 const mongoModule = require('./modules/mongoModule.js');
 const mongoDatabase = new mongoModule(process.env.MongoString);
 
-
 app.use(methodOverride('_method'));
 app.engine("jade", require("jade").__express);
 

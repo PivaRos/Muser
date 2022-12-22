@@ -28,7 +28,7 @@ const Sidebar = (props: props) => {
                 }
             ],
             authors: [
-                { name: "" }
+                ""
             ]
         }
     );
@@ -54,7 +54,7 @@ const Sidebar = (props: props) => {
                     _id: "",
                     author: [""]
                 }],
-                authors: [{ name: "" }]
+                authors: [""]
             })
         }
     }, [activeQuery])
@@ -104,7 +104,7 @@ const Sidebar = (props: props) => {
                     })}
                     {queryResults.authors.length > 0 && <li className="searchCategory"><h3>Authors</h3></li>}
                     {queryResults.authors && queryResults.authors.length > 0 && queryResults.authors.map((author, index) => {
-                        return <AuthorSearch key={index} author={author.name} />;
+                        return <AuthorSearch key={index} author={author} />;
                     })}
                 </ul></>
             }

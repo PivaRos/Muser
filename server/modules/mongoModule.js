@@ -1,6 +1,7 @@
 
 const { MongoClient, ObjectId } = require('mongodb');
 const Grid = require('gridfs-stream');
+const { compile } = require('jade');
 
 
 
@@ -147,21 +148,22 @@ class MongoModule {
         
         const authors = [];
         sumresults.map(track => {
-            if (track.author.lenght === 1 && !authors.some(({ name }) => name === track.author)) {
-                authors.push({
-                    name: track.author
-                });
+            if (track.author.lenght === 1 && !authors.includes(track.author[0])) {
+                authors.push(
+                     track.author
+                );
                 return;
+
 
             }
             else
             {
             track.author.forEach(author => {
-             if (!authors.some(({ name }) => name === track.author))
+             if (!authors.includes(author))
             {
-                authors.push({
-                    name: author
-                }); 
+                authors.push(
+                    author
+               ); 
             }
             });
             }

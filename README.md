@@ -1,6 +1,7 @@
 # Muser
 
-<h2 style="color:green; fontWeight:'bold">This is Application For Streaming Music like Spotify</h2>
+<h2 style="color:"green"; fontWeight:'bold">This is Application For Streaming Music like Spotify</h2>
+<h3>Any one can clone and run the application (plug and play)</h3>
 
 <h4>Not For Commercial use !</h4>
 

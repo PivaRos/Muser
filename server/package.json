@@ -5,7 +5,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.7",
-    "express": "^4.16.2",
+    "express": "^4.19.2",
     "gridfs-stream": "^1.1.1",
     "jade": "^1.11.0",
     "method-override": "^2.3.10",
